@@ -1,0 +1,199 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ring_4081
+  m_Shader: {fileID: 4800000, guid: d9b1cf4fa4efd304aad227c84c05df01, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - ENUM_2E2EE2BF_A
+  - ENUM_761EDC27_A
+  - ENUM_81B6501E_A
+  - ENUM_8C14287C_A
+  - ENUM_E121F7DF_A
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_109AC309:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_380A7822:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_68E5E11D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_97E8B70B:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_C500DA46:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_CEE71751:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 1b4c33d0b9228fb47951743a4c0536dd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MeltTex:
+        m_Texture: {fileID: 2800000, guid: a15b569d5160fb44db50fa287f2b0223, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - ENUM_2E2EE2BF: 0
+    - ENUM_761EDC27: 0
+    - ENUM_81B6501E: 0
+    - ENUM_8C14287C: 0
+    - ENUM_E121F7DF: 0
+    - Vector1_23E6DB40: 0
+    - Vector1_2DA71AD7: 0.01
+    - Vector1_3F8D6CA6: 1
+    - Vector1_AF10A368: 1
+    - Vector1_C07CB7B7: 0
+    - Vector1_D1D21610: -0.1
+    - Vector1_D316F8E7: 0
+    - Vector1_DE202D4C: 1
+    - _AlphaClip: 0
+    - _AlphaCutoff: 0.5
+    - _Blend: 0
+    - _BumpScale: 1
+    - _Cull: 0
+    - _Cutoff: 0.5
+    - _DepthFade1: 0
+    - _DepthFadeSwitch: 1
+    - _Distance: 0
+    - _Distance1: 1
+    - _DstBlend: 0
+    - _EnvironmentReflections: 1
+    - _FrontAndBehind: 0
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _Hard: 21
+    - _Mask0Channel: 0
+    - _Mask0Range: 0.5
+    - _Mask0Soft: 1
+    - _Mask1Channel: 0
+    - _Mask1Range: 0.5
+    - _Mask1Soft: 1
+    - _MaskRASwitch: 0
+    - _MaskSpeedX: 0
+    - _MaskSpeedY: 0
+    - _MaskStrenth: 1
+    - _Melt: 0
+    - _MeltBorder: -1
+    - _Metallic: 0
+    - _MoveToCamera: 7
+    - _OcclusionStrength: 1
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SoftParticle: 0
+    - _SpecularHighlights: 1
+    - _SpeedX: 0
+    - _SpeedY: 0
+    - _SrcBlend: 1
+    - _Strength: 1
+    - _Surface: 0
+    - _TessEdgeLength: 16
+    - _TessMax: 25
+    - _TessMaxDisp: 25
+    - _TessMin: 10
+    - _TessPhongStrength: 0.5
+    - _TessValue: 16
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - Color_88917EDF: {r: 0.3333333, g: 0.7490196, b: 0.60390645, a: 1}
+    - Color_8B3C5AA4: {r: 2, g: 2, b: 2, a: 1}
+    - Vector4_1FE8A5CA: {r: 1, g: 1, b: 0, a: 0}
+    - Vector4_371A746: {r: 1, g: 1, b: 0, a: 0}
+    - Vector4_7878D752: {r: 1, g: 5, b: 0, a: 0}
+    - Vector4_C0E46BC7: {r: 1, g: 1, b: 0, a: 0}
+    - Vector4_C169D664: {r: 0.5, g: 0.5, b: -0.24, a: 0}
+    - Vector4_C32A4D0E: {r: 1, g: 1, b: 0, a: 0}
+    - Vector4_F460C35E: {r: 0.5, g: 0.5, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MainColor: {r: 0.7372549, g: 0.6666667, b: 0.5058824, a: 1}
+    - _MainSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _MeltBorderColor: {r: 0, g: 0, b: 0, a: 0}
+    - _MeltSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _TintColor: {r: 2.6082377, g: 2.6082377, b: 2.6082377, a: 1}
+  m_BuildTextureStacks: []
+--- !u!114 &8265915883407060361
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1

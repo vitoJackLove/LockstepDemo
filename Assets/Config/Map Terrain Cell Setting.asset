@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a11506017375ddf40b2e24b3d666dfcc, type: 3}
+  m_Name: Map Terrain Cell Setting
+  m_EditorClassIdentifier: 
+  _mapTerrainData:
+  - mapCell: {fileID: 455006386310375391, guid: 9c48ad4bf2851b3468b2a3285d81742e, type: 3}
+    assetsPath: Map/Cube_Sand
+    mapTerrainType: 0
+    imposeValue: {x: 0, y: 0.3}
+    color: {r: 0.012459949, g: 0.27979368, b: 0.5283019, a: 0}
+  - mapCell: {fileID: 1379645051613606, guid: 2cb12feb62290af4ab4634e7ac62b956, type: 3}
+    assetsPath: Map/Cube_Water
+    mapTerrainType: 1
+    imposeValue: {x: 0.3, y: 0.4}
+    color: {r: 0.040628344, g: 0.50228655, b: 0.7830189, a: 0}
+  - mapCell: {fileID: 5188099755901499144, guid: 611c22d587d06e4499cae14c01886824, type: 3}
+    assetsPath: Map/Cube_Lava
+    mapTerrainType: 2
+    imposeValue: {x: 0.4, y: 0.65}
+    color: {r: 0, g: 0.62624836, b: 0.6981132, a: 0}
+  - mapCell: {fileID: 8500491151615881112, guid: 4a7ac5949a3e2644eacac8dbb72e7c10, type: 3}
+    assetsPath: Map/Cube_Grass
+    mapTerrainType: 3
+    imposeValue: {x: 0.65, y: 1}
+    color: {r: 1, g: 0.8696068, b: 0.5801887, a: 0}

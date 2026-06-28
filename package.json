@@ -1,0 +1,26 @@
+{
+  "name": "roguelike_master",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "npm --prefix Server start",
+    "server:single": "npm --prefix Server run start:single",
+    "server:build": "npm --prefix Server run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.code.tencent.com/X2/roguelike.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@akiojin/unity-mcp-server": "^5.5.2"
+  }
+}

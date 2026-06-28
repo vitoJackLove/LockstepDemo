@@ -1,0 +1,187 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-788854140294184569
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Smoke_4010
+  m_Shader: {fileID: 4800000, guid: 26486b1cc938083449c1372d1c1cd37c, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DissolveMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DissolveTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 0.5}
+        m_Offset: {x: 0, y: 0}
+    - _DistortMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DistortTexture1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 0.25}
+        m_Offset: {x: 0, y: 0}
+    - _DistortTexture2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 0.25}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainText:
+        m_Texture: {fileID: 2800000, guid: ff1eed7d4cd57374fad0bc21983b3abe, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 2800000, guid: 1514ae8397808a94aacd6947eb56fde3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MeltMaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MeltTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TwistTex:
+        m_Texture: {fileID: 2800000, guid: abcc9306460b13646b1ce14d030c94cd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AlphaClip: 0
+    - _AlphaCutoff: 0.5
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ClampSoft: 0
+    - _Cull: 0
+    - _CustomData: 1
+    - _Cutoff: 0.5
+    - _DepthFade: 0
+    - _DepthFadeSwitch: 1
+    - _Dissolve: 0.35
+    - _DissolveSpeedX: 0
+    - _DissolveSpeedY: 0
+    - _DissolveSwitch: 1
+    - _Distance: 1
+    - _DistortStrength: 0.1
+    - _DstBlend: 0
+    - _Edge: 0
+    - _EdgeColorSwtich: 1
+    - _EdgeSwitch: 1
+    - _EnvironmentReflections: 1
+    - _Float2: 1
+    - _FrontAndBehind: 0
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _Hard: 1
+    - _Hardness: 0
+    - _HardnessSwitch: 1
+    - _MainTextClamp: 0
+    - _MaskChannel: 0
+    - _MaskRASwitch: 0
+    - _MaskRASwitch2: 1
+    - _MaskRange: 0.5
+    - _MaskSoft: 1
+    - _MaskSpeedX: 0
+    - _MaskSpeedY: 0
+    - _Melt: 0
+    - _MeltBorder: -1
+    - _MeltMaskChannel: 0
+    - _MeltMaskRange: 0.5
+    - _MeltMaskSoft: 1
+    - _Metallic: 0
+    - _MoveToCamera: 0
+    - _OcclusionStrength: 1
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Sharpening: 2.17
+    - _SharpeningBase: 0.362
+    - _SharpeningLight: 0.53
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SoftParticle: 0.303
+    - _SpecularHighlights: 1
+    - _SpeedX: -1
+    - _SpeedY: 0
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _TessEdgeLength: 16
+    - _TessMax: 25
+    - _TessMaxDisp: 25
+    - _TessMin: 10
+    - _TessPhongStrength: 0.5
+    - _TessValue: 16
+    - _TwistScale: 0.02
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    - _maskpower: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorTint: {r: 1, g: 1, b: 1, a: 1}
+    - _EdgeColor: {r: 0.18627219, g: 0.16273585, b: 0.5, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MainColor: {r: 2, g: 2, b: 2, a: 1}
+    - _MainSpeed: {r: -4, g: 0, b: 0, a: 0}
+    - _MeltBorderColor: {r: 0, g: 0, b: 0, a: 0}
+    - _MeltSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _TwistSpeed: {r: 0.2, g: 0.2, b: 0, a: 0}

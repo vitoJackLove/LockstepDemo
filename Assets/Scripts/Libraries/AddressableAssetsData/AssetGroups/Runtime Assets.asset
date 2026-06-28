@@ -1,0 +1,315 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Runtime Assets
+  m_EditorClassIdentifier: 
+  m_GroupName: Runtime Assets
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 9b27a28f06da4724895f2f0081d22270
+  m_SerializeEntries:
+  - m_GUID: d45534d9323a52448bd80b1a728056b2
+    m_Address: Assets/GameAssetConfig/BuffAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d950a6b94e6368249bd580fabad37819
+    m_Address: Assets/GameAssetConfig/BulletAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 78963fe4f58f47e4eb1116549cace239
+    m_Address: Assets/GameAssetConfig/DamageTextAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df66d7a9322b2a6438c77dbfddc19b6a
+    m_Address: Assets/GameAssetConfig/EffectAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc5f2304c7d127d46b75e3e58478a4d4
+    m_Address: Assets/GameAssetConfig/EntityCampConfig.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 61aa371f302ccd54e83a3e437bf2f8a7
+    m_Address: Assets/GameAssetConfig/HeroAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d2a07dbbab3ae374cb1720a3c9e3d665
+    m_Address: Assets/GameAssetConfig/MonsterAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d4b2be317c3f7284e91c2d3eeda0fd19
+    m_Address: Assets/GameAssetConfig/RollBackGameConfig.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 852842fcfc162b943b4758233c79beb4
+    m_Address: Assets/GameAssetConfig/StateAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0a5858271664b6449929c3b8818f351f
+    m_Address: Assets/GameAssetConfig/EntitySkeletonCurve/3020.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab7bc50f0e165f44ca3b9dda81abf7b0
+    m_Address: Assets/Config/Map Terrain Cell Setting.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d57dcfc8766588c488d618eb3de4b043
+    m_Address: Assets/Config/Terrain Noise Data Setting.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cbd047e4bd009cb4cacbc42901b0dbbd
+    m_Address: Assets/Prefabs/UI/Window/BattleInfoWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 739bead5c7ab6a54a810c248bb23136f
+    m_Address: Assets/Prefabs/UI/Window/GameStartUp.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c7232ccb64ac31548b3e56a89a6d32c2
+    m_Address: Assets/Prefabs/Battle/Bullet/Cube.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bdb98fba17892c644859fb615da0a80d
+    m_Address: Assets/Prefabs/Battle/DamageText/TextDamageItem_weakness2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1828fb854df80dd43a3f6a6fa1ebea3a
+    m_Address: Assets/Prefabs/Battle/State/Hit.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 319b784076378284db952c99927f2813
+    m_Address: Assets/Prefabs/Battle/Effects/1104/Effect1104Attack_1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0b5ae49e2f11a5e42ad8705e74918931
+    m_Address: Assets/Prefabs/Battle/Effects/1104/Effect1104Attack_2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2fae1bb653e64914fa3833a0b063c074
+    m_Address: Assets/Prefabs/Battle/Effects/1104/Effect1104Attack_3.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b44d916195a2aa6429c709c3093b0df8
+    m_Address: Assets/Prefabs/Battle/Effects/1104/Effect1104Attack_4.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 715942f4daf1b8241b29fb565de474bc
+    m_Address: Assets/Prefabs/Battle/Effects/1104/Effects1104SkillA_4a.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ee54dfd55ce07f24fb125c12e1046272
+    m_Address: Assets/Prefabs/Battle/Effects/3020/Effects3020SkillC05.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fee731f2bd581da44a263ab49fa52ebf
+    m_Address: Assets/Prefabs/Battle/Effects/3020/Effects3020SkillG02.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 234412d34b31ccc47b3387fbc420d79b
+    m_Address: Assets/Prefabs/Battle/Hero/1001/1001Logic.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6e9e406260cb19647b40aa44adf1e6f6
+    m_Address: Assets/Prefabs/Battle/Hero/1001/1001View.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb1f021ed1bdeca46b97154c63d46158
+    m_Address: Assets/Prefabs/Battle/Hero/1104/1104Logic.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 85d09b8ce92167941b13e19a54bb98aa
+    m_Address: Assets/Prefabs/Battle/Hero/1104/1104View.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22fbec2a54b8ec34bbcc7ba143ec94f1
+    m_Address: Assets/Prefabs/Battle/Hero/1205/1205Logic.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22213a799f6f69b4da994011e503c6a4
+    m_Address: Assets/Prefabs/Battle/Hero/1205/1205View.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc171b114858b9140a2cd21b4b44303a
+    m_Address: Assets/Prefabs/Battle/Monster/4001/4001Logic.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8cf81293c3273c42bcc6c68a8ee08db
+    m_Address: Assets/Prefabs/Battle/Monster/3020/3020Logic.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5fd0e8b7d0849254f85bdcfc44f547b5
+    m_Address: Assets/Prefabs/Battle/Monster/3020/3020View.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 90dd55c56f0e57d4fa83a6d45b93892b
+    m_Address: Assets/Prefabs/Battle/Skill/1001/100101.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9a957367607210a4b923d47be2412771
+    m_Address: Assets/Prefabs/Battle/Skill/1001/100102.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 58289152a64e5594ea80b61c4c4c2093
+    m_Address: Assets/Prefabs/Battle/Skill/1104/110401.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb67090a1f4d22046b8f680d9f4dd007
+    m_Address: Assets/Prefabs/Battle/Skill/1104/110402.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f0b7b42f3e5602f47b447fcb7a8f590c
+    m_Address: Assets/Prefabs/Battle/Skill/1104/110403.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4890714433d9a344ab3b40eecea3127e
+    m_Address: Assets/Prefabs/Battle/Skill/1104/110404.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6867090d1f224c84cadf8b87da21c3d3
+    m_Address: Assets/Prefabs/Battle/Skill/1104/110410.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b71715c4578fb8a4fb5fd28b7332ed5b
+    m_Address: Assets/Prefabs/Battle/Skill/1104/110411.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 60b16f57d6d11b241a62e62d6b8ca434
+    m_Address: Assets/Prefabs/Battle/Skill/1104/110420.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36edd6ca62c15c544a5fecfdf0e62279
+    m_Address: Assets/Prefabs/Battle/Skill/1205/120501.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5dde212de5aced84399e9ae827cd5f7e
+    m_Address: Assets/Prefabs/Battle/Skill/1205/120510.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6768867c3b3918d439a8e15fcfade865
+    m_Address: Assets/Prefabs/Battle/Skill/1205/120520.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f70ca8e939965424eb40273bfca3241c
+    m_Address: Assets/Prefabs/Battle/Skill/2001/200101.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1299e78eb08938c4ebd366e25d06e353
+    m_Address: Assets/Prefabs/Battle/Skill/2001/200102.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d52ac7d8cf9efef408187f1d2daa623d
+    m_Address: Assets/Prefabs/Battle/Skill/2001/200103.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 94797dff9eb1fe54db44ceaeee38a0c5
+    m_Address: Assets/Prefabs/Battle/Skill/4001/400101.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6c46e10ad6ee7045bf58f583f06ba25
+    m_Address: Assets/Prefabs/Battle/State/2001/2001Hit.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3c9c5ce4989a0a84099b68fcc9b504e5
+    m_Address: Assets/Prefabs/Battle/Tree/2001/2001.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe8188a5a3ca63844bc99c8df2bf680b
+    m_Address: Assets/Prefabs/Battle/Monster/4001/4001View.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e67542cfbc0c7a4c86d3c4403f82824
+    m_Address: Assets/Scene/Launcher.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 84a5c54fe78e2c34db56c1bcf3975c76
+    m_Address: Assets/Scene/RougeBattle.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 626c464de6134c64abc629508f7a204a
+    m_Address: Assets/Scene/LowPolyForest.unity/LowPolyForest.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 95c71654ac217b146830c21a65e52f47
+    m_Address: Assets/Prefabs/Battle/Skill/4001/400102.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 863596aa34dfa214b91612a4270d17d7
+    m_Address: Assets/Prefabs/Battle/State/4001/4001Hit.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a5a422ab858f2fc4f950a3abdfd5f9c2
+    m_Address: Assets/Prefabs/Battle/Tree/4001/4001.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f5a1fb49c2e90c64da088b11426b2264, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ee7e908c550e9de49a3c09cfd7989ae7, type: 2}
+    - {fileID: 11400000, guid: 3cacffa825fe61e4b94c4d5782ef2ce5, type: 2}

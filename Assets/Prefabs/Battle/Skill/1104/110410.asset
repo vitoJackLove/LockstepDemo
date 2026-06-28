@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5001656912382747802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b8b8d1b01548f4fa267e36fca4ef58, type: 3}
+  m_Name: (Clone)
+  m_EditorClassIdentifier: 
+  taskName: "\u64AD\u653E\u52A8\u753B\u7247\u6BB5"
+  taskStartID: 80
+  taskDuration: 30
+  clip: {fileID: 5493910781173315800, guid: b552add062b99af4782527ca05db3c87, type: 3}
+  fadeDuration: 0
+  fadeMode: 0
+--- !u!114 &-886089851543586972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b8b8d1b01548f4fa267e36fca4ef58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u64AD\u653E\u52A8\u753B\u7247\u6BB5"
+  taskStartID: 50
+  taskDuration: 30
+  clip: {fileID: 5493910781173315800, guid: b552add062b99af4782527ca05db3c87, type: 3}
+  fadeDuration: 0
+  fadeMode: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6163eb00cd2144c29cca170a518c1b91, type: 3}
+  m_Name: 110410
+  m_EditorClassIdentifier: 
+  tracks:
+  - rid: 4624509120193495472
+  - rid: 4624509120193495473
+  - rid: 4624509120193495474
+  blackBoardVariable:
+    rid: 4624509120193495470
+  duration: 110
+  fps: 60
+  references:
+    version: 2
+    RefIds:
+    - rid: 4624509120193495470
+      type: {class: BlackBoardVariable, ns: , asm: Assembly-CSharp}
+      data:
+        _variables: []
+    - rid: 4624509120193495472
+      type: {class: SkillAnimationTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: 8404234368241263770}
+        - {fileID: -886089851543586972}
+        - {fileID: -5001656912382747802}
+    - rid: 4624509120193495473
+      type: {class: StateTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: 1400966507983060289}
+    - rid: 4624509120193495474
+      type: {class: SkillTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: 8198254679259835269}
+--- !u!114 &1400966507983060289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 643e7d2cdd202ed4d864c06a4d9588fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u5207\u6362\u72B6\u6001"
+  taskStartID: 0
+  taskDuration: 110
+  stateId: 3
+  onSkillTimeEnd: 0
+--- !u!114 &8198254679259835269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f559d9c77d06044a95686e12fb3882a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u6280\u80FD\u6253\u65AD\u7A97\u53E3"
+  taskStartID: 10
+  taskDuration: 100
+  skillId: 2
+  breakSkillIdList: 0200000003000000
+  openBreak: 1
+  onSkillTimeEnd: 1
+--- !u!114 &8404234368241263770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b8b8d1b01548f4fa267e36fca4ef58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u64AD\u653E\u52A8\u753B\u7247\u6BB5"
+  taskStartID: 0
+  taskDuration: 50
+  clip: {fileID: -6342481472924248037, guid: 8334971ef1834a34aa0b1263d16c7c2b, type: 3}
+  fadeDuration: 0.2
+  fadeMode: 0

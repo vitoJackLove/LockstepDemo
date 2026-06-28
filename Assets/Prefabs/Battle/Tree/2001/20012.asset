@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d285eb63c2cdd74180de7cfceaa96ad, type: 3}
+  m_Name: 20012
+  m_EditorClassIdentifier: 
+  rootNode:
+    rid: 7468033867056676946
+  nodes:
+  - rid: 7468033867056676946
+  - rid: 7468033867056676949
+  - rid: 7468033867056676950
+  - rid: 7468033867056676953
+  blackboard:
+    keys: []
+  viewPosition: {x: 520, y: 168, z: 0}
+  viewScale: {x: 1, y: 1, z: 1}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 7468033867056676946
+      type: {class: RootNode, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        started: 0
+        guid: c4ee7f0e-4c2e-4729-ab01-05dab0624d72
+        position: {x: -225, y: 75}
+        blackboard:
+          keys: []
+        description: 
+        drawGizmos: 0
+        child:
+          rid: -2
+    - rid: 7468033867056676949
+      type: {class: SubTree, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        started: 0
+        guid: c6ee6355d8734a248ac291814c4820b5
+        position: {x: -75, y: 330}
+        blackboard:
+          keys: []
+        description: 
+        drawGizmos: 0
+        treeAsset: {fileID: 11400000, guid: 89a823b9214b3724e82d7dab95616881, type: 2}
+        treeInstance: {fileID: 0}
+    - rid: 7468033867056676950
+      type: {class: Log, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        started: 0
+        guid: 6d03dd078be1caa4fbe1153b69238fc8
+        position: {x: -375, y: 330}
+        blackboard:
+          keys: []
+        description: 
+        drawGizmos: 0
+        logNumber:
+          reference:
+            rid: -2
+          defaultValue: 
+    - rid: 7468033867056676953
+      type: {class: Wait, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      data:
+        started: 0
+        guid: d9a153cc59e433443a7a6451bde37ba3
+        position: {x: -225, y: 330}
+        blackboard:
+          keys: []
+        description: 
+        drawGizmos: 0
+        waitTick: 180

@@ -1,0 +1,153 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6058548810297347125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a131abbd0c228841a9ad72788f482bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u671D\u76EE\u6807\u70B9\u79FB\u52A8"
+  taskStartID: 0
+  taskDuration: 100
+  targetPosition:
+    x:
+      m_rawValue: 0
+    y:
+      m_rawValue: 0
+    z:
+      m_rawValue: 0
+--- !u!114 &-5130793046103723611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 545c384c75739f24b9068e8824740954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u521B\u5EFA\u8FD0\u52A8\u7C7B\u578B\u5B50\u5F39"
+  taskStartID: 178
+  taskDuration: 100
+  id: 3002
+  offsetPosition: {x: 0, y: 0, z: 0}
+  movementType: 0
+  movementTime: 9999
+  movementSpeed: 2
+  offsetY: 0
+  go: {fileID: 2009184082033995775, guid: c7232ccb64ac31548b3e56a89a6d32c2, type: 3}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6163eb00cd2144c29cca170a518c1b91, type: 3}
+  m_Name: 200101
+  m_EditorClassIdentifier: 
+  tracks:
+  - rid: 1475331376414720277
+  - rid: 1475331376414720278
+  - rid: 1475331504696459324
+  - rid: 1475331625414557765
+  - rid: 1475331780610359358
+  blackBoardVariable:
+    rid: 1475331376414720275
+  duration: 278
+  fps: 60
+  references:
+    version: 2
+    RefIds:
+    - rid: 1475331376414720275
+      type: {class: BlackBoardVariable, ns: , asm: Assembly-CSharp}
+      data:
+        _variables: []
+    - rid: 1475331376414720277
+      type: {class: SkillAnimationTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: 4179919348292926919}
+    - rid: 1475331376414720278
+      type: {class: BulletTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: -5130793046103723611}
+    - rid: 1475331504696459324
+      type: {class: MovementTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: -6058548810297347125}
+    - rid: 1475331625414557765
+      type: {class: SkillAnimationTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: 950228219645876147}
+    - rid: 1475331780610359358
+      type: {class: EffectTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: 5852376376622309332}
+--- !u!114 &950228219645876147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a2ac3e137484314695ce55718fb2672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u4FEE\u6539\u52A8\u753B\u673A\u53C2\u6570"
+  taskStartID: 0
+  taskDuration: 100
+  moveSpeed: 3
+  rotateSpeed: 0
+--- !u!114 &4179919348292926919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b8b8d1b01548f4fa267e36fca4ef58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u64AD\u653E\u52A8\u753B\u7247\u6BB5"
+  taskStartID: 127
+  taskDuration: 138
+  clip: {fileID: 1827226128182048838, guid: e7d4607d47a577c4ca2e34c7b2849c10, type: 3}
+  fadeDuration: 0.2
+  fadeMode: 0
+--- !u!114 &5852376376622309332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 654eabb3209d4a9a80f1b85c60859977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u64AD\u653E\u56FA\u5B9A\u4F4D\u7F6E\u7279\u6548"
+  taskStartID: 140
+  taskDuration: 100
+  id: 302002
+  prefab: {fileID: 4349694739046531300, guid: ee54dfd55ce07f24fb125c12e1046272, type: 3}
+  offset: {x: 0, y: 0, z: 0}

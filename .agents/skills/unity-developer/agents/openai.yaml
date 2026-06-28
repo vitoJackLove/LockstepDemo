@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unity Developer"
+  short_description: "Build, debug, and optimize Unity projects."
+  default_prompt: "Use $unity-developer to inspect the Unity project, make scoped changes, and verify them with Unity or local builds."

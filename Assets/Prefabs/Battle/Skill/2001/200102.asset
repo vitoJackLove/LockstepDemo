@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8657841888943592688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b8b8d1b01548f4fa267e36fca4ef58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u64AD\u653E\u52A8\u753B\u7247\u6BB5"
+  taskStartID: 100
+  taskDuration: 100
+  clip: {fileID: 1827226128182048838, guid: 1c26e04897484f64fa99a5fafc5416a8, type: 3}
+  fadeDuration: 0.2
+  fadeMode: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6163eb00cd2144c29cca170a518c1b91, type: 3}
+  m_Name: 200102
+  m_EditorClassIdentifier: 
+  tracks:
+  - rid: 1475331504696459416
+  - rid: 1475331556658118716
+  - rid: 1475331556658118717
+  - rid: 1475331780610359357
+  blackBoardVariable:
+    rid: 1475331504696459413
+  duration: 200
+  fps: 60
+  references:
+    version: 2
+    RefIds:
+    - rid: 1475331504696459413
+      type: {class: BlackBoardVariable, ns: , asm: Assembly-CSharp}
+      data:
+        _variables: []
+    - rid: 1475331504696459416
+      type: {class: MovementTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: 2504391509558131529}
+    - rid: 1475331556658118716
+      type: {class: SkillAnimationTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: 1291793881507317656}
+        - {fileID: -8657841888943592688}
+    - rid: 1475331556658118717
+      type: {class: BulletTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: 5695803891367239917}
+    - rid: 1475331780610359357
+      type: {class: EffectTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: 1173930960613529823}
+--- !u!114 &1173930960613529823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 654eabb3209d4a9a80f1b85c60859977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u64AD\u653E\u56FA\u5B9A\u4F4D\u7F6E\u7279\u6548"
+  taskStartID: 123
+  taskDuration: 68
+  id: 0
+  prefab: {fileID: 9000957066208378500, guid: fee731f2bd581da44a263ab49fa52ebf, type: 3}
+  offset: {x: 0, y: 0, z: 0}
+--- !u!114 &1291793881507317656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a2ac3e137484314695ce55718fb2672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u4FEE\u6539\u52A8\u753B\u673A\u53C2\u6570"
+  taskStartID: 0
+  taskDuration: 100
+  moveSpeed: 5
+  rotateSpeed: 0
+--- !u!114 &2504391509558131529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb388c46dfaf74741b7ab04402371a1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u76F4\u7EBF\u8FD0\u52A8"
+  taskStartID: 0
+  taskDuration: 100
+  deg: 0
+  delayTime: 0
+  distance: 3
+--- !u!114 &5695803891367239917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ca91f71cca58149817fac2d09b128e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u521B\u5EFA\u56FA\u5B9A\u4F4D\u7F6E\u5B50\u5F39"
+  taskStartID: 136
+  taskDuration: 55
+  id: 3002
+  offset: {x: 0, y: 0, z: 0}
+  go: {fileID: 0}
+  isSkillEndDestroyBullet: 1

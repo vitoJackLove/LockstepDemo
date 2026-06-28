@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7537710545792235941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b8b8d1b01548f4fa267e36fca4ef58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u64AD\u653E\u52A8\u753B\u7247\u6BB5"
+  taskStartID: 0
+  taskDuration: 36
+  clip: {fileID: 1827226128182048838, guid: c98149f395d428b40a60e881bf34e521, type: 3}
+  fadeDuration: 0.2
+  fadeMode: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6163eb00cd2144c29cca170a518c1b91, type: 3}
+  m_Name: 100101
+  m_EditorClassIdentifier: 
+  tracks:
+  - rid: 1292071916109561858
+  blackBoardVariable:
+    rid: 1292071916109561856
+  duration: 244
+  fps: 60
+  references:
+    version: 2
+    RefIds:
+    - rid: 1292071916109561856
+      type: {class: BlackBoardVariable, ns: , asm: Assembly-CSharp}
+      data:
+        _variables: []
+    - rid: 1292071916109561858
+      type: {class: SkillAnimationTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: -7537710545792235941}
+        - {fileID: 5570947125043968759}
+--- !u!114 &5570947125043968759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b8b8d1b01548f4fa267e36fca4ef58, type: 3}
+  m_Name: (Clone)
+  m_EditorClassIdentifier: 
+  taskName: "\u64AD\u653E\u52A8\u753B\u7247\u6BB5"
+  taskStartID: 36
+  taskDuration: 208
+  clip: {fileID: 1827226128182048838, guid: e2344cb9de9f62a48ad29b66922185a3, type: 3}
+  fadeDuration: 0
+  fadeMode: 0

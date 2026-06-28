@@ -1,0 +1,15 @@
+work_id: single-player-mode-20260624
+phase: done
+current_subtask: 001-single-player-world-foundation
+current_attempt: 2
+max_fix_attempts: 3
+can_advance: true
+failure_reason: ""
+latest_build_report: docs/agent-workflow/runs/single-player-mode-20260624/artifacts/001-single-player-world-foundation/build-attempt-1.md
+latest_fix_report: docs/agent-workflow/runs/single-player-mode-20260624/artifacts/001-single-player-world-foundation/fix-attempt-2.md
+latest_test_report: docs/agent-workflow/runs/single-player-mode-20260624/artifacts/001-single-player-world-foundation/test-attempt-2.md
+latest_review_report: docs/agent-workflow/runs/single-player-mode-20260624/artifacts/001-single-player-world-foundation/review-attempt-2.md
+subtasks:
+  - id: 001-single-player-world-foundation
+    status: done
+    path: docs/agent-workflow/runs/single-player-mode-20260624/tasks/001-single-player-world-foundation.md

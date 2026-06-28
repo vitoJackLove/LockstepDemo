@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package Rogue.TestProtobuf;
+
+option csharp_namespace = "Rogue.TestProtobuf.Proto";
+
+message TestItemProto {
+    int32 item_id = 1;
+    string item_name = 2;
+    int32 count = 3;
+}
+
+message TestPlayerProfileProto {
+    int32 player_id = 1;
+    string player_name = 2;
+    int32 level = 3;
+    bool is_online = 4;
+    int64 gold = 5;
+    repeated TestItemProto items = 6;
+    map<string, int32> attributes = 7;
+}

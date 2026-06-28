@@ -1,0 +1,244 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8451876107ae6c74d9e61791dfbdee69, type: 3}
+  m_Name: BuffAssets
+  m_EditorClassIdentifier: 
+  buffAssetsConfigList:
+  - assetsId: 4001
+    assetsPath: 
+    lifeTime: -1
+    gameEventType: 2
+    buffIcon: {fileID: 0}
+    buffDoc: "\u518D\u751F\uFF1A\u6BCF\u79D2\u6062\u590D 5 \u70B9 HP\uFF0C\u6C38\u4E45\u3002"
+    buffEffectAssets:
+      effectMode: 0
+      buffExecuteTarget: 2
+      executeProperty: 1
+      isCommonValue: 1
+      normalValue: 5
+      influenceProperty: 0
+      rate: 0
+    buffConditionAssets:
+      triggerRole: 0
+      buffConditionTarget: 2
+      propertyKey: 0
+      propertyValueType: 0
+      compareMethod: 0
+      value: 0
+    executeValue: 0
+  - assetsId: 4002
+    assetsPath: 
+    lifeTime: 300
+    gameEventType: 2
+    buffIcon: {fileID: 0}
+    buffDoc: "\u4E2D\u6BD2\uFF1A\u6BCF\u79D2\u635F\u5931 5 \u70B9 HP\uFF0C\u6301\u7EED
+      300 \u5E27\u3002"
+    buffEffectAssets:
+      effectMode: 0
+      buffExecuteTarget: 2
+      executeProperty: 1
+      isCommonValue: 1
+      normalValue: -5
+      influenceProperty: 0
+      rate: 0
+    buffConditionAssets:
+      triggerRole: 0
+      buffConditionTarget: 2
+      propertyKey: 0
+      propertyValueType: 0
+      compareMethod: 0
+      value: 0
+    executeValue: 0
+  - assetsId: 4003
+    assetsPath: 
+    lifeTime: -1
+    gameEventType: 1
+    buffIcon: {fileID: 0}
+    buffDoc: "\u8346\u68D8\uFF1A\u88AB\u51FB\u4E2D\u65F6\u5BF9\u653B\u51FB\u8005\u9020\u6210
+      10 \u70B9\u4F24\u5BB3\uFF0C\u6C38\u4E45\u3002"
+    buffEffectAssets:
+      effectMode: 0
+      buffExecuteTarget: 4
+      executeProperty: 1
+      isCommonValue: 1
+      normalValue: -10
+      influenceProperty: 0
+      rate: 0
+    buffConditionAssets:
+      triggerRole: 2
+      buffConditionTarget: 2
+      propertyKey: 0
+      propertyValueType: 0
+      compareMethod: 0
+      value: 0
+    executeValue: 0
+  - assetsId: 4004
+    assetsPath: 
+    lifeTime: 300
+    gameEventType: 1
+    buffIcon: {fileID: 0}
+    buffDoc: "\u6012\u706B\uFF1A\u88AB\u51FB\u4E2D\u65F6\u653B\u51FB\u529B +5\uFF0C\u6301\u7EED
+      300 \u5E27\uFF0C\u5230\u671F\u56DE\u6EDA\u3002"
+    buffEffectAssets:
+      effectMode: 1
+      buffExecuteTarget: 2
+      executeProperty: 5
+      isCommonValue: 1
+      normalValue: 5
+      influenceProperty: 0
+      rate: 0
+    buffConditionAssets:
+      triggerRole: 2
+      buffConditionTarget: 2
+      propertyKey: 0
+      propertyValueType: 0
+      compareMethod: 0
+      value: 0
+    executeValue: 0
+  - assetsId: 4005
+    assetsPath: 
+    lifeTime: -1
+    gameEventType: 1
+    buffIcon: {fileID: 0}
+    buffDoc: "\u55DC\u8840\uFF1A\u653B\u51FB\u547D\u4E2D\u65F6\u6062\u590D\u81EA\u8EAB\u653B\u51FB\u529B
+      25% \u7684 HP\uFF0C\u6C38\u4E45\u3002"
+    buffEffectAssets:
+      effectMode: 0
+      buffExecuteTarget: 2
+      executeProperty: 1
+      isCommonValue: 0
+      normalValue: 0
+      influenceProperty: 5
+      rate: 250
+    buffConditionAssets:
+      triggerRole: 1
+      buffConditionTarget: 2
+      propertyKey: 0
+      propertyValueType: 0
+      compareMethod: 0
+      value: 0
+    executeValue: 0
+  - assetsId: 4006
+    assetsPath: 
+    lifeTime: 300
+    gameEventType: 1
+    buffIcon: {fileID: 0}
+    buffDoc: "\u7834\u7532\u6253\u51FB\uFF1A\u653B\u51FB\u547D\u4E2D\u65F6\u76EE\u6807\u9632\u5FA1
+      -5\uFF0C\u6301\u7EED 300 \u5E27\uFF0C\u5230\u671F\u56DE\u6EDA\u3002"
+    buffEffectAssets:
+      effectMode: 1
+      buffExecuteTarget: 4
+      executeProperty: 6
+      isCommonValue: 1
+      normalValue: -5
+      influenceProperty: 0
+      rate: 0
+    buffConditionAssets:
+      triggerRole: 1
+      buffConditionTarget: 2
+      propertyKey: 0
+      propertyValueType: 0
+      compareMethod: 0
+      value: 0
+    executeValue: 0
+  - assetsId: 4007
+    assetsPath: 
+    lifeTime: 300
+    gameEventType: 2
+    buffIcon: {fileID: 0}
+    buffDoc: "\u8FC5\u6377\uFF1A\u81EA\u8EAB\u901F\u5EA6 +2\uFF0C\u6301\u7EED 300
+      \u5E27\uFF0C\u5230\u671F\u56DE\u6EDA\u3002"
+    buffEffectAssets:
+      effectMode: 1
+      buffExecuteTarget: 2
+      executeProperty: 4
+      isCommonValue: 1
+      normalValue: 2
+      influenceProperty: 0
+      rate: 0
+    buffConditionAssets:
+      triggerRole: 0
+      buffConditionTarget: 2
+      propertyKey: 0
+      propertyValueType: 0
+      compareMethod: 0
+      value: 0
+    executeValue: 0
+  - assetsId: 4008
+    assetsPath: 
+    lifeTime: 300
+    gameEventType: 2
+    buffIcon: {fileID: 0}
+    buffDoc: "\u94C1\u58C1\uFF1A\u81EA\u8EAB\u9632\u5FA1 +10\uFF0C\u6301\u7EED 300
+      \u5E27\uFF0C\u5230\u671F\u56DE\u6EDA\u3002"
+    buffEffectAssets:
+      effectMode: 1
+      buffExecuteTarget: 2
+      executeProperty: 6
+      isCommonValue: 1
+      normalValue: 10
+      influenceProperty: 0
+      rate: 0
+    buffConditionAssets:
+      triggerRole: 0
+      buffConditionTarget: 2
+      propertyKey: 0
+      propertyValueType: 0
+      compareMethod: 0
+      value: 0
+    executeValue: 0
+  - assetsId: 4009
+    assetsPath: 
+    lifeTime: -1
+    gameEventType: 1
+    buffIcon: {fileID: 0}
+    buffDoc: "\u65A9\u6740\uFF1A\u653B\u51FB\u547D\u4E2D HP \u5C0F\u4E8E\u7B49\u4E8E
+      30 \u7684\u76EE\u6807\u65F6\uFF0C\u989D\u5916\u9020\u6210 20 \u70B9\u4F24\u5BB3\uFF0C\u6C38\u4E45\u3002"
+    buffEffectAssets:
+      effectMode: 0
+      buffExecuteTarget: 4
+      executeProperty: 1
+      isCommonValue: 1
+      normalValue: -20
+      influenceProperty: 0
+      rate: 0
+    buffConditionAssets:
+      triggerRole: 1
+      buffConditionTarget: 4
+      propertyKey: 1
+      propertyValueType: 0
+      compareMethod: 4
+      value: 30
+    executeValue: 0
+  - assetsId: 4010
+    assetsPath: 
+    lifeTime: -1
+    gameEventType: 1
+    buffIcon: {fileID: 0}
+    buffDoc: "\u9650\u6B21\u5F3A\u51FB\uFF1A\u653B\u51FB\u547D\u4E2D\u65F6\u989D\u5916\u9020\u6210\u81EA\u8EAB\u653B\u51FB\u529B
+      30% \u7684\u4F24\u5BB3\uFF0C\u53EA\u89E6\u53D1 3 \u6B21\u3002"
+    buffEffectAssets:
+      effectMode: 0
+      buffExecuteTarget: 4
+      executeProperty: 1
+      isCommonValue: 0
+      normalValue: 0
+      influenceProperty: 5
+      rate: -300
+    buffConditionAssets:
+      triggerRole: 1
+      buffConditionTarget: 2
+      propertyKey: 0
+      propertyValueType: 0
+      compareMethod: 0
+      value: 0
+    executeValue: 3

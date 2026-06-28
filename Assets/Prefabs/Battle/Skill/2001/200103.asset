@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1756199848731561695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a2ac3e137484314695ce55718fb2672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u4FEE\u6539\u52A8\u753B\u673A\u53C2\u6570"
+  taskStartID: 0
+  taskDuration: 100
+  paramType: 1
+  key: MoveSpeed
+  boolParam: 0
+  floatParam: 5
+  intParam: 0
+  stringParam: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6163eb00cd2144c29cca170a518c1b91, type: 3}
+  m_Name: 200103
+  m_EditorClassIdentifier: 
+  tracks:
+  - rid: 1475331504696459416
+  - rid: 1475331625414557778
+  blackBoardVariable:
+    rid: 1475331504696459413
+  duration: 100
+  fps: 60
+  references:
+    version: 2
+    RefIds:
+    - rid: 1475331504696459413
+      type: {class: BlackBoardVariable, ns: , asm: Assembly-CSharp}
+      data:
+        _variables: []
+    - rid: 1475331504696459416
+      type: {class: MovementTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: 591471350723414576}
+    - rid: 1475331625414557778
+      type: {class: SkillAnimationTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: -1756199848731561695}
+--- !u!114 &591471350723414576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a131abbd0c228841a9ad72788f482bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u671D\u76EE\u6807\u70B9\u79FB\u52A8"
+  taskStartID: 0
+  taskDuration: 100
+  targetPosition: {x: 0, y: 0, z: 0}

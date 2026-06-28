@@ -1,0 +1,12 @@
+{
+  "name": "lockstep-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Standalone C# frame-sync relay server for LockstepDemo",
+  "scripts": {
+    "build": "dotnet build RogueGameServer/RogueGameServer.csproj -nologo",
+    "start": "dotnet run --project RogueGameServer/RogueGameServer.csproj -- --port 8888 --max-players 3",
+    "start:single": "dotnet run --project RogueGameServer/RogueGameServer.csproj -- --port 8888 --max-players 1",
+    "start:exe": "RogueGameServer/bin/Debug/net8.0/RogueGameServer.exe --port 8888 --max-players 3"
+  }
+}

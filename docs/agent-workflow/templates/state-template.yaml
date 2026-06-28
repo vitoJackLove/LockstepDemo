@@ -1,0 +1,23 @@
+work_id: "{work_id}"
+phase: "intake"
+current_subtask: ""
+current_attempt: 0
+max_fix_attempts: 3
+can_advance: false
+failure_reason: ""
+latest_build_report: ""
+latest_fix_report: ""
+latest_test_report: ""
+latest_review_report: ""
+spec_path: "docs/agent-workflow/runs/{work_id}/spec.md"
+plan_path: "docs/agent-workflow/runs/{work_id}/plan.md"
+final_report_path: "docs/agent-workflow/runs/{work_id}/final-report.md"
+tasks:
+  - subtask_id: "001-example"
+    path: "docs/agent-workflow/runs/{work_id}/tasks/001-example.md"
+    status: "pending"
+    attempts: 0
+    latest_build_report: ""
+    latest_fix_report: ""
+    latest_test_report: ""
+    latest_review_report: ""

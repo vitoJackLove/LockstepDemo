@@ -1,0 +1,172 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7356028842808855992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b8b8d1b01548f4fa267e36fca4ef58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u64AD\u653E\u52A8\u753B\u7247\u6BB5"
+  taskStartID: 0
+  taskDuration: 80
+  clip: {fileID: -6501643964396397461, guid: 24beaa265342cca44abd4e74fb4e1b6c, type: 3}
+  fadeDuration: 0.2
+  fadeMode: 0
+--- !u!114 &-5962218315250874486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 654eabb3209d4a9a80f1b85c60859977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u64AD\u653E\u7279\u6548"
+  taskStartID: 15
+  taskDuration: 41
+  id: 11043
+  prefab: {fileID: 8714464658366601119, guid: 2fae1bb653e64914fa3833a0b063c074, type: 3}
+  offset: {x: 0, y: 0, z: 0}
+--- !u!114 &-2425499174882433360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ca91f71cca58149817fac2d09b128e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u521B\u5EFA\u56FA\u5B9A\u4F4D\u7F6E\u5B50\u5F39"
+  taskStartID: 14
+  taskDuration: 29
+  id: 3001
+  offset: {x: 0, y: 1, z: 1}
+  go: {fileID: 0}
+  isSkillEndDestroyBullet: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6163eb00cd2144c29cca170a518c1b91, type: 3}
+  m_Name: 110403
+  m_EditorClassIdentifier: 
+  tracks:
+  - rid: 4624509120193495459
+  - rid: 4624509120193495460
+  - rid: 4624509120193495461
+  - rid: 4624509120193495462
+  - rid: 1475331625414557757
+  - rid: 1475331625414557787
+  blackBoardVariable:
+    rid: 4624509120193495457
+  duration: 80
+  fps: 60
+  references:
+    version: 2
+    RefIds:
+    - rid: 1475331625414557757
+      type: {class: EffectTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: -5962218315250874486}
+    - rid: 1475331625414557787
+      type: {class: SkillTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: 2947494523388625518}
+    - rid: 4624509120193495457
+      type: {class: BlackBoardVariable, ns: , asm: Assembly-CSharp}
+      data:
+        _variables: []
+    - rid: 4624509120193495459
+      type: {class: SkillAnimationTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: -7356028842808855992}
+    - rid: 4624509120193495460
+      type: {class: StateTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: 6773122797834012198}
+    - rid: 4624509120193495461
+      type: {class: SkillTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: 7260972601407961084}
+    - rid: 4624509120193495462
+      type: {class: BulletTrack, ns: , asm: Assembly-CSharp}
+      data:
+        taskClips:
+        - {fileID: -2425499174882433360}
+--- !u!114 &2947494523388625518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f559d9c77d06044a95686e12fb3882a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u6280\u80FD\u6253\u65AD\u7A97\u53E3"
+  taskStartID: 27
+  taskDuration: 53
+  skillId: 1
+  breakSkillIdList: 01000000
+  openBreak: 1
+  onSkillTimeEnd: 1
+--- !u!114 &6773122797834012198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 643e7d2cdd202ed4d864c06a4d9588fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u5207\u6362\u72B6\u6001"
+  taskStartID: 0
+  taskDuration: 80
+  stateId: 3
+  onSkillTimeEnd: 1
+--- !u!114 &7260972601407961084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f559d9c77d06044a95686e12fb3882a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskName: "\u6280\u80FD\u6253\u65AD\u7A97\u53E3"
+  taskStartID: 10
+  taskDuration: 70
+  skillId: 1
+  breakSkillIdList: 0200000003000000
+  openBreak: 1
+  onSkillTimeEnd: 1

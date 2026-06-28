@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9d63c2c919d2d74782e8c061574830f, type: 3}
+  m_Name: StateAssets
+  m_EditorClassIdentifier: 
+  StateAssetsConfigList:
+  - assetsId: 1
+    assetsPath: 
+    priority: 1
+    stateName: "\u6B63\u5E38\u72B6\u6001"
+    isCanMove: 1
+    isCanRotate: 1
+    isCanPlaySkill: 1
+  - assetsId: 2
+    assetsPath: 
+    priority: 10
+    stateName: "\u53D7\u51FB\u72B6\u6001"
+    isCanMove: 0
+    isCanRotate: 0
+    isCanPlaySkill: 0
+  - assetsId: 3
+    assetsPath: 
+    priority: 5
+    stateName: "\u6280\u80FD\u72B6\u6001"
+    isCanMove: 0
+    isCanRotate: 0
+    isCanPlaySkill: 1

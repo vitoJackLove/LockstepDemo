@@ -1,0 +1,200 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d743ab6d22d8d2b44b8db9154bf8aa8f, type: 3}
+  m_Name: HeroAssets
+  m_EditorClassIdentifier: 
+  HeroAssetsConfigList:
+  - assetsId: 1104
+    assetsPath: Hero/1104/1104View
+    heroIcon: {fileID: 21300000, guid: 2f97c6319eaa61e4cafc512b614da082, type: 3}
+    heroName: "\u5357\u661F"
+    hp: 100
+    speed: 5
+    rotateSpeed: 20
+    attack: 10
+    defence: 5
+    campEnum: 0
+    initSkillList:
+    - skillId: 110401
+      commandState: 1
+      skillDownAssetsPath: Skill/1104/110401
+      skillUpAssetsPath: 
+      maxDownTick: 0
+      keyCode: 1
+      attackIndexCacheTick: 10
+      attackIndex: 1
+    - skillId: 110402
+      commandState: 1
+      skillDownAssetsPath: Skill/1104/110402
+      skillUpAssetsPath: 
+      maxDownTick: 0
+      keyCode: 1
+      attackIndexCacheTick: 10
+      attackIndex: 2
+    - skillId: 110403
+      commandState: 1
+      skillDownAssetsPath: Skill/1104/110403
+      skillUpAssetsPath: 
+      maxDownTick: 0
+      keyCode: 1
+      attackIndexCacheTick: 10
+      attackIndex: 3
+    - skillId: 110404
+      commandState: 1
+      skillDownAssetsPath: Skill/1104/110404
+      skillUpAssetsPath: Skill/1104/110403
+      maxDownTick: 0
+      keyCode: 1
+      attackIndexCacheTick: 10
+      attackIndex: 4
+    - skillId: 110410
+      commandState: 2
+      skillDownAssetsPath: Skill/1104/110410
+      skillUpAssetsPath: Skill/1104/110411
+      maxDownTick: 120
+      keyCode: 2
+      attackIndexCacheTick: 0
+      attackIndex: 0
+    - skillId: 110420
+      commandState: 1
+      skillDownAssetsPath: Skill/1104/110420
+      skillUpAssetsPath: 
+      maxDownTick: 0
+      keyCode: 3
+      attackIndexCacheTick: 0
+      attackIndex: 0
+    colliderDataList:
+    - key: 1001Hero
+      primitiveEnum: 1
+      offset: {x: 0, y: 1, z: 0}
+      eulerOffset: {x: 0, y: 0, z: 0}
+      spRadius: 0
+      capRadius: 1
+      height: 1
+      x: 0
+      y: 0
+      z: 0
+      weight: 1
+      damageMagnification: 1
+      isShow: 0
+      color: {r: 1, g: 0, b: 0, a: 1}
+    stateList:
+    - stateId: 1
+      assetsPath: 
+    - stateId: 2
+      assetsPath: State/Hit
+    - stateId: 3
+      assetsPath: 
+    blendTree:
+      blendTreeType: 0
+      transitionAssetBase: {fileID: 11400000, guid: 17a1e7549fde59b43b67ef66abb9f5ea, type: 2}
+      valueOne: {fileID: 11400000, guid: 4798d7fa0a5780c4986e49631f1e1f00, type: 2}
+      valueTwo: {fileID: 0}
+      smoothTime: 0.15
+  - assetsId: 1205
+    assetsPath: Hero/1205/1205View
+    heroIcon: {fileID: 21300000, guid: 076490a860b82d44b95f7d4caaa634be, type: 3}
+    heroName: "\u5DE8\u5251\u5251\u58EB"
+    hp: 100
+    speed: 5
+    rotateSpeed: 20
+    attack: 20
+    defence: 5
+    campEnum: 0
+    initSkillList:
+    - skillId: 120501
+      commandState: 1
+      skillDownAssetsPath: Skill/1205/120501
+      skillUpAssetsPath: 
+      maxDownTick: 0
+      keyCode: 1
+      attackIndexCacheTick: 10
+      attackIndex: 1
+    - skillId: 120510
+      commandState: 1
+      skillDownAssetsPath: Skill/1205/120510
+      skillUpAssetsPath: 
+      maxDownTick: 0
+      keyCode: 2
+      attackIndexCacheTick: 0
+      attackIndex: 0
+    - skillId: 120520
+      commandState: 1
+      skillDownAssetsPath: Skill/1205/120520
+      skillUpAssetsPath: 
+      maxDownTick: 0
+      keyCode: 3
+      attackIndexCacheTick: 0
+      attackIndex: 0
+    colliderDataList:
+    - key: 1103Hero
+      primitiveEnum: 1
+      offset: {x: 0, y: 1, z: 0}
+      eulerOffset: {x: 0, y: 0, z: 0}
+      spRadius: 0
+      capRadius: 1
+      height: 1
+      x: 0
+      y: 0
+      z: 0
+      weight: 1
+      damageMagnification: 1
+      isShow: 0
+      color: {r: 1, g: 0, b: 0, a: 1}
+    stateList:
+    - stateId: 1
+      assetsPath: 
+    - stateId: 2
+      assetsPath: State/Hit
+    - stateId: 3
+      assetsPath: 
+    blendTree:
+      blendTreeType: 0
+      transitionAssetBase: {fileID: 11400000, guid: 21f52b9784c1dba43a9fc05bb598bc7b, type: 2}
+      valueOne: {fileID: 11400000, guid: 4798d7fa0a5780c4986e49631f1e1f00, type: 2}
+      valueTwo: {fileID: 0}
+      smoothTime: 0.15
+  - assetsId: 1001
+    assetsPath: Hero/1001/1001View
+    heroIcon: {fileID: 0}
+    heroName: "\u661F\u89C1\u96C5"
+    hp: 100
+    speed: 5
+    rotateSpeed: 20
+    attack: 20
+    defence: 5
+    campEnum: 0
+    initSkillList:
+    - skillId: 100101
+      commandState: 1
+      skillDownAssetsPath: Skill/1001/100101
+      skillUpAssetsPath: 
+      maxDownTick: 0
+      keyCode: 1
+      attackIndexCacheTick: 10
+      attackIndex: 1
+    - skillId: 100102
+      commandState: 1
+      skillDownAssetsPath: Skill/1001/100102
+      skillUpAssetsPath: 
+      maxDownTick: 0
+      keyCode: 1
+      attackIndexCacheTick: 10
+      attackIndex: 2
+    colliderDataList: []
+    stateList: []
+    blendTree:
+      blendTreeType: 0
+      transitionAssetBase: {fileID: 11400000, guid: 91d6d99a62192ff43b41a4856c5f4184, type: 2}
+      valueOne: {fileID: 11400000, guid: 4798d7fa0a5780c4986e49631f1e1f00, type: 2}
+      valueTwo: {fileID: 0}
+      smoothTime: 0.15

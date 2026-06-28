@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 1205View
+  m_Shader: {fileID: 4800000, guid: 893ccc0f89a84874cb6a4b7d679da4c5, type: 3}
+  m_ValidKeywords:
+  - _ALPHATEST_ON
+  - _CONTROLMAP
+  m_InvalidKeywords:
+  - _UseBlend
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2450
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 1143a77c79adf994a8da085698510445, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Control:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ControlMap:
+        m_Texture: {fileID: 2800000, guid: b8ba2a581788048418a406fd4169c2cc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: -0.6
+    - _AlphaClip: 0
+    - _AlphaTest: 1
+    - _Blend: 0
+    - _BlendSwitch: 1
+    - _BumpScale: 1
+    - _Clip: 0.5
+    - _Cull: 2
+    - _CullMode: 2
+    - _Cutoff: 0.5
+    - _DisableClip: 0
+    - _DoubleSide: 0
+    - _DstBlend: 10
+    - _EdgeLightSize: 0.1
+    - _EdgeMaxScale: 3
+    - _EmissionAlbedo: 0
+    - _EmissionStrength: 0
+    - _EnvironmentReflections: 1
+    - _FresnelBias: -0.08
+    - _FresnelPower: 1.8
+    - _FresnelScale: -0.14
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _GoldLightSize: 0.1
+    - _GoldMaxScale: 3
+    - _GoldOrEdge: 0
+    - _HeightLightLerp: 0
+    - _HeightLightSize: 24
+    - _LayerSmooth: 0.4
+    - _LayerStep: 0.2
+    - _Light: 0
+    - _LightIncrease: 1
+    - _LightRange: 0.06
+    - _MaxLight: 3
+    - _Melt: 0
+    - _MeltBlend: 0
+    - _MeltEdgeSize: 0
+    - _Metallic: 0.4
+    - _NormalScale: 1
+    - _Occlusion: 1.29
+    - _OcclusionStrength: 1
+    - _OutlineWidth: 0.3
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _RefValue: 1
+    - _RefractRatio: 1
+    - _RimIntensity: 0.5
+    - _RimLerp: 0.5
+    - _RimSmooth: 10
+    - _Shadow: 0
+    - _ShadowSampler: 114.57
+    - _SmoothAll: 0
+    - _Smoothness: 0.6
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SpecularIntensity: 0.8
+    - _SpecularLerp: 0.6
+    - _SpecularSmooth: 0.3
+    - _SrcBlend: 5
+    - _StencilComp: 8
+    - _StencilPass: 2
+    - _Surface: 0
+    - _UseBloom: 0
+    - _UseMelt: 0
+    - _UseRefract: 0
+    - _WorkflowMode: 1
+    - _ZTestMode: 4
+    - _ZWrite: 1
+    m_Colors:
+    - _AmbientColor: {r: 0.627451, g: 0.627451, b: 0.627451, a: 1}
+    - _AmbientTint: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorTint: {r: 1, g: 1, b: 1, a: 1}
+    - _EdgeLightColor: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 0}
+    - _Effects: {r: 0, g: 0, b: 0, a: 0}
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GoldLightColor: {r: 0, g: 0, b: 0, a: 0}
+    - _HeightLightBaseColor: {r: 0, g: 0, b: 0, a: 0}
+    - _HeightLightColor: {r: 0.5754717, g: 0.4845553, b: 0.3990299, a: 1}
+    - _LightColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    - _LightTint: {r: 1, g: 1, b: 1, a: 1}
+    - _MeltEdgeColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RefractColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 1, g: 0.8333334, b: 0.5, a: 1}
+    - _ShakeSize: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  m_BuildTextureStacks: []
+--- !u!114 &1958417857889665531
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1

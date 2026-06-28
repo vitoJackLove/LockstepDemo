@@ -1,0 +1,57 @@
+// Generated from TestPlayerData.cs
+// Generated at 2026-03-27 17:09:27
+
+package rogue.game;
+
+syntax = "proto3";
+
+// Original namespace: Rogue.Test
+
+message TestPlayerData {
+    class test_player_data = 1;
+    int32 player_id = 2;
+    string player_name = 3;
+    int32 level = 4;
+    bool is_online = 5;
+    int64 gold = 6;
+    float experience = 7;
+    double health = 8;
+    int64 register_time = 9;
+    string player_guid = 10;
+    repeated byte avatar_data = 11;
+    Vector3 position = 12;
+    Quaternion rotation = 13;
+    Color player_color = 14;
+    repeated int32 inventory_item_ids = 15;
+    repeated int32 friend_ids = 16;
+    Dictionary<string, float> attributes = 17;
+    repeated TestHeroInfo heroes = 18;
+    HashSet<int> achievements = 19;
+    TimeSpan play_time = 20;
+    PlayerState current_state = 21;
+    int64 create_timestamp = 22;
+    int32 age = 23;
+    string email = 24;
+    bool is_vip = 25;
+    class test_hero_info = 26;
+    int32 hero_id = 27;
+    string hero_name = 28;
+    int32 star_level = 29;
+    int32 power = 30;
+    repeated TestSkillInfo skills = 31;
+    TestHeroStats stats = 32;
+    class test_skill_info = 33;
+    int32 skill_id = 34;
+    string skill_name = 35;
+    int32 level = 36;
+    float cooldown = 37;
+    bool is_passive = 38;
+    class test_hero_stats = 39;
+    int32 attack = 40;
+    int32 defense = 41;
+    int32 hp = 42;
+    int32 mp = 43;
+    float crit_rate = 44;
+    float crit_damage = 45;
+    enum player_state = 46;
+}

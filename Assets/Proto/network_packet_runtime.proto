@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package Rogue.Network;
+
+option csharp_namespace = "Rogue.Network.Proto";
+
+// Runtime transport frame:
+// [4-byte little-endian payload length][NetworkPacket protobuf bytes]
+
+message FixedPointVector3 {
+    int32 x = 1;
+    int32 y = 2;
+    int32 z = 3;
+}
+
+enum CommandType {
+    NONE = 0;
+    ATTACK = 1;
+    SKILL = 2;
+    ROLL = 3;
+    CLICK = 4;
+}
+
+enum CommandExecuteState {
+    ONLY_UP = 0;
+    ONLY_DOWN = 1;
+    DOWN_UP = 2;
+    NULL = 3;
+}
+
+message CommandData {
+    int32 entity_id = 1;
+    uint32 tick = 2;
+    FixedPointVector3 move_dir = 3;
+    FixedPointVector3 skill_dir = 4;
+    CommandType command_type = 5;
+    CommandExecuteState command_state = 6;
+    uint32 client_seq = 7;
+}
+
+message PlayerConnectMessage {
+    int32 player_index = 1;
+}
+
+message SelectHeroMessage {
+    int32 player_index = 1;
+    int32 select_hero_id = 2;
+}
+
+message GameStartMessage {
+    bool is_start = 1;
+    uint32 start_tick = 2;
+}
+
+message FrameCommandMessage {
+    CommandData command_data = 1;
+    uint32 tick = 2;
+    repeated CommandData command_data_list = 3;
+}
+
+message NetworkPacket {
+    int32 message_type = 1;
+    bytes payload = 2;
+}
