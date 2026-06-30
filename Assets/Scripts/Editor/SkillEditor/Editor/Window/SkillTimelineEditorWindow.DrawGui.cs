@@ -14,7 +14,7 @@ public partial class SkillTimelineEditorWindow : EditorWindow
     private static SkillTimelineEditorWindow _window;
     
     //打开窗口
-    [MenuItem("Tool/技能编辑器")]
+    [MenuItem("Tools/技能/技能编辑器")]
     public static void OpenWindow()
     {
         _window = GetWindow<SkillTimelineEditorWindow>(Title);

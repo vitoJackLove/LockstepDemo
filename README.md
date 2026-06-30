@@ -487,9 +487,9 @@ dotnet build Assembly-CSharp.csproj -nologo -v:minimal
 
 | 工具          | 菜单路径           | 职责                                          |
 | ----------- | -------------- | ------------------------------------------- |
-| **预测回滚窗口**  | `Tool/预测回滚`    | 配置 `forecastTick`、模拟丢包率 `lossPacket`，调试回滚行为 |
-| **双世界线查看器** | `Tool/双世界线查看器` | 并排对比本地预测世界线与权威世界线                           |
-| **金手指工具**   | `Tool/金手指工具`   | 运行时作弊：Buff / 属性 / 子弹等调试                     |
+| **预测回滚窗口**  | `Tools/调试/预测回滚`    | 配置 `forecastTick`、模拟丢包率 `lossPacket`，调试回滚行为 |
+| **双世界线查看器** | `Tools/调试/双世界线查看器` | 并排对比本地预测世界线与权威世界线                           |
+| **金手指工具**   | `Tools/调试/金手指工具`   | 运行时作弊：Buff / 属性 / 子弹等调试                     |
 
 
 
@@ -499,13 +499,15 @@ dotnet build Assembly-CSharp.csproj -nologo -v:minimal
 
 | 工具            | 菜单路径                      | 职责                                                              |
 | ------------- | ------------------------- | --------------------------------------------------------------- |
-| **技能编辑器**     | `Tool/技能编辑器`              | 编辑技能时间轴资产（Track / Clip），配合 `Assets/Scripts/RunTime/SkillEditor` |
+| **技能编辑器**     | `Tools/技能/技能编辑器`              | 编辑技能时间轴资产（Track / Clip），配合 `Assets/Scripts/RunTime/SkillEditor` |
+| **实体技能浏览器**   | `Tools/技能/实体技能TimeLine浏览器`     | 浏览英雄/怪物技能绑定，一键打开技能编辑器                                      |
 | **行为树编辑器**    | `Window/AI/BehaviourTree` | 可视化编辑 AI 行为树、黑板与节点脚本模板                                          |
-| **Buff 制作工具** | `Tool/Buff制作工具`           | 制作 Buff 条件与效果配置                                                 |
+| **Buff 制作工具** | `Tools/Buff/Buff制作工具`           | 制作 Buff 条件与效果配置                                                 |
 | **配置中心**      | `Tools/配置中心`              | 集中管理 `Assets/GameAssetConfig` 下的 ScriptableObject 配置            |
 | **角色工厂**      | `Tools/角色工厂/快速创建角色基础数据`   | 快速创建英雄基础配置                                                      |
 | **怪物工厂**      | `Tools/怪物工厂/快速创建怪物基础数据`   | 快速创建怪物基础配置                                                      |
-| **地图生成**      | `Tool/MapGenerate`        | 程序化地图地形与噪声生成                                                    |
+| **子弹工厂**      | `Tools/子弹工厂/快速配置子弹`       | 快速创建/编辑子弹配置与 View Prefab                                         |
+| **地图生成**      | `Tools/地图/MapGenerate`        | 程序化地图地形与噪声生成                                                    |
 
 
 
@@ -608,7 +610,7 @@ roguelike/
 
 - **低延迟体验**：本地立即按输入推进，无需等服务器每帧确认
 - **自动纠错**：权威帧到达后比对快照，一旦不一致则回滚到出错帧并用录制输入重放
-- **可测试性**：可注入丢包率（`lossPacket`）、预测帧数（`forecastTick`），通过 `Tool/预测回滚` 与 `Tool/双世界线查看器` 验证回滚正确性
+- **可测试性**：可注入丢包率（`lossPacket`）、预测帧数（`forecastTick`），通过 `Tools/调试/预测回滚` 与 `Tools/调试/双世界线查看器` 验证回滚正确性
 - **单机/联机统一管线**：同一套 `BaseWorld.FixedUpdate` 逻辑，通过 `IGameSessionProfile` 切换是否启用快照与回滚
 
 适合作为 Roguelike、格斗、MOBA 等需要强一致性与手感反馈的联机游戏底层框架。

@@ -16,7 +16,7 @@ disable-model-invocation: true
 
 - 绑定/修改 `HeroAssets`、`MonsterAssets` 中的技能项
 - 创建、移动、复制 `SkillLineAsset` 资产文件
-- 在 `Tool/技能编辑器` 中用**已有** Clip/Track 类型编排时间轴（拖片段、改参数、黑板变量）
+- 在 `Tools/技能/技能编辑器` 中用**已有** Clip/Track 类型编排时间轴（拖片段、改参数、黑板变量）
 - 用浏览器、快速创建窗口、配置中心排查缺失路径
 
 ### 禁止
@@ -51,8 +51,8 @@ disable-model-invocation: true
 
 | 菜单 | 用途 |
 |------|------|
-| `Tool/实体技能TimeLine浏览器` | 浏览所有英雄/怪物技能绑定，一键编辑/定位 |
-| `Tool/技能编辑器` | 打开 SkillTimeLine 编辑器 |
+| `Tools/技能/实体技能TimeLine浏览器` | 浏览所有英雄/怪物技能绑定，一键编辑/定位 |
+| `Tools/技能/技能编辑器` | 打开 SkillTimeLine 编辑器 |
 | `Tools/角色工厂/快速创建角色基础数据` | 新建英雄 + 默认技能资产与配置 |
 | `Tools/怪物工厂/快速创建怪物基础数据` | 新建怪物 + 默认技能资产与配置 |
 | `Tools/配置中心` | 直接编辑 `HeroAssets.asset` / `MonsterAssets.asset` |
@@ -62,7 +62,7 @@ disable-model-invocation: true
 
 ### 1. 先定位实体与现有绑定
 
-1. 打开 `Tool/实体技能TimeLine浏览器`。
+1. 打开 `Tools/技能/实体技能TimeLine浏览器`。
 2. 在左侧树选择目标英雄或怪物。
 3. 查看技能表格：技能 ID、绑定类型、配置路径、FPS、时长、轨道数、资产状态。
 4. 状态为「已找到」才可正常编辑；「未配置」或「缺失」需补资产或修正路径。

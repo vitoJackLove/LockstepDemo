@@ -339,7 +339,7 @@ public abstract partial class BaseEntity : ILifeCycle
 
         dic.Dispose();
         
-        GetSystem<VolumeSystem>().UnRegisterHitVolume(_entityId);
+        GetSystem<VolumeSystem>()?.ReleaseHitVolume(_entityId);
         
         GetSystem<EntityViewSystem>().ReleaseGameObject(UnityGameObject);
         

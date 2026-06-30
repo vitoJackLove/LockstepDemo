@@ -102,7 +102,7 @@ disable-model-invocation: true
 
 **必须**按 `entity-skill-timeline-config` 工作流操作：
 
-1. `Tool/实体技能TimeLine浏览器` 定位实体与现有绑定
+1. `Tools/技能/实体技能TimeLine浏览器` 定位实体与现有绑定
 2. 新建或打开目标 `SkillLineAsset`
 3. 按方案添加轨道与片段、设置 `taskStartID` / `taskDuration`、黑板变量
 4. 更新 `HeroAssets` / `MonsterAssets` 中对应技能项与相对路径
@@ -172,6 +172,6 @@ disable-model-invocation: true
 | 时间轴配置技能 | `.agents/skills/entity-skill-timeline-config/` |
 | 节点制作技能 | `.agents/skills/skill-editor-node-authoring/` |
 | 片段/轨道目录 | `entity-skill-timeline-config/reference.md` |
-| 浏览器 | `Tool/实体技能TimeLine浏览器` |
-| 技能编辑器 | `Tool/技能编辑器` |
+| 浏览器 | `Tools/技能/实体技能TimeLine浏览器` |
+| 技能编辑器 | `Tools/技能/技能编辑器` |
 | 配置中心 | `Tools/配置中心` |

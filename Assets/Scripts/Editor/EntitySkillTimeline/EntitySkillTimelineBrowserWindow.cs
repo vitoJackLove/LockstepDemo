@@ -9,7 +9,7 @@ public class EntitySkillTimelineBrowserWindow : OdinMenuEditorWindow
 {
     private const string WindowTitle = "实体技能 TimeLine 浏览器";
 
-    [MenuItem("Tool/实体技能TimeLine浏览器")]
+    [MenuItem("Tools/技能/实体技能TimeLine浏览器")]
     public static void OpenWindow()
     {
         EntitySkillTimelineBrowserWindow window = GetWindow<EntitySkillTimelineBrowserWindow>();

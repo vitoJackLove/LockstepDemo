@@ -34,6 +34,11 @@ public class HitVolume : BaseVolume
 
     public EntityState EntityState;
 
+    public bool IsCollisionActive =>
+        EntityState == EntityState.Survival &&
+        _ownerEntity != null &&
+        _ownerEntity.EntityState == EntityState.Survival;
+
     /// <summary>
     /// 部位名称
     /// </summary>
@@ -73,7 +78,7 @@ public class HitVolume : BaseVolume
 
     public override void OnUpdate(fp deltaTime, WorldUpdateType worldUpdateType)
     {
-        if (EntityState != EntityState.Survival)
+        if (EntityState != EntityState.Survival || _ownerEntity == null || _volumeData == null)
         {
             return;
         }
@@ -116,6 +121,7 @@ public class HitVolume : BaseVolume
         if (_primitiveInfo.Type == PrimitiveEnum.CapsulePrimitive)
         {
             _primitiveInfo.Radius = radius;
+            _primitive.UpdateSelf(_primitiveInfo);
             return true;
         }
 
@@ -124,6 +130,11 @@ public class HitVolume : BaseVolume
 
     public override void TransferHit(int fromId)
     {
+        if (_ownerEntity == null)
+        {
+            return;
+        }
+
         if (_ownerEntity.EntityType == EntityType.BulletEntity)
         {
             _ownerEntity.GetComponent<BulletTriggerComponent>().OnBulletTrigger(fromId);
@@ -136,7 +147,7 @@ public class HitVolume : BaseVolume
 
     public void PrimitiveDebug()
     {
-        if (EntityState == EntityState.Survival)
+        if (EntityState == EntityState.Survival && _volumeData != null && _volumeData.isShow)
         {
             _primitive.PrimitiveDebug(_volumeData.color);
         }
@@ -147,6 +158,7 @@ public class HitVolume : BaseVolume
         _ownerId = 0;
         _ownerEntity = null;
         _volumeData = null;
+        EntityState = EntityState.Null;
         _primitive.OnDispose();
     }
 }

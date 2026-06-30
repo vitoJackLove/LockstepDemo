@@ -49,7 +49,7 @@ Editor/
 
 ### `SkillTimelineEditorWindow`
 - **位置**: `SkillEditor/Editor/Window/SkillTimelineEditorWindow.*.cs`
-- **菜单**: `Tool/技能编辑器`
+- **菜单**: `Tools/技能/技能编辑器`
 - **职责**: 编辑技能时间轴资产，配合运行时 `Assets/Scripts/RunTime/SkillEditor` 的 Track/Clip/Data 类型。
 
 ### `BehaviourTreeEditorWindow`
@@ -78,7 +78,7 @@ Editor Window / MenuItem
 
 ## 对外接口
 
-- Unity 菜单项是主要入口：`Tools/*`、`Tool/*`、`Window/AI/*`、`Assets/Create/*`。
+- Unity 菜单项是主要入口：`Tools/*`、`Window/AI/*`、`Assets/Create/*`。
 - 编辑器工具通常通过 `AssetDatabase`、`EditorWindow`、`OdinEditorWindow`、UI Toolkit 操作项目资产。
 - 运行时不应直接引用 `UnityEditor` 或本目录类型。
 
@@ -91,7 +91,7 @@ Editor Window / MenuItem
 
 ### 新增编辑器工具
 1. 放入 `Assets/Scripts/Editor/<Feature>/`，避免运行时程序集引用。
-2. 使用清晰的 `MenuItem` 路径，优先放在现有 `Tools/` 或 `Tool/` 分组下。
+2. 使用清晰的 `MenuItem` 路径，统一放在 `Tools/` 分组下（如 `Tools/技能/`、`Tools/调试/`、`Tools/内容工厂/`）。
 3. 修改资产时使用 `Undo.RecordObject`、`EditorUtility.SetDirty` 和 `AssetDatabase.SaveAssets`。
 4. 涉及 `.meta` 或资产移动时保持 Unity 资产引用稳定。
 

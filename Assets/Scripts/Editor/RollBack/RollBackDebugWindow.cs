@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class RollBackDebugWindow : OdinEditorWindow
 {
-    [MenuItem("Tool/双世界线查看器")]
+    [MenuItem("Tools/调试/双世界线查看器")]
     private static void OpenWindow()
     {
         var window = GetWindow<RollBackDebugWindow>();

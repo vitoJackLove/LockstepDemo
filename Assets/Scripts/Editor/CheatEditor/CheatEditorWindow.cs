@@ -382,7 +382,7 @@ public class CheatEditorWindow : OdinEditorWindow
     /// <summary>
     /// 打开金手指编辑器窗口。
     /// </summary>
-    [MenuItem("Tool/金手指工具")]
+    [MenuItem("Tools/调试/金手指工具")]
     public static void OpenWindow()
     {
         CheatEditorWindow window = GetWindow<CheatEditorWindow>();

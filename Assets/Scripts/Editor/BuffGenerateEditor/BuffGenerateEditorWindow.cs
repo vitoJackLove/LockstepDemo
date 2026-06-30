@@ -41,7 +41,7 @@ public class BuffGenerateEditorWindow : OdinEditorWindow
 
     #endregion
 
-    [MenuItem("Tool/Buff制作工具")]
+    [MenuItem("Tools/Buff/Buff制作工具")]
     public static void OpenWindow()
     {
         BuffGenerateEditorWindow window = GetWindow<BuffGenerateEditorWindow>($"Buff制作工具");

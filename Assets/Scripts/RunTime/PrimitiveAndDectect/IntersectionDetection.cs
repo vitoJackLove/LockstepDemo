@@ -183,7 +183,7 @@ public static class IntersectionDetection
         fp distance = fpmath.distance(sphereCenter, worldClosestPoint);
 
         // 判断距离是否小于等于球体半径，若是则相交，否则不相交
-        return distance <= (sphereRadius * sphereRadius);
+        return distance <= sphereRadius;
     }
 
     /// <summary>

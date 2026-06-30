@@ -50,6 +50,26 @@ public partial class BaseEntity
         }
 
         dic.Dispose();
+
+        SyncHitVolumesAfterRollBack();
+    }
+
+    private void SyncHitVolumesAfterRollBack()
+    {
+        VolumeSystem volumeSystem = GetSystem<VolumeSystem>();
+        if (volumeSystem == null)
+        {
+            return;
+        }
+
+        if (_entityState == EntityState.Survival)
+        {
+            volumeSystem.RestoreHitVolume(_entityId);
+        }
+        else
+        {
+            volumeSystem.UnRegisterHitVolume(_entityId);
+        }
     }
     
         

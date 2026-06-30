@@ -18,9 +18,24 @@ public class VolumeSystem : BaseSystem
     private Dictionary<int, List<HitVolume>> _bulletEntityVolumes = new Dictionary<int, List<HitVolume>>();
 
     /// <summary>
-    /// 等待销毁的受击盒的持有者id集合
+    /// 等待销毁的受击盒的持有者id集合（已废弃批量释放，保留字段避免序列化引用）
     /// </summary>
     private List<int> _cacheRemoveId = new List<int>();
+
+    /// <summary>
+    /// 动态实体受击盒持有者，死亡时仅标记 Failed 以供回滚恢复
+    /// </summary>
+    private HashSet<int> _dynamicVolumeOwnerIds = new HashSet<int>();
+
+    /// <summary>
+    /// 碰撞检测前缓存子弹 id，避免命中销毁子弹时修改字典导致枚举异常
+    /// </summary>
+    private readonly List<int> _bulletCheckCache = new List<int>();
+
+    /// <summary>
+    /// 同一逻辑帧内 (attackerId, targetId) 只触发一次 TransferHit，保证帧同步确定性
+    /// </summary>
+    private readonly HashSet<long> _transferHitDedup = new HashSet<long>();
 
     public override void OnInit(object data = null)
     {
@@ -50,6 +65,8 @@ public class VolumeSystem : BaseSystem
             _hitVolumes.Remove(ownerEntity.EntityId);
 
             _bulletEntityVolumes.Remove(ownerEntity.EntityId);
+            _dynamicVolumeOwnerIds.Remove(ownerEntity.EntityId);
+            _cacheRemoveId.Remove(ownerEntity.EntityId);
 
             for (int i = 0; i < volumes.Count; i++)
             {
@@ -67,6 +84,11 @@ public class VolumeSystem : BaseSystem
         }
 
         _hitVolumes.Add(ownerEntity.EntityId, volumes);
+
+        if (ownerEntity.ForecastEntityType == ForecastEntityType.DynamicEntity)
+        {
+            _dynamicVolumeOwnerIds.Add(ownerEntity.EntityId);
+        }
 
         if (ownerEntity.EntityType == EntityType.BulletEntity)
         {
@@ -95,7 +117,7 @@ public class VolumeSystem : BaseSystem
     {
         base.OnFixedUpdate(deltaTime, worldUpdateType);
 
-        ReleaseDeadEntity();
+        _transferHitDedup.Clear();
         
         var dic = _hitVolumes.GetEnumerator();
 
@@ -113,24 +135,26 @@ public class VolumeSystem : BaseSystem
         CheckBulletAndTargetEntityIntersection(worldUpdateType);
     }
 
-    /*/// <summary>
-    /// 相交检测
-    /// </summary>
-    private void CheckTargetEntityIntersection()
-    {
-        foreach (var monsterEntity in GetSystem<EntitySystem>().MonsterEntityList)
-        {
-            foreach (var heroEntity in GetSystem<EntitySystem>().HeroEntityList)
-            {
-                IsIntersect(monsterEntity.EntityId, heroEntity.EntityId);
-            }
-        }
-    }*/
 
     private void CheckBulletAndTargetEntityIntersection(WorldUpdateType worldUpdateType)
     {
-        foreach (var bulletId in _bulletEntityVolumes.Keys)
+        if (_bulletEntityVolumes.Count <= 0)
         {
+            return;
+        }
+
+        _bulletCheckCache.Clear();
+        _bulletCheckCache.AddRange(_bulletEntityVolumes.Keys);
+
+        for (int b = 0; b < _bulletCheckCache.Count; b++)
+        {
+            int bulletId = _bulletCheckCache[b];
+
+            if (!IsActiveBulletVolume(bulletId))
+            {
+                continue;
+            }
+
             foreach (var heroEntity in GetSystem<EntitySystem>().HeroEntityList)
             {
                 IsIntersect(bulletId, heroEntity.EntityId, worldUpdateType);
@@ -144,54 +168,113 @@ public class VolumeSystem : BaseSystem
     }
 
     /// <summary>
-    /// 取消注册实体的所有受击盒
+    /// 取消注册实体的所有受击盒（标记失活，供回滚恢复）
     /// </summary>
     /// <param name="id"></param>
     public void UnRegisterHitVolume(int id)
     {
-        lock (this._cacheRemoveId)
+        MarkHitVolumesFailed(id);
+    }
+
+    /// <summary>
+    /// 释放并回收实体的受击盒（实体销毁时调用）
+    /// </summary>
+    /// <param name="id"></param>
+    public void ReleaseHitVolume(int id)
+    {
+        if (!_hitVolumes.TryGetValue(id, out var volumes))
         {
-            if (_hitVolumes.TryGetValue(id, out var  volumes))
+            return;
+        }
+
+        if (volumes != null)
+        {
+            for (int i = 0; i < volumes.Count; i++)
             {
-                if (volumes != null)
-                {
-                    for (int i = 0; i < volumes.Count; i++)
-                    {
-                        volumes[i].EntityState = EntityState.Failed;
-                    }
-                }
+                FPoolHelper.Release<HitVolume>(volumes[i]);
             }
+        }
+
+        _hitVolumes.Remove(id);
+        _bulletEntityVolumes.Remove(id);
+        _dynamicVolumeOwnerIds.Remove(id);
+        _cacheRemoveId.Remove(id);
+    }
+
+    private void MarkHitVolumesFailed(int id)
+    {
+        if (!_hitVolumes.TryGetValue(id, out var volumes) || volumes == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < volumes.Count; i++)
+        {
+            volumes[i].EntityState = EntityState.Failed;
         }
     }
 
     public void RestoreHitVolume(int id)
     {
-        if (_hitVolumes.TryGetValue(id, out var volumes))
+        if (!_hitVolumes.TryGetValue(id, out var volumes) || volumes == null)
         {
-            if (volumes == null)
-            {
-                return;
-            }
+            return;
+        }
 
-            for (int i = 0; i < volumes.Count; i++)
-            {
-                volumes[i].EntityState = EntityState.Survival;
-            }
+        for (int i = 0; i < volumes.Count; i++)
+        {
+            volumes[i].EntityState = EntityState.Survival;
+        }
+
+        BaseEntity entity = GetSystem<EntitySystem>().GetEntity(id);
+        if (entity != null && entity.EntityType == EntityType.BulletEntity && entity.EntityState == EntityState.Survival)
+        {
+            _bulletEntityVolumes[id] = volumes;
         }
     }
 
-    private bool IsIntersect(BaseVolume v1, BaseVolume v2)
+    private bool IsActiveBulletVolume(int bulletId)
     {
-        bool result = Primitive.IsIntersect(v1.Primitive, v2.Primitive);
-
-        if (result)
+        if (!_hitVolumes.TryGetValue(bulletId, out var volumes) || volumes == null)
         {
-            // 将结果传递给两个volume
-            // 实体通过volume的结果处理攻击信息
-            v1.TransferHit(v2.OwnerId);
+            return false;
         }
 
-        return result;
+        for (int i = 0; i < volumes.Count; i++)
+        {
+            if (volumes[i].IsCollisionActive)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static long MakeTransferHitKey(int attackerId, int targetId)
+    {
+        return ((long)attackerId << 32) | (uint)targetId;
+    }
+
+    private void TransferHitOnce(int attackerId, int targetId, HitVolume attackerVolume, int fromEntityId)
+    {
+        if (!_transferHitDedup.Add(MakeTransferHitKey(attackerId, targetId)))
+        {
+            return;
+        }
+
+        attackerVolume.TransferHit(fromEntityId);
+    }
+
+    private bool IsIntersectHitVolumes(HitVolume attackerVolume, HitVolume targetVolume, int attackerId, int targetId)
+    {
+        if (!Primitive.IsIntersect(attackerVolume.Primitive, targetVolume.Primitive))
+        {
+            return false;
+        }
+
+        TransferHitOnce(attackerId, targetId, attackerVolume, targetVolume.OwnerId);
+        return true;
     }
 
     /// <summary>
@@ -222,13 +305,12 @@ public class VolumeSystem : BaseSystem
                 HitVolume attackerVolume = v1[i];
                 HitVolume targetVolume = v2[j];
                 
-                if (attackerVolume.EntityState == EntityState.Survival && targetVolume.EntityState == EntityState.Survival)
+                if (!ShouldCheckVolumePair(attackerVolume, targetVolume, worldUpdateType))
                 {
-                    if (ShouldCheckVolumePair(attackerVolume, targetVolume, worldUpdateType))
-                    {
-                        r1 = IsIntersect(attackerVolume, targetVolume);
-                    }
+                    continue;
                 }
+
+                r1 = IsIntersectHitVolumes(attackerVolume, targetVolume, attackerId, targetId);
                 
                 if (r1 && !result)
                 {
@@ -242,6 +324,16 @@ public class VolumeSystem : BaseSystem
 
     private bool ShouldCheckVolumePair(HitVolume attackerVolume, HitVolume targetVolume, WorldUpdateType worldUpdateType)
     {
+        if (attackerVolume == null || targetVolume == null)
+        {
+            return false;
+        }
+
+        if (!attackerVolume.IsCollisionActive || !targetVolume.IsCollisionActive)
+        {
+            return false;
+        }
+
         if (attackerVolume.EntityUpdateType != targetVolume.EntityUpdateType)
         {
             return false;
@@ -266,7 +358,7 @@ public class VolumeSystem : BaseSystem
     /// <param name="v1"></param>
     /// <param name="targetId"></param>
     /// <returns></returns>
-    public bool IsIntersect(HitVolume v1, int targetId)
+    public bool IsIntersect(HitVolume v1, int targetId, WorldUpdateType worldUpdateType)
     {
         _hitVolumes.TryGetValue(targetId, out var v2);
 
@@ -280,7 +372,14 @@ public class VolumeSystem : BaseSystem
 
         for (int j = 0; j < v2.Count; j++)
         {
-            bool r1 = IsIntersect(v1, v2[j]);
+            HitVolume targetVolume = v2[j];
+
+            if (!ShouldCheckVolumePair(v1, targetVolume, worldUpdateType))
+            {
+                continue;
+            }
+
+            bool r1 = IsIntersectHitVolumes(v1, targetVolume, v1.OwnerId, targetId);
 
             if (r1 && !result)
             {
@@ -353,17 +452,24 @@ public class VolumeSystem : BaseSystem
     /// <returns></returns>
     public string GetFarthestVolume(fp3 point, fp3 direct, List<HitVolume> volumes, fp3 hitTargetPoint)
     {
-        int maxidx = 0;
+        if (volumes == null || volumes.Count == 0)
+        {
+            return null;
+        }
 
-        fp3 negDirect = -fpmath.normalize(direct);
-        fp3 negPoint = hitTargetPoint + negDirect;
-        fp3 posPoint = hitTargetPoint + direct;
+        int maxidx = -1;
 
         for (int i = 0; i < volumes.Count; i++)
         {
             // 受击盒没有在该方向上受击
             if (!Primitive.IsIntersect(point, direct, volumes[i].Primitive))
             {
+                continue;
+            }
+
+            if (maxidx < 0)
+            {
+                maxidx = i;
                 continue;
             }
 
@@ -407,7 +513,7 @@ public class VolumeSystem : BaseSystem
             maxidx = i;
         }
 
-        return volumes[maxidx].Key;
+        return maxidx >= 0 ? volumes[maxidx].Key : null;
     }
 
     /*/// <summary>
@@ -429,42 +535,6 @@ public class VolumeSystem : BaseSystem
 
         return maxidx;
     }*/
-
-    /// <summary>
-    /// 释放死亡的实体的受击盒
-    /// </summary>
-    private void ReleaseDeadEntity()
-    {
-        lock (this._cacheRemoveId)
-        {
-            if (this._cacheRemoveId.Count <= 0)
-            {
-                return;
-            }
-
-            foreach (var entityId in _cacheRemoveId)
-            {
-                List<HitVolume> volumes;
-
-                if (!_hitVolumes.TryGetValue(entityId, out volumes))
-                {
-                    continue;
-                }
-
-                if (volumes != null)
-                {
-                    for (int i = 0; i < volumes.Count; i++)
-                    {
-                        FPoolHelper.Release<HitVolume>(volumes[i]);
-                    }
-                }
-                
-                _hitVolumes.Remove(entityId);
-            }
-
-            this._cacheRemoveId.Clear();
-        }
-    }
 
     /*public override void OnReset()
     {
@@ -491,6 +561,30 @@ public class VolumeSystem : BaseSystem
 
     public override void OnDispose()
     {
+        if (_hitVolumes != null)
+        {
+            foreach (var pair in _hitVolumes)
+            {
+                if (pair.Value == null)
+                {
+                    continue;
+                }
+
+                for (int i = 0; i < pair.Value.Count; i++)
+                {
+                    FPoolHelper.Release<HitVolume>(pair.Value[i]);
+                }
+            }
+
+            _hitVolumes.Clear();
+        }
+
+        _bulletEntityVolumes.Clear();
+        _dynamicVolumeOwnerIds.Clear();
+        _cacheRemoveId.Clear();
+        _bulletCheckCache.Clear();
+        _transferHitDedup.Clear();
+
         base.OnDispose();
     }
 }

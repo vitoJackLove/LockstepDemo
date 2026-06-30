@@ -42,7 +42,7 @@ public partial class MapGenerateWindow : OdinEditorWindow
      /// </summary>
      private MapTerrainCellSetting _mapTerrainCellSetting;
      
-     [MenuItem("Tool/MapGenerate")]
+     [MenuItem("Tools/地图/MapGenerate")]
      public static void OpenWindow()
      {
           MapGenerateWindow window = GetWindow<MapGenerateWindow>($"地图制作工具");

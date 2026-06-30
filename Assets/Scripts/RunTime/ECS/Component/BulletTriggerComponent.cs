@@ -26,6 +26,16 @@ public class BulletTriggerComponent : BaseComponent
         
         BaseEntity triggerEntity = Entity.GetSystem<EntitySystem>().GetEntity(entityId);
 
+        if (triggerEntity == null)
+        {
+            return;
+        }
+
+        if (triggerEntity.EntityUpdateType != Entity.EntityUpdateType)
+        {
+            return;
+        }
+
         if (Entity.CheckIsAdversarial(triggerEntity))
         {
             Entity.ParentEntity.GetTypeOfComponent<HitComponent>().AttackEntity(entityId);

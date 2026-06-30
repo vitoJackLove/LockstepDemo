@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forecastTick: 2
   maxPredictionTick: 20
-  lossPacket: 0.2
+  lossPacket: 0

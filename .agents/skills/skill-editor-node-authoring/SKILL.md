@@ -123,7 +123,7 @@ public class NewTrack : StandardTrack
 ```
 - [ ] dotnet build Assembly-CSharp.csproj -nologo 无 error
 - [ ] Unity Console 无编译错误（若 Editor 已连接）
-- [ ] Tool/技能编辑器 中右键轨道可看到新 Clip 中文名
+- [ ] Tools/技能/技能编辑器 中右键轨道可看到新 Clip 中文名
 - [ ] 新 Clip 能创建、保存 SkillLineAsset
 - [ ] 若改战斗状态：Enter/Exit 与 RollBackEnter/RollBackExit 成对
 - [ ] 未引入 UnityEditor 到 RunTime
@@ -135,7 +135,7 @@ public class NewTrack : StandardTrack
 1. 新增/修改的文件路径
 2. Clip 中文名与所属轨道
 3. 参数字段含义
-4. 如何在 `Tool/技能编辑器` 中使用
+4. 如何在 `Tools/技能/技能编辑器` 中使用
 5. 若需配置到具体英雄/怪物技能，提示使用 `entity-skill-timeline-config`
 
 ## 描述 → 实现 速查

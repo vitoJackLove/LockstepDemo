@@ -19,7 +19,7 @@ public class RollBackWindow : OdinEditorWindow
     /// </summary>
     private const string GameRollBackSettingPath = "Assets/GameAssetConfig/RollBackGameConfig.asset";
     
-    [MenuItem("Tool/预测回滚")]
+    [MenuItem("Tools/调试/预测回滚")]
     public static void OpenWindow()
     {
         RollBackWindow window = GetWindow<RollBackWindow>($"预测回滚");
