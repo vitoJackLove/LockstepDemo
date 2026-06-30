@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Editor Node Authoring"
+  short_description: "Create SkillEditor TaskClip and Track nodes from user descriptions."
+  default_prompt: "Use $skill-editor-node-authoring to implement a new skill timeline clip or track node from my description in this lockstep Unity project."

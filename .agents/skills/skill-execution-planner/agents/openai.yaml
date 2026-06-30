@@ -1,0 +1,4 @@
+interface:
+  display_name: "执行策划"
+  short_description: "根据技能描述为英雄/怪物制作 SkillTimeLine，需用户确认后配置。"
+  default_prompt: "Use $skill-execution-planner as 执行策划: parse my skill description, check nodes and config resources, present a timeline plan for my approval, then configure via entity-skill-timeline-config (or skill-editor-node-authoring if nodes are missing)."

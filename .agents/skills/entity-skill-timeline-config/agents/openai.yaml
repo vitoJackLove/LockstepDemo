@@ -1,0 +1,4 @@
+interface:
+  display_name: "Entity Skill Timeline Config"
+  short_description: "Configure hero/monster skill timelines; no new editor nodes."
+  default_prompt: "Use $entity-skill-timeline-config to browse, bind, create, and edit hero/monster SkillTimeLine assets only. Do not create or modify TaskClip/Track code; use skill-editor-node-authoring for new nodes."
