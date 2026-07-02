@@ -40,7 +40,7 @@ public abstract partial class BaseWorld
     private Transform _entityRoot;
 
     /// <summary>
-    /// 地图根节点
+    /// 地图根节点（保留兼容，PVP 不再生成地图）。
     /// </summary>
     private Transform _mapRoot;
 
@@ -48,11 +48,6 @@ public abstract partial class BaseWorld
     /// SKILL Time Line root 
     /// </summary>
     private Transform _skillTimeLineRoot;
-
-    /// <summary>
-    /// 行为树根节点
-    /// </summary>
-    private Transform _behaviourTreeRoot;
 
     protected abstract Type[] GetSystemTypes();
     
@@ -75,11 +70,8 @@ public abstract partial class BaseWorld
     /// </summary>
     public IGameSessionProfile SessionProfile { get; private set; }
 
-    public bool IsSinglePlayer => SessionProfile.Mode == GameSessionModeType.SinglePlayer;
-
     protected BaseWorld(CreateWorldData createWorldData)
     {
-        this._authorityTick = 0;
         this._localTick = 0;
         this._worldId = createWorldData.WorldId;
         this._worldRoot = createWorldData.WorldRoot;
@@ -91,18 +83,10 @@ public abstract partial class BaseWorld
         _entityRoot = new GameObject().transform;
         _entityRoot.SetParent(_worldRoot);
         _entityRoot.gameObject.name = "EntityRoot";
-
-        _mapRoot = new GameObject().transform;
-        _mapRoot.gameObject.name = "MapRoot";
-        _mapRoot.SetParent(_worldRoot);
             
         _skillTimeLineRoot= new GameObject().transform;
         _skillTimeLineRoot.gameObject.name = "SkillTimeLineRoot";
         _skillTimeLineRoot.SetParent(_worldRoot);
-
-        _behaviourTreeRoot = new GameObject().transform;
-        _behaviourTreeRoot.gameObject.name = "BehaviourTreeRoot";
-        _behaviourTreeRoot.SetParent(_worldRoot);
 
         RegisterSystem();
     }
@@ -119,17 +103,17 @@ public abstract partial class BaseWorld
     
     public async Task<bool> WorldSystemInit(CreateWorldData createWorldData)
     {
-        uint forecastTick = SessionProfile.ForecastTick;
+        uint inputHistoryWindow = SessionProfile.InputHistoryWindow;
         if (SessionProfile is OnlineGameSessionProfile onlineProfile && _gameRollBackContent != null)
         {
-            onlineProfile.ForecastTick = _gameRollBackContent.forecastTick;
-            forecastTick = onlineProfile.ForecastTick;
+            onlineProfile.InputHistoryWindow = _gameRollBackContent.forecastTick;
+            inputHistoryWindow = onlineProfile.InputHistoryWindow;
         }
 
         float lossPacket = SessionProfile.SimulatePacketLoss && _gameRollBackContent != null
             ? _gameRollBackContent.lossPacket
             : 0f;
-        InitRollBackData(forecastTick, lossPacket);
+        InitRollBackData(inputHistoryWindow, lossPacket);
         
         foreach (var system in _systemDic.Values)
         {
@@ -225,82 +209,18 @@ public abstract partial class BaseWorld
             return;
         }
 
-        if (SessionProfile.RequiresRollback && _isStartRollBackUpdate)
+        if (SessionProfile.RequiresRollback)
         {
-            GameLog.Warn(GameLogChannel.Rollback, $"回放循环 localTick={_localTick} endTick={_rollBackEndTick}");
-            for (int i = 0; i < _rollBackSpeed; i++)
-            {
-                // 回滚刷新世界
-                RollBackLocalUpdateWorld(deltaTime);
-            }
-
+            FixedUpdateGgpo(deltaTime);
             return;
         }
 
         _localTick++;
-
         CommandData data = GetSystem<CommandSystem>().GetCommand();
-
-        // 统一帧同步管道：记录命令 → 可选快照 → 本地更新 → 权威更新
-        RecodeAndSendCommand(data);
-
-        if (SessionProfile.RequiresLocalSnapshot)
+        if (data != null)
         {
-            TakeLocalSnapShot();
+            UpdateGameState(deltaTime, new List<CommandData> { data });
         }
-
-        LogicUpdateWorld(deltaTime, data);
-        AuthorityUpdateWorld(deltaTime);
-    }
-
-    /// <summary>
-    /// 记录并且发送指令
-    /// </summary>
-    /// <param name="data"></param>
-    private void RecodeAndSendCommand(CommandData data)
-    {
-        if (data == null)
-        {
-            GameLog.Error(GameLogChannel.Battle, "Record command failed. CommandData is null.");
-            GameTimeType = GameTimeType.WaitStop;
-            return;
-        }
-
-        BaseEntity actorEntity = SessionProfile.EntitySyncPolicy.GetCommandEntity(GetSystem<EntitySystem>());
-        if (actorEntity == null)
-        {
-            GameLog.Error(GameLogChannel.Battle, "Record command failed. Command actor entity is null. World will stop.");
-            GameTimeType = GameTimeType.WaitStop;
-            return;
-        }
-
-        data.Tick = _localTick;
-        data.EntityId = actorEntity.EntityId;
-
-        // 记录指令
-        GetSystem<CommandSystem>().RecodeCommand(data);
-
-        if (SessionProfile.SimulatePacketLoss && data.IsSkillPacket())
-        {
-            
-            float value = Random.Range(0, 1.0f);
-
-            if (value <= _lossPacket)
-            {
-                CommandData sendData = CommandData.Create();
-
-                sendData.Tick = data.Tick;
-                sendData.EntityId = data.EntityId;
-                
-                //发送指令
-                GetSystem<ServerCommandSystem>().SendPlayerInput(sendData);
-                
-                return;
-            }
-        }
-        
-        //发送指令
-        GetSystem<ServerCommandSystem>().SendPlayerInput(data);
     }
 
     public virtual void Shutdown()
@@ -310,7 +230,6 @@ public abstract partial class BaseWorld
             system.OnDispose();
         }
 
-        _authorityTick = 0;
         _localTick = 0;
         GameTimeType = GameTimeType.WaitStop;
     }
@@ -348,7 +267,7 @@ public abstract partial class BaseWorld
     public Transform EntityRoot => _entityRoot;
 
     /// <summary>
-    /// 地图根节点
+    /// 地图根节点（PVP 未使用）。
     /// </summary>
     public Transform MapRoot => _mapRoot;
 
@@ -356,11 +275,6 @@ public abstract partial class BaseWorld
     /// 技能资产根节点
     /// </summary>
     public Transform SkillTimeLineRoot => _skillTimeLineRoot;
-    
-    /// <summary>
-    /// 行为树根节点
-    /// </summary>
-    public Transform BehaviourTreeRoot => _behaviourTreeRoot;
 
     /// <summary>
     /// 场景名

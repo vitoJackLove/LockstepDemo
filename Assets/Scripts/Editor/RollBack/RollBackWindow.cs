@@ -111,10 +111,19 @@ public class RollBackWindow : OdinEditorWindow
     public void StartRollBack()
     {
         BaseWorld baseWorld = WorldSystem.Instance.CurrentRunWorld;
+        if (baseWorld == null)
+        {
+            Debug.LogWarning("当前没有运行中的世界，无法回滚。");
+            return;
+        }
 
-        Debug.Log($"开始回滚，回滚类型：{RollBackType.HardRollBack} 回滚帧数：{dynamicProgressBar} 当前权威帧：{baseWorld.AuthorityTick} 当前预测帧{baseWorld.LocalTick}");
+        uint rollbackTo = baseWorld.LocalTick > dynamicProgressBar
+            ? baseWorld.LocalTick - dynamicProgressBar
+            : 0;
 
-        baseWorld.StartRollBack(dynamicProgressBar, RollBackType.HardRollBack);
+        Debug.Log($"开始 GGPO 回滚：回滚到 tick={rollbackTo}，当前 LocalTick={baseWorld.LocalTick}，回退帧数={dynamicProgressBar}");
+
+        baseWorld.RollBackToTick(rollbackTo);
     }
 
     [BoxGroup("快照校验设置")]
@@ -137,6 +146,6 @@ public class RollBackWindow : OdinEditorWindow
             return;
         }
 
-        currentTick = baseWorld.AuthorityTick;
+        currentTick = baseWorld.LocalTick;
     }
 }

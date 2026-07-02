@@ -146,7 +146,7 @@ public class CheatEditorWindow : OdinEditorWindow
     /// 当前运行世界的权威帧。
     /// </summary>
     [TitleGroup("公共状态 - 世界状态")]
-    [ShowInInspector, ReadOnly, LabelText("AuthorityTick")]
+    [ShowInInspector, ReadOnly, LabelText("LocalTick (GGPO)")]
     private uint _authorityTick;
 
     /// <summary>
@@ -493,7 +493,7 @@ public class CheatEditorWindow : OdinEditorWindow
 
         _worldState = $"运行中：{world.SceneName}";
         _localTick = world.LocalTick;
-        _authorityTick = world.AuthorityTick;
+        _authorityTick = world.LocalTick;
         _entityCount = entities.Count;
         _filteredEntities = entities.Where(IsEntityMatched).Select(entity => new EntityDebugViewData(entity)).ToList();
 
@@ -543,17 +543,17 @@ public class CheatEditorWindow : OdinEditorWindow
     }
 
     /// <summary>
-    /// 快捷选中当前世界的第一个怪物实体。
+    /// 快捷选中当前世界的远端对手英雄。
     /// </summary>
     [TabGroup("功能页签", "筛选实体")]
     [FoldoutGroup("功能页签/筛选实体/调试实体选择", false)]
     [HorizontalGroup("功能页签/筛选实体/调试实体选择/Buttons")]
-    [Button("第一个怪物", ButtonSizes.Medium)]
-    public void SelectFirstMonsterEntity()
+    [Button("远端对手", ButtonSizes.Medium)]
+    public void SelectRemoteHeroEntity()
     {
         if (!AllowDebugEntitySelection)
         {
-            SetOperationMessage("默认工作流仅允许选中本地预测实体；如需选择怪物实体，请先展开调试实体筛选并启用调试选择。", false);
+            SetOperationMessage("默认工作流仅允许选中本地预测实体；如需选择对手实体，请先展开调试实体筛选并启用调试选择。", false);
             return;
         }
 
@@ -563,8 +563,9 @@ public class CheatEditorWindow : OdinEditorWindow
             return;
         }
 
-        BaseEntity monster = entitySystem?.MonsterEntityList?.FirstOrDefault(entity => entity != null);
-        SelectEntity(monster, "未找到怪物实体");
+        BaseEntity remoteHero = entitySystem?.HeroEntityList?.FirstOrDefault(entity =>
+            entity != null && !entitySystem.IsActorEntity(entity));
+        SelectEntity(remoteHero, "未找到远端对手英雄");
     }
 
     /// <summary>
@@ -589,8 +590,6 @@ public class CheatEditorWindow : OdinEditorWindow
             int buffFingerprints = GenerateCheatBuffFingerprint(targetEntity, BuffConfigId);
             targetEntity.GetComponent<BuffComponent>().CreateBuffWithFingerprints(BuffConfigId, buffFingerprints);
         }
-
-        targets.PrimaryEntity.BaseWorld.SkipForecastVerifyUntil(targets.PrimaryEntity.BaseWorld.LocalTick);
 
         string targetSummary = targets.BuildSummary();
         RefreshData();
@@ -866,9 +865,7 @@ public class CheatEditorWindow : OdinEditorWindow
         fp3 spawnPosition,
         fp3 spawnEulerAngles)
     {
-        uint frame = parentEntity.EntityUpdateType == EntityUpdateType.AuthorityEntity
-            ? parentEntity.BaseWorld.AuthorityTick
-            : parentEntity.BaseWorld.LocalTick;
+        uint frame = parentEntity.BaseWorld.LocalTick;
         int stableEntityIdentity = entitySystem.GetStableEntityIdentity(parentEntity);
 
         for (int i = 0; i < 64; i++)
@@ -970,8 +967,9 @@ public class CheatEditorWindow : OdinEditorWindow
 
         LogSelectionSnapshotForAgent("ActorLocal", entitySystem.ActorLocalEntity);
         LogSelectionSnapshotForAgent("ActorAuthority", entitySystem.ActorAuthorityEntity);
-        BaseEntity monster = entitySystem.MonsterEntityList?.FirstOrDefault(entity => entity != null);
-        LogSelectionSnapshotForAgent("FirstMonster", monster);
+        BaseEntity remoteHero = entitySystem.HeroEntityList?.FirstOrDefault(entity =>
+            entity != null && !entitySystem.IsActorEntity(entity));
+        LogSelectionSnapshotForAgent("RemoteHero", remoteHero);
     }
 
     /// <summary>
@@ -1615,7 +1613,8 @@ public class CheatEditorWindow : OdinEditorWindow
     private bool TryRunPropertyFailureSmoke(EntitySystem entitySystem, out string failureMessage)
     {
         failureMessage = null;
-        BaseEntity targetEntity = entitySystem.ActorLocalEntity ?? entitySystem.MonsterEntityList?.FirstOrDefault(entity => entity != null);
+        BaseEntity targetEntity = entitySystem.ActorLocalEntity ?? entitySystem.HeroEntityList?.FirstOrDefault(entity =>
+            entity != null && !entitySystem.IsActorEntity(entity));
 
         if (targetEntity == null)
         {

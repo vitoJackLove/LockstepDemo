@@ -34,7 +34,7 @@ public class AiStateComponent : StateComponent
         
         if (!config.isCanPlaySkill)
         {
-            Entity.GetComponent<MonsterSkillComponent>().BreakSkill(isRollBackBreakState);
+            Entity.GetComponent<SkillComponent>()?.BreakCurrentExecuteSkill(isRollBackBreakState);
         }
         
         if (CurrentStateTimeLine != null)

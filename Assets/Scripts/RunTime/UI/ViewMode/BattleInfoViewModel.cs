@@ -1,44 +1,32 @@
 using Loxodon.Framework.ViewModels;
 
 /// <summary>
-/// 战斗信息
+/// PVP 战斗信息 ViewModel（本地英雄 + 远端英雄）。
 /// </summary>
 public class BattleInfoViewModel : ViewModelBase
 {
-     /// <summary>
-     /// 英雄数据
-     /// </summary>
-     private BattleHeroData _battleHeroData;
+    private BattleHeroData _localHeroData;
+    private BattleHeroData _remoteHeroData;
+    private BattleUISystem _battleUiSystem;
 
-     /// <summary>
-     /// 对抗的怪物数据
-     /// </summary>
-     private BattleMonsterData _battleMonsterData;
-     
-     /// <summary>
-     /// 战斗UISystem
-     /// </summary>
-     private BattleUISystem _battleUiSystem;
+    public BattleInfoViewModel() { }
 
-     public BattleInfoViewModel() { }
+    public BattleInfoViewModel(BattleUISystem battleUiSystem, BattleHeroData localHeroData, BattleHeroData remoteHeroData)
+    {
+        _battleUiSystem = battleUiSystem;
+        LocalHeroData = localHeroData;
+        RemoteHeroData = remoteHeroData;
+    }
 
-     public BattleInfoViewModel(BattleUISystem battleUiSystem, BattleHeroData heroData, BattleMonsterData monsterData)
-     {
-          BattleHeroData = heroData;
+    public BattleHeroData LocalHeroData
+    {
+        get => _localHeroData;
+        private set => Set(ref _localHeroData, value, nameof(LocalHeroData));
+    }
 
-          BattleMonsterData = monsterData;
-
-          this._battleUiSystem = battleUiSystem;
-     }
-     public BattleHeroData BattleHeroData
-     {
-          get => _battleHeroData;
-          private set => this.Set(ref _battleHeroData, value, "BattleHeroData");
-     }
-     
-     public BattleMonsterData BattleMonsterData
-     {
-          get => _battleMonsterData;
-          private set => this.Set(ref _battleMonsterData, value, "BattleMonsterData");
-     }
+    public BattleHeroData RemoteHeroData
+    {
+        get => _remoteHeroData;
+        private set => Set(ref _remoteHeroData, value, nameof(RemoteHeroData));
+    }
 }

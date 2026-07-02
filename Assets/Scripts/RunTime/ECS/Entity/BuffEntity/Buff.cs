@@ -320,12 +320,9 @@ public class Buff : IPool
             return;
         }
 
-        WorldUpdateType worldUpdateType = _ownerEntity.EntityUpdateType == EntityUpdateType.AuthorityEntity
-            ? WorldUpdateType.Authority
-            : WorldUpdateType.Local;
+        WorldUpdateType worldUpdateType = WorldUpdateType.Local;
 
         AddEnemyTargets(entitySystem.GetLockTargetCandidates(worldUpdateType), targets);
-        AddEnemyTargets(entitySystem.MonsterEntityList, targets);
     }
 
     /// <summary>

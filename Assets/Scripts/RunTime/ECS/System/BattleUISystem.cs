@@ -2,37 +2,27 @@ using System.Threading.Tasks;
 using Rogue;
 
 /// <summary>
-/// 主要管理战斗UI
+/// 战斗 UI 系统（PVP 双英雄）。
 /// </summary>
 public class BattleUISystem : BaseSystem
 {
-   /// <summary>
-   /// 战斗信息主窗口
-   /// </summary>
-   private BattleInfoWindow _battleInfoWindow;
+    private BattleInfoWindow _battleInfoWindow;
+    private BattleInfoViewModel _battleInfoViewModel;
 
-   /// <summary>
-   /// 战斗信息数据
-   /// </summary>
-   private BattleInfoViewModel _battleInfoViewModel;
-   
-   private async Task<bool> CreateBattleInfoWindow()
-   {
-      _battleInfoWindow = await GameEntry.UI.OpenUIWindow<BattleInfoWindow>(
-         AssetsPathHelper.UIWindowPathHelper($"BattleInfoWindow"), Content.UI.UIDefaultGroup, _battleInfoViewModel, null);
+    private async Task<bool> CreateBattleInfoWindow()
+    {
+        _battleInfoWindow = await GameEntry.UI.OpenUIWindow<BattleInfoWindow>(
+            AssetsPathHelper.UIWindowPathHelper("BattleInfoWindow"), Content.UI.UIDefaultGroup, _battleInfoViewModel, null);
 
-      return _battleInfoWindow != null;
-   }
+        return _battleInfoWindow != null;
+    }
 
-   /// <summary>
-   /// 注册角色
-   /// </summary>
-   /// <param name="heroEntity"></param>
-   /// <param name="monsterEntity"></param>
-   public void RegisterActor(HeroEntity heroEntity, MonsterEntity monsterEntity)
-   {
-      _battleInfoViewModel = new BattleInfoViewModel(this, heroEntity.BattleHeroData, monsterEntity.BattleMonsterData);
-
-      CreateBattleInfoWindow();
-   }
+    /// <summary>
+    /// 注册 1v1 双方英雄。
+    /// </summary>
+    public void RegisterActors(HeroEntity localHero, HeroEntity remoteHero)
+    {
+        _battleInfoViewModel = new BattleInfoViewModel(this, localHero.BattleHeroData, remoteHero.BattleHeroData);
+        CreateBattleInfoWindow();
+    }
 }

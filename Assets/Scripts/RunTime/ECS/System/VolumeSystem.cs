@@ -159,11 +159,6 @@ public class VolumeSystem : BaseSystem
             {
                 IsIntersect(bulletId, heroEntity.EntityId, worldUpdateType);
             }
-            
-            foreach (var monsterEntity in GetSystem<EntitySystem>().MonsterEntityList)
-            {
-                IsIntersect(bulletId, monsterEntity.EntityId, worldUpdateType);
-            }
         }
     }
 

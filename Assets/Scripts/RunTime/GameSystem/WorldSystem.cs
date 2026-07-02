@@ -118,9 +118,9 @@ public class WorldSystem : Singleton<WorldSystem>, ISingletonAwake, ISingletonUp
 
         switch (worldModel)
         {
-            case WorldModel.RogueLike:
+            case WorldModel.Pvp:
             {
-                worldChannel = new RogueWorld(worldData);
+                worldChannel = new PvpWorld(worldData);
 
                 break;
             }

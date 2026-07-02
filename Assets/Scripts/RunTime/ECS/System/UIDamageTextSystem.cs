@@ -129,7 +129,8 @@ public class UIDamageTextSystem : BaseSystem,IBattleObserverHandle
             return;
         }
 
-        uiToUse.UpdateData(text, offset, maxSiteLevel, owner is MonsterEntity);
+        bool isEnemyTarget = owner != null && !GetSystem<EntitySystem>().IsActorEntity(owner);
+        uiToUse.UpdateData(text, offset, maxSiteLevel, isEnemyTarget);
     }
 
     /// <summary>
@@ -155,7 +156,8 @@ public class UIDamageTextSystem : BaseSystem,IBattleObserverHandle
             return;
         }
 
-        uiToUse.UpdateData(text, owner is MonsterEntity);
+        bool isEnemyTarget = owner != null && !GetSystem<EntitySystem>().IsActorEntity(owner);
+        uiToUse.UpdateData(text, isEnemyTarget);
     }
 
     /// <summary>

@@ -3,6 +3,6 @@
 /// </summary>
 public enum WorldModel
 {
-    RogueLike,
+    Pvp,
     CardGame,
 }

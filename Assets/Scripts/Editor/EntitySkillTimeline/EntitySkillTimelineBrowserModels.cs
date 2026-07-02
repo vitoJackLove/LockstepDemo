@@ -7,7 +7,6 @@ using UnityEngine;
 public enum EntitySkillTimelineKind
 {
     Hero,
-    Monster,
 }
 
 /// <summary>
@@ -149,11 +148,6 @@ public class SkillTimelineBindingRow
         return row;
     }
 
-    public static SkillTimelineBindingRow FromMonsterSkill(MonsterSkillConfig config)
-    {
-        return CreateBaseRow(config.skillId, "怪物技能", config.skillAssetsPath);
-    }
-
     private static SkillTimelineBindingRow CreateBaseRow(int skillId, string bindingLabel, string configPath)
     {
         SkillTimelineBindingRow row = new SkillTimelineBindingRow
@@ -182,12 +176,11 @@ public class SkillTimelineBindingRow
 }
 
 /// <summary>
-/// 从 HeroAssets / MonsterAssets 构建浏览数据。
+/// 从 HeroAssets 构建浏览数据。
 /// </summary>
 public static class EntitySkillTimelineBrowserData
 {
     private const string HeroAssetsPath = "Assets/GameAssetConfig/HeroAssets.asset";
-    private const string MonsterAssetsPath = "Assets/GameAssetConfig/MonsterAssets.asset";
 
     public static List<EntitySkillTimelineViewModel> BuildHeroViewModels()
     {
@@ -216,51 +209,6 @@ public static class EntitySkillTimelineBrowserData
             };
 
             AppendHeroSkillBindings(viewModel, config);
-            viewModel.SkillCount = viewModel.Skills.Count;
-            result.Add(viewModel);
-        }
-
-        result.Sort(CompareViewModels);
-        return result;
-    }
-
-    public static List<EntitySkillTimelineViewModel> BuildMonsterViewModels()
-    {
-        List<EntitySkillTimelineViewModel> result = new List<EntitySkillTimelineViewModel>();
-        MonsterAssets monsterAssets = AssetDatabase.LoadAssetAtPath<MonsterAssets>(MonsterAssetsPath);
-        if (monsterAssets == null)
-        {
-            Debug.LogWarning($"未找到怪物配置: {MonsterAssetsPath}");
-            return result;
-        }
-
-        for (int i = 0; i < monsterAssets.monsterAssetsConfigList.Count; i++)
-        {
-            MonsterAssetsConfig config = monsterAssets.monsterAssetsConfigList[i];
-            if (config == null)
-            {
-                continue;
-            }
-
-            EntitySkillTimelineViewModel viewModel = new EntitySkillTimelineViewModel
-            {
-                EntityId = config.assetsId,
-                EntityName = string.IsNullOrWhiteSpace(config.monsterName) ? $"Monster_{config.assetsId}" : config.monsterName,
-                Kind = EntitySkillTimelineKind.Monster,
-                Icon = config.monsterIcon,
-            };
-
-            for (int skillIndex = 0; skillIndex < config.monsterSkillList.Count; skillIndex++)
-            {
-                MonsterSkillConfig skillConfig = config.monsterSkillList[skillIndex];
-                if (skillConfig == null)
-                {
-                    continue;
-                }
-
-                viewModel.Skills.Add(SkillTimelineBindingRow.FromMonsterSkill(skillConfig));
-            }
-
             viewModel.SkillCount = viewModel.Skills.Count;
             result.Add(viewModel);
         }

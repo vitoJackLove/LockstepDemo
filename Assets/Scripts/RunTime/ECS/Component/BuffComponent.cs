@@ -56,9 +56,7 @@ public class BuffComponent : BaseComponent
                 new fp3(1, 1, 1), Entity.IsNeedExecuteView,
                 null, Entity, Entity);
         
-            uint frame = Entity.EntityUpdateType == EntityUpdateType.AuthorityEntity
-                ? Entity.BaseWorld.AuthorityTick
-                : Entity.BaseWorld.LocalTick;
+            uint frame = Entity.BaseWorld.LocalTick;
         
             //指纹
             EntitySystem entitySystem = Entity.GetSystem<EntitySystem>();

@@ -24,11 +24,6 @@ public class TransformComponent : BaseComponent
 
         Entity.transform.Position = authorityPosition;
         Entity.transform.Rotation = authorityRotation;
-
-        if (Entity.EntityType == EntityType.MonsterEntity)
-        {
-            Entity.EntityDebug($"Rollback position: {authorityPosition}");
-        }
     }
 
     public override void OnUpdate(fp deltaTime)

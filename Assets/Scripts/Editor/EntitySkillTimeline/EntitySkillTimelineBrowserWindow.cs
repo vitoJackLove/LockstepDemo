@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// 浏览英雄/怪物与其关联 SkillTimeLine，并一键跳转技能编辑器。
+/// 浏览英雄与其关联 SkillTimeLine，并一键跳转技能编辑器。
 /// </summary>
 public class EntitySkillTimelineBrowserWindow : OdinMenuEditorWindow
 {
@@ -39,12 +39,6 @@ public class EntitySkillTimelineBrowserWindow : OdinMenuEditorWindow
         {
             string menuPath = $"英雄/{hero.EntityName} ({hero.EntityId})";
             tree.Add(menuPath, hero);
-        }
-
-        foreach (EntitySkillTimelineViewModel monster in EntitySkillTimelineBrowserData.BuildMonsterViewModels())
-        {
-            string menuPath = $"怪物/{monster.EntityName} ({monster.EntityId})";
-            tree.Add(menuPath, monster);
         }
 
         tree.EnumerateTree().AddIcons<EntitySkillTimelineViewModel>(x => x.Icon);

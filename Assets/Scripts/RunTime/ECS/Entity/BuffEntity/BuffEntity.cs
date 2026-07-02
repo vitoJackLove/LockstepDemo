@@ -417,9 +417,7 @@ public class BuffEntity : BaseEntity , IBattleObserverHandle
             return 0;
         }
 
-        uint currentTick = worldUpdateType == WorldUpdateType.Authority
-            ? BaseWorld.AuthorityTick
-            : BaseWorld.LocalTick;
+        uint currentTick = BaseWorld.LocalTick;
 
         return currentTick > int.MaxValue ? int.MaxValue : (int)currentTick;
     }

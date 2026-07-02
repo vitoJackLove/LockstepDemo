@@ -47,9 +47,7 @@ public class CreateMovementBulletClip : TaskClip
             new fp3(1,1,1), context.IsNeedExecuteView, _bulletGo, context,
             MovementData.Create(movementTime, (fp)movementSpeed, movementType));
         
-        uint frame = context.EntityUpdateType == EntityUpdateType.AuthorityEntity
-            ? context.BaseWorld.AuthorityTick
-            : context.BaseWorld.LocalTick;
+        uint frame = context.BaseWorld.LocalTick;
         
         //指纹
         int fingerprints = FingerprintsGenerate.GenerateFingerprint((int)frame, context.ConfigId,

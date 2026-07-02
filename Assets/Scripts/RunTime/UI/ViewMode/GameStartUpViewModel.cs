@@ -7,15 +7,12 @@ using Rogue;
 using UnityEngine;
 
 /// <summary>
-/// Game start window view model.
+/// 启动界面 ViewModel（仅联机 PVP）。
 /// </summary>
 public class GameStartUpViewModel : ViewModelBase, IObserverHandler
 {
-    private const int SinglePlayerIndex = 0;
-
     private int _playerIndex;
     private bool _hasPlayerIndex;
-    private bool _isSinglePlayerMode;
     private bool _isGameStart;
     private bool _isLoading;
 
@@ -36,6 +33,8 @@ public class GameStartUpViewModel : ViewModelBase, IObserverHandler
         dismissRequest = new InteractionRequest();
 
         InitHeroInfo();
+        GameSessionMode.Current = GameSessionModeType.Online;
+        GameEntry.ConfigureSession(GameSessionFactory.CreateOnline(GameEntry.TcpClient));
 
         GameEntry.Observer.Attach(BattleObserverEventEnum.PlayerConnect, this);
         GameEntry.Observer.Attach(BattleObserverEventEnum.SelectHero, this);
@@ -48,57 +47,22 @@ public class GameStartUpViewModel : ViewModelBase, IObserverHandler
     }
 
     public List<HeroInfoViewModel> HeroInfoViewModels => _heroInfoViewModels;
-
     public ProgressBarModel ProgressBar => progressBar;
-
     public ICommand StartUp => gameStartCommand;
-
     public ICommand Connect => connectServerCommand;
 
+    /// <summary>
+    /// 兼容旧 UI 绑定，PVP 模式下恒为 false。
+    /// </summary>
     public bool IsSinglePlayerMode
     {
-        get { return _isSinglePlayerMode; }
-        set
-        {
-            if (_isSinglePlayerMode == value)
-            {
-                return;
-            }
-
-            this.Set<bool>(ref _isSinglePlayerMode, value, "IsSinglePlayerMode");
-            GameSessionMode.Current = _isSinglePlayerMode
-                ? GameSessionModeType.SinglePlayer
-                : GameSessionModeType.Online;
-
-            GameEntry.ConfigureSession(_isSinglePlayerMode
-                ? GameSessionFactory.CreateSinglePlayer()
-                : GameSessionFactory.CreateOnline(GameEntry.TcpClient));
-
-            if (_isSinglePlayerMode)
-            {
-                InitIndexPlayer(SinglePlayerIndex);
-                EnsureSinglePlayerSelection();
-                return;
-            }
-
-            _teamList.Clear();
-            RebuildSelectedHeroStates();
-
-            if (GameEntry.FrameSyncTransport != null && GameEntry.FrameSyncTransport.TryGetLocalPlayerIndex(out int playerIndex))
-            {
-                InitIndexPlayer(playerIndex);
-            }
-            else
-            {
-                _hasPlayerIndex = false;
-            }
-        }
+        get => false;
+        set { }
     }
 
     private void InitHeroInfo()
     {
         List<HeroAssetsConfig> heroAssetsConfigs = GameEntry.DataTable.GetAllDataTable<HeroAssetsConfig>();
-
         for (int i = 0; i < heroAssetsConfigs.Count; i++)
         {
             HeroAssetsConfig config = heroAssetsConfigs[i];
@@ -111,23 +75,6 @@ public class GameStartUpViewModel : ViewModelBase, IObserverHandler
     {
         if (_isLoading)
         {
-            return;
-        }
-
-        if (_isSinglePlayerMode)
-        {
-            InitIndexPlayer(SinglePlayerIndex);
-            if (!EnsureSinglePlayerSelection())
-            {
-                GameLog.Error(GameLogChannel.UI, "Single player start failed. No hero is available.");
-                return;
-            }
-        }
-
-        if (_isSinglePlayerMode)
-        {
-            _isGameStart = false;
-            LoadScene();
             return;
         }
 
@@ -153,7 +100,7 @@ public class GameStartUpViewModel : ViewModelBase, IObserverHandler
                     ProgressBar.Progress = progressValue;
                     ProgressBar.Tip = tip;
                 },
-                _isSinglePlayerMode ? GameSessionModeType.SinglePlayer : GameSessionModeType.Online))
+                GameSessionModeType.Online))
         {
             gameStartCommand.Enabled = true;
             progressBar.Enable = false;
@@ -161,11 +108,7 @@ public class GameStartUpViewModel : ViewModelBase, IObserverHandler
             return;
         }
 
-        if (!_isSinglePlayerMode)
-        {
-            SendGameStartToServer();
-        }
-
+        SendGameStartToServer();
         dismissRequest.Raise();
         _isLoading = false;
     }
@@ -173,11 +116,6 @@ public class GameStartUpViewModel : ViewModelBase, IObserverHandler
     public void OnNotify(IObserverParams param)
     {
         if (param == null)
-        {
-            return;
-        }
-
-        if (_isSinglePlayerMode)
         {
             return;
         }
@@ -217,19 +155,11 @@ public class GameStartUpViewModel : ViewModelBase, IObserverHandler
     {
         _playerIndex = playerIndex;
         _hasPlayerIndex = true;
-
         GameLog.Info(GameLogChannel.UI, $"Local player index assigned: {_playerIndex}");
     }
 
     public void SelectHero(int heroId)
     {
-        if (_isSinglePlayerMode)
-        {
-            InitIndexPlayer(SinglePlayerIndex);
-            UpsertPlayerData(heroId, SinglePlayerIndex, true);
-            return;
-        }
-
         if (!_hasPlayerIndex)
         {
             GameLog.Error(GameLogChannel.UI, "Select hero failed. Player index has not been assigned by server.");
@@ -269,26 +199,6 @@ public class GameStartUpViewModel : ViewModelBase, IObserverHandler
             isStart = true,
         };
         GameEntry.FrameSyncTransport.Send(BattleObserverEventEnum.GameStart, gameStartMessage);
-    }
-
-    private bool EnsureSinglePlayerSelection()
-    {
-        for (int i = 0; i < _teamList.Count; i++)
-        {
-            if (_teamList[i].IsSelf && _teamList[i].HeroId > 0)
-            {
-                UpsertPlayerData(_teamList[i].HeroId, SinglePlayerIndex, true);
-                return true;
-            }
-        }
-
-        if (_heroInfoViewModels.Count <= 0)
-        {
-            return false;
-        }
-
-        UpsertPlayerData(_heroInfoViewModels[0].HeroId, SinglePlayerIndex, true);
-        return true;
     }
 
     private void UpsertPlayerData(int heroId, int playerIndex, bool isSelf)
@@ -339,8 +249,6 @@ public class GameStartUpViewModel : ViewModelBase, IObserverHandler
 public class PlayerData
 {
     public int HeroId;
-
     public int ServerEntityId;
-
     public bool IsSelf;
 }

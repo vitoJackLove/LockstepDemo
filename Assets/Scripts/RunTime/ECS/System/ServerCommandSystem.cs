@@ -1,22 +1,17 @@
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Rogue;
 
 /// <summary>
-/// Caches server-authoritative frame inputs on the client.
+/// 帧同步指令系统：接收服务端转发的远端输入并写入 GGPO 缓冲。
 /// </summary>
 public class ServerCommandSystem : BaseSystem, IObserverHandler
 {
-    private ConcurrentDictionary<uint, List<CommandData>> _serverCommands =
-        new ConcurrentDictionary<uint, List<CommandData>>();
-
     private int _teamNumber;
     private uint _clientSeq;
 
     public override void OnInit(object data = null)
     {
         base.OnInit(data);
-
         GameEntry.Observer.Attach(BattleObserverEventEnum.FrameCommand, this);
     }
 
@@ -25,6 +20,9 @@ public class ServerCommandSystem : BaseSystem, IObserverHandler
         _teamNumber = number;
     }
 
+    /// <summary>
+    /// 发送本地玩家输入到服务端（由 GGPO 主循环调用）。
+    /// </summary>
     public void SendPlayerInput(CommandData commandData)
     {
         if (commandData == null)
@@ -37,6 +35,7 @@ public class ServerCommandSystem : BaseSystem, IObserverHandler
         FrameCommandMessage commandMessage = new FrameCommandMessage
         {
             CommandData = commandData,
+            Tick = commandData.Tick,
         };
 
         GameEntry.FrameSyncTransport?.Send(BattleObserverEventEnum.FrameCommand, commandMessage);
@@ -45,80 +44,54 @@ public class ServerCommandSystem : BaseSystem, IObserverHandler
     public void OnNotify(IObserverParams param)
     {
         FrameCommandMessage commandMessage = (FrameCommandMessage)param;
-
-        if (commandMessage.CommandDataList == null || commandMessage.CommandDataList.Count == 0)
-        {
-            return;
-        }
-
-        ProcessFrameData(commandMessage);
+        ProcessRelayCommands(commandMessage);
     }
 
-    private void ProcessFrameData(FrameCommandMessage commandMessage)
+    /// <summary>
+    /// 将远端输入立即写入 GGPO 输入窗口（不等待全员到齐）。
+    /// </summary>
+    private void ProcessRelayCommands(FrameCommandMessage commandMessage)
     {
-        if (_serverCommands == null)
+        if (CurrentWorld == null)
         {
             return;
         }
 
-        List<CommandData> commandList = new List<CommandData>(commandMessage.CommandDataList.Count);
-        HashSet<int> entityIds = new HashSet<int>();
+        EntitySystem entitySystem = GetSystem<EntitySystem>();
+        int localEntityId = entitySystem.ActorLocalEntity?.EntityId ?? 0;
 
-        for (int i = 0; i < commandMessage.CommandDataList.Count; i++)
+        if (commandMessage.CommandDataList != null && commandMessage.CommandDataList.Count > 0)
         {
-            CommandData commandData = commandMessage.CommandDataList[i];
-            if (commandData == null || !entityIds.Add(commandData.EntityId))
+            for (int i = 0; i < commandMessage.CommandDataList.Count; i++)
             {
-                continue;
-            }
-
-            commandData.Tick = commandMessage.Tick;
-            commandList.Add(commandData);
-        }
-
-        if (_teamNumber > 0 && commandList.Count < _teamNumber)
-        {
-            return;
-        }
-
-        _serverCommands[commandMessage.Tick] = commandList;
-    }
-
-    public List<CommandData> GetServerCommand(uint tick)
-    {
-        if (_serverCommands.TryGetValue(tick, out var commandDataList))
-        {
-            return commandDataList;
-        }
-
-        return null;
-    }
-
-    public CommandData GetServerCommand(uint tick, uint entityId)
-    {
-        List<CommandData> commandList = GetServerCommand(tick);
-
-        if (commandList == null)
-        {
-            return null;
-        }
-
-        for (int i = 0; i < commandList.Count; i++)
-        {
-            if (commandList[i].EntityId == entityId)
-            {
-                return commandList[i];
+                PushRemoteCommand(commandMessage.CommandDataList[i], commandMessage.Tick, localEntityId);
             }
         }
+        else if (commandMessage.CommandData != null)
+        {
+            PushRemoteCommand(commandMessage.CommandData, commandMessage.Tick, localEntityId);
+        }
+    }
 
-        return null;
+    private void PushRemoteCommand(CommandData commandData, uint messageTick, int localEntityId)
+    {
+        if (commandData == null)
+        {
+            return;
+        }
+
+        if (commandData.EntityId == localEntityId)
+        {
+            return;
+        }
+
+        uint tick = commandData.Tick > 0 ? commandData.Tick : messageTick;
+        commandData.Tick = tick;
+        CurrentWorld.PushGgpoRemoteInput(commandData.EntityId, tick, commandData);
     }
 
     public override void OnDispose()
     {
         base.OnDispose();
-
-        _serverCommands?.Clear();
-        _serverCommands = null;
     }
 }

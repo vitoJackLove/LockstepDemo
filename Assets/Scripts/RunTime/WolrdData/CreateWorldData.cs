@@ -4,7 +4,6 @@ using UnityEngine;
 public enum GameSessionModeType
 {
     Online,
-    SinglePlayer,
 }
 
 public static class GameSessionMode
@@ -14,8 +13,6 @@ public static class GameSessionMode
     /// 世界实例以 CreateWorldData.SessionProfile 为准。
     /// </summary>
     public static GameSessionModeType Current { get; set; } = GameSessionModeType.Online;
-
-    public static bool IsSinglePlayer => Current == GameSessionModeType.SinglePlayer;
 }
 
 /// <summary>

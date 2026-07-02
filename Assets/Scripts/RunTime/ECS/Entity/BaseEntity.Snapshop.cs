@@ -168,7 +168,7 @@ public partial class BaseEntity
     {
         if (EntityUpdateType == EntityUpdateType.AuthorityEntity)
         {
-            GameLog.Debug(GameLogChannel.Rollback,$"权威实体 ID : {EntityId} 在世界帧 ：{BaseWorld.AuthorityTick} 打印 ： {content}");
+            GameLog.Debug(GameLogChannel.Rollback,$"实体 ID : {EntityId} 在世界帧 ：{BaseWorld.LocalTick} 打印 ： {content}");
         }
 
         if (EntityUpdateType == EntityUpdateType.LocalEntity)

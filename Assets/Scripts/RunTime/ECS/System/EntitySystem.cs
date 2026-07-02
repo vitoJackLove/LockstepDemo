@@ -33,13 +33,6 @@ public partial class EntitySystem
     /// </summary>
     private BaseEntity _actorLocalEntity;
     
-    private List<BaseEntity> _monsterEntityList = new List<BaseEntity>();
-
-    /// <summary>
-    /// 怪物实体集合
-    /// </summary>
-    public List<BaseEntity> MonsterEntityList => _monsterEntityList;
-
     /// <summary>
     /// 英雄实体集合
     /// </summary>
@@ -93,27 +86,7 @@ public partial class EntitySystem
 
     public IReadOnlyList<BaseEntity> GetLockTargetCandidates(WorldUpdateType worldUpdateType)
     {
-        if (worldUpdateType == WorldUpdateType.Authority)
-        {
-            return _heroAuthorityEntityList;
-        }
-
-        _lockTargetCandidateCache.Clear();
-        _lockTargetCandidateCache.AddRange(_heroEntityList);
-
-        for (int i = 0; i < _heroAuthorityEntityList.Count; i++)
-        {
-            BaseEntity authorityHero = _heroAuthorityEntityList[i];
-
-            if (HasLocalMappedEntity(authorityHero))
-            {
-                continue;
-            }
-
-            _lockTargetCandidateCache.Add(authorityHero);
-        }
-
-        return _lockTargetCandidateCache;
+        return _heroEntityList;
     }
 
     private bool HasLocalMappedEntity(BaseEntity authorityEntity)
@@ -205,14 +178,6 @@ public partial class EntitySystem
         return entity == _actorLocalEntity || entity == _actorAuthorityEntity;
     }
     
-    private void RemoveMonster(BaseEntity entity)
-    {
-        if (_monsterEntityList.Contains(entity))
-        {
-            _monsterEntityList.Remove(entity);
-        }
-    }
-
     /// <summary>
     /// 创建静态实体
     /// </summary>
@@ -243,19 +208,7 @@ public partial class EntitySystem
         
         if (baseEntity.EntityType == EntityType.HeroEntity)
         {
-            if (entityUpdateType == EntityUpdateType.AuthorityEntity)
-            {
-                _heroAuthorityEntityList.Add(baseEntity);
-            }
-            else
-            {
-                HeroEntityList.Add(baseEntity);
-            }
-        }
-        
-        if (baseEntity.EntityType == EntityType.MonsterEntity)
-        {
-            _monsterEntityList.Add(baseEntity);
+            _heroEntityList.Add(baseEntity);
         }
 
         return (T)baseEntity;
@@ -318,14 +271,7 @@ public partial class EntitySystem
         
         if (baseEntity.EntityType == EntityType.HeroEntity)
         {
-            if (entityUpdateType == EntityUpdateType.AuthorityEntity)
-            {
-                _heroAuthorityEntityList.Add(baseEntity);
-            }
-            else
-            {
-                HeroEntityList.Add(baseEntity);
-            }
+            _heroEntityList.Add(baseEntity);
         }
         
         return (T)baseEntity;
@@ -337,15 +283,9 @@ public partial class EntitySystem
     /// <param name="entity"></param>
     public void DoEntityDestroy(BaseEntity entity)
     {
-        if (entity.EntityType == EntityType.MonsterEntity)
-        {
-            RemoveMonster(entity);
-        }
-
         if (entity.EntityType == EntityType.HeroEntity)
         {
-            HeroEntityList.Remove(entity);
-            _heroAuthorityEntityList.Remove(entity);
+            _heroEntityList.Remove(entity);
         }
 
         _executeEntityDic.Remove(entity.EntityId);
@@ -389,9 +329,13 @@ public partial class EntitySystem
 
     public override void OnExecuteLocalCommand(CommandData data)
     {
-        base.OnExecuteLocalCommand(data);
-        
-        _actorLocalEntity?.OnExecuteLocalCommand(data);
+        if (data == null)
+        {
+            return;
+        }
+
+        BaseEntity entity = GetEntity(data.EntityId);
+        entity?.OnExecuteLocalCommand(data);
     }
 
     public override void OnUpdate(fp deltaTime)
@@ -408,61 +352,18 @@ public partial class EntitySystem
     public override void OnFixedUpdate(fp deltaTime, WorldUpdateType worldUpdateType)
     {
         base.OnFixedUpdate(deltaTime, worldUpdateType);
-        
+
+        if (worldUpdateType != WorldUpdateType.Local && worldUpdateType != WorldUpdateType.RollBack)
+        {
+            return;
+        }
+
         for (int i = 0; i < _executeEntityList.Count; i++)
         {
-            if ( _executeEntityList[i].EntityUpdateType == EntityUpdateType.AuthorityEntity &&
-                 worldUpdateType == WorldUpdateType.Authority)
+            if (_executeEntityList[i].EntityState == EntityState.Survival)
             {
-                if (_executeEntityList[i].EntityState == EntityState.Survival)
-                {
-                    _executeEntityList[i].OnFixedUpdate(deltaTime, worldUpdateType);
-                }
+                _executeEntityList[i].OnFixedUpdate(deltaTime, worldUpdateType);
             }
-            else if(_executeEntityList[i].EntityUpdateType == EntityUpdateType.LocalEntity 
-                    && (worldUpdateType == WorldUpdateType.Local || worldUpdateType == WorldUpdateType.RollBack))
-            {
-                if (_executeEntityList[i].EntityState == EntityState.Survival)
-                {
-                    _executeEntityList[i].OnFixedUpdate(deltaTime, worldUpdateType);
-                }
-            }
-        }
-
-        if (worldUpdateType == WorldUpdateType.Authority)
-        {
-            SyncAuthorityMonsterLockState();
-        }
-    }
-
-    private void SyncAuthorityMonsterLockState()
-    {
-        foreach (KeyValuePair<BaseEntity, BaseEntity> entityPair in _entityMap)
-        {
-            BaseEntity localEntity = entityPair.Key;
-            BaseEntity authorityEntity = entityPair.Value;
-
-            if (localEntity == null || authorityEntity == null)
-            {
-                continue;
-            }
-
-            if (localEntity.EntityType != EntityType.MonsterEntity ||
-                authorityEntity.EntityType != EntityType.MonsterEntity)
-            {
-                continue;
-            }
-
-            EnemyDetectionComponent localDetection = localEntity.GetComponent<EnemyDetectionComponent>();
-            EnemyDetectionComponent authorityDetection = authorityEntity.GetComponent<EnemyDetectionComponent>();
-
-            if (localDetection == null || authorityDetection == null)
-            {
-                continue;
-            }
-
-            // 锁定位置/旋转是旁路辅助状态，不进入快照系统；权威更新后直接覆盖预测怪物的锁定数据。
-            localDetection.ApplyAuthorityLockFrom(authorityDetection);
         }
     }
 

@@ -70,9 +70,7 @@ public class CreateFollowBulletClip : TaskClip
         EntityCreateData createData = EntityCreateData.Create(config, position, context.transform.EulerAngles, new fp3(1,1,1), context.IsNeedExecuteView,
             null, context);
 
-        uint frame = context.EntityUpdateType == EntityUpdateType.AuthorityEntity
-            ? context.BaseWorld.AuthorityTick
-            : context.BaseWorld.LocalTick;
+        uint frame = context.BaseWorld.LocalTick;
         
         //指纹
         int fingerprints = FingerprintsGenerate.GenerateFingerprint((int)frame, context.ConfigId,

@@ -139,17 +139,6 @@ public sealed class FrameSyncServer : IDisposable
             lock (_syncRoot)
             {
                 GatherInputs();
-
-                if (_battleStarted)
-                {
-                    for (int i = 0; i < MaxAuthorityFramesPerLoop; i++)
-                    {
-                        if (!TryBroadcastAuthorityFrame())
-                        {
-                            break;
-                        }
-                    }
-                }
             }
 
             Thread.Sleep(_options.GameLoopSleepMilliseconds);
@@ -205,6 +194,7 @@ public sealed class FrameSyncServer : IDisposable
             if (NetworkPacketCodec.TryDeserializeFrameCommand(packetData, out CommandData commandData))
             {
                 connection.RememberInput(commandData);
+                RelayFrameCommandToOthers(connection, commandData);
             }
         }
         else if (messageType == BattleObserverEventMessage.SelectHero)
@@ -320,6 +310,37 @@ public sealed class FrameSyncServer : IDisposable
         _serverTick = 0;
         _battleStarted = true;
         Console.WriteLine($"[Battle] Battle started. ServerTick={_serverTick}");
+    }
+
+    private void RelayFrameCommandToOthers(FrameSyncConnection sourceConnection, CommandData commandData)
+    {
+        if (!_battleStarted || commandData == null)
+        {
+            return;
+        }
+
+        byte[] relayPacket = NetworkPacketCodec.SerializeFrameCommand(
+            sourceConnection.PlayerIndex,
+            commandData.Tick,
+            commandData);
+
+        for (int i = _connections.Count - 1; i >= 0; i--)
+        {
+            FrameSyncConnection target = _connections[i];
+            if (target.PlayerIndex == sourceConnection.PlayerIndex)
+            {
+                continue;
+            }
+
+            try
+            {
+                target.WritePacket(relayPacket);
+            }
+            catch
+            {
+                RemoveConnectionAt(i);
+            }
+        }
     }
 
     private void BroadcastPacket(byte[] packetData)

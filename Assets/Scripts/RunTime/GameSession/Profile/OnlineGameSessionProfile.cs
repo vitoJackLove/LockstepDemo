@@ -1,9 +1,9 @@
 /// <summary>
-/// 联机会话配置：启用完整帧同步、快照、回滚与双实体同步。
+/// 联机会话配置：严格 GGPO，单模拟态 + 快照 + 回滚。
 /// </summary>
 public sealed class OnlineGameSessionProfile : IGameSessionProfile
 {
-    private readonly DualEntitySyncPolicy _entitySyncPolicy = new DualEntitySyncPolicy();
+    private readonly UnifiedEntitySyncPolicy _entitySyncPolicy = new UnifiedEntitySyncPolicy();
 
     /// <inheritdoc />
     public GameSessionModeType Mode => GameSessionModeType.Online;
@@ -15,15 +15,13 @@ public sealed class OnlineGameSessionProfile : IGameSessionProfile
     public bool RequiresLocalSnapshot => true;
 
     /// <inheritdoc />
-    public bool RequiresAuthoritySnapshot => true;
-
-    /// <summary>
-    /// 联机预测窗口，实际值在 BaseWorld 初始化时由 RollBack 配置覆盖。
-    /// </summary>
-    public uint ForecastTick { get; set; } = 2;
+    public bool RequiresAuthoritySnapshot => false;
 
     /// <inheritdoc />
-    public bool SimulatePacketLoss => true;
+    public uint InputHistoryWindow { get; set; } = 8;
+
+    /// <inheritdoc />
+    public bool SimulatePacketLoss => false;
 
     /// <inheritdoc />
     public IEntitySyncPolicy EntitySyncPolicy => _entitySyncPolicy;

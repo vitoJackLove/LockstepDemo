@@ -8,9 +8,7 @@ public class HeroHitComponent : HitComponent
 {
     protected override fp DamageProgress()
     {
-        uint tick = DefenseEntity.EntityUpdateType == EntityUpdateType.AuthorityEntity
-            ? DefenseEntity.BaseWorld.AuthorityTick
-            : DefenseEntity.BaseWorld.LocalTick;
+        uint tick = DefenseEntity.BaseWorld.LocalTick;
 
         fp attack = Entity.GetProperty(PropertyKey.Attack);
 

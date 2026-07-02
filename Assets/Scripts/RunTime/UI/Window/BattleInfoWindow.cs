@@ -80,41 +80,41 @@ public class BattleInfoWindow : Window
 
         bindingSet.Bind(this.hpBar).For(v => v.fillAmount)
             .ToExpression(vm =>(float)(
-                vm.BattleHeroData.EntityPropertyData[PropertyKey.Hp.ToString()].CurrentValue /
-                vm.BattleHeroData.EntityPropertyData[PropertyKey.Hp.ToString()].MaxValue));
+                vm.LocalHeroData.EntityPropertyData[PropertyKey.Hp.ToString()].CurrentValue /
+                vm.LocalHeroData.EntityPropertyData[PropertyKey.Hp.ToString()].MaxValue));
         
         bindingSet.Bind(this.heroSpeed).For(v => v.text)
-            .ToExpression(vm =>$"速度：{(float)vm.BattleHeroData.EntityPropertyData[PropertyKey.Speed.ToString()].CurrentValue}");
+            .ToExpression(vm =>$"速度：{(float)vm.LocalHeroData.EntityPropertyData[PropertyKey.Speed.ToString()].CurrentValue}");
         
         bindingSet.Bind(this.heroAttack).For(v => v.text)
-            .ToExpression(vm =>$"攻击力：{(float)(vm.BattleHeroData.EntityPropertyData[PropertyKey.Attack.ToString()].CurrentValue)}");
+            .ToExpression(vm =>$"攻击力：{(float)(vm.LocalHeroData.EntityPropertyData[PropertyKey.Attack.ToString()].CurrentValue)}");
         
         bindingSet.Bind(this.heroDefence).For(v => v.text)
-            .ToExpression(vm =>$"防御力：{(float)vm.BattleHeroData.EntityPropertyData[PropertyKey.Defence.ToString()].CurrentValue}");
+            .ToExpression(vm =>$"防御力：{(float)vm.LocalHeroData.EntityPropertyData[PropertyKey.Defence.ToString()].CurrentValue}");
         
-        bindingSet.Bind(this.heroName).For(v => v.text).To(vm =>vm.BattleHeroData.HeroName);
+        bindingSet.Bind(this.heroName).For(v => v.text).To(vm =>vm.LocalHeroData.HeroName);
         
-        bindingSet.Bind(this.heroIcon).For(v => v.sprite).To(vm =>vm.BattleHeroData.HeroIcon);
+        bindingSet.Bind(this.heroIcon).For(v => v.sprite).To(vm =>vm.LocalHeroData.HeroIcon);
         
         
-        // 怪物 ---------------------------------------
+        // 对手（复用原 monster UI 控件）
         bindingSet.Bind(this.monsterHpBar).For(v => v.fillAmount)
             .ToExpression(vm =>
-                (float)(vm.BattleMonsterData.EntityPropertyData[PropertyKey.Hp.ToString()].CurrentValue /
-                vm.BattleMonsterData.EntityPropertyData[PropertyKey.Hp.ToString()].MaxValue));
+                (float)(vm.RemoteHeroData.EntityPropertyData[PropertyKey.Hp.ToString()].CurrentValue /
+                vm.RemoteHeroData.EntityPropertyData[PropertyKey.Hp.ToString()].MaxValue));
         
         bindingSet.Bind(this.monsterSpeed).For(v => v.text)
-            .ToExpression(vm =>$"速度：{(float)vm.BattleMonsterData.EntityPropertyData[PropertyKey.Speed.ToString()].CurrentValue}");
+            .ToExpression(vm =>$"速度：{(float)vm.RemoteHeroData.EntityPropertyData[PropertyKey.Speed.ToString()].CurrentValue}");
         
         bindingSet.Bind(this.monsterAttack).For(v => v.text)
-            .ToExpression(vm =>$"攻击力：{(float)vm.BattleMonsterData.EntityPropertyData[PropertyKey.Attack.ToString()].CurrentValue}");
+            .ToExpression(vm =>$"攻击力：{(float)vm.RemoteHeroData.EntityPropertyData[PropertyKey.Attack.ToString()].CurrentValue}");
         
         bindingSet.Bind(this.monsterDefence).For(v => v.text)
-            .ToExpression(vm =>$"防御力：{(float)vm.BattleMonsterData.EntityPropertyData[PropertyKey.Defence.ToString()].CurrentValue}");
+            .ToExpression(vm =>$"防御力：{(float)vm.RemoteHeroData.EntityPropertyData[PropertyKey.Defence.ToString()].CurrentValue}");
         
-        bindingSet.Bind(this.monsterName).For(v => v.text).To(vm =>vm.BattleMonsterData.MonsterName);
+        bindingSet.Bind(this.monsterName).For(v => v.text).To(vm =>vm.RemoteHeroData.HeroName);
         
-        bindingSet.Bind(this.monsterIcon).For(v => v.sprite).To(vm =>vm.BattleMonsterData.MonsterIcon);
+        bindingSet.Bind(this.monsterIcon).For(v => v.sprite).To(vm =>vm.RemoteHeroData.HeroIcon);
         
         
         bindingSet.Build();

@@ -19,18 +19,12 @@ namespace Rogue
             await InitOptionalComponent();
             GameEntry.UI.AddUIGroup(Content.UI.UIDefaultGroup);
             GameEntry.UI.AddUIGroup(Content.UI.UILoadingGroup);
-            
             this.InitService();
         }
 
         void InitService()
         {
             //Screen.SetResolution(1080, 1920, FullScreenMode.Windowed);
-            if (ClientAgentGameEntryMode.IsRunning)
-            {
-                return;
-            }
-
             this.OpenStartForm();
         }
 
