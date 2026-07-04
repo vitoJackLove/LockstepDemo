@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Battle-Entity
+  m_EditorClassIdentifier: 
+  m_GroupName: Battle-Entity
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 9f3da069dd3a2b345aae8a41e6313f34
+  m_SerializeEntries:
+  - m_GUID: 234412d34b31ccc47b3387fbc420d79b
+    m_Address: Assets/Prefabs/Battle/Hero/1001/1001Logic.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - battle-entity
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6e9e406260cb19647b40aa44adf1e6f6
+    m_Address: Assets/Prefabs/Battle/Hero/1001/1001View.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - battle-entity
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb1f021ed1bdeca46b97154c63d46158
+    m_Address: Assets/Prefabs/Battle/Hero/1104/1104Logic.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - battle-entity
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 85d09b8ce92167941b13e19a54bb98aa
+    m_Address: Assets/Prefabs/Battle/Hero/1104/1104View.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - battle-entity
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22fbec2a54b8ec34bbcc7ba143ec94f1
+    m_Address: Assets/Prefabs/Battle/Hero/1205/1205Logic.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - battle-entity
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22213a799f6f69b4da994011e503c6a4
+    m_Address: Assets/Prefabs/Battle/Hero/1205/1205View.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - battle-entity
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8cf81293c3273c42bcc6c68a8ee08db
+    m_Address: Assets/Prefabs/Battle/Monster/3020/3020Logic.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - battle-entity
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5fd0e8b7d0849254f85bdcfc44f547b5
+    m_Address: Assets/Prefabs/Battle/Monster/3020/3020View.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - battle-entity
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc171b114858b9140a2cd21b4b44303a
+    m_Address: Assets/Prefabs/Battle/Monster/4001/4001Logic.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - battle-entity
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe8188a5a3ca63844bc99c8df2bf680b
+    m_Address: Assets/Prefabs/Battle/Monster/4001/4001View.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - battle-entity
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f5a1fb49c2e90c64da088b11426b2264, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 4b5d61580e5863d49805b58a46118a0d, type: 2}
+    - {fileID: 11400000, guid: 89bc400d5a491574f9f5dfca29299ed9, type: 2}

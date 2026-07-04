@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Config
+  m_EditorClassIdentifier: 
+  m_GroupName: Config
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 3d35c04592f4e1e4384084111b183600
+  m_SerializeEntries:
+  - m_GUID: d45534d9323a52448bd80b1a728056b2
+    m_Address: Assets/GameAssetConfig/BuffAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d950a6b94e6368249bd580fabad37819
+    m_Address: Assets/GameAssetConfig/BulletAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 78963fe4f58f47e4eb1116549cace239
+    m_Address: Assets/GameAssetConfig/DamageTextAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df66d7a9322b2a6438c77dbfddc19b6a
+    m_Address: Assets/GameAssetConfig/EffectAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc5f2304c7d127d46b75e3e58478a4d4
+    m_Address: Assets/GameAssetConfig/EntityCampConfig.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 61aa371f302ccd54e83a3e437bf2f8a7
+    m_Address: Assets/GameAssetConfig/HeroAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d2a07dbbab3ae374cb1720a3c9e3d665
+    m_Address: Assets/GameAssetConfig/MonsterAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d4b2be317c3f7284e91c2d3eeda0fd19
+    m_Address: Assets/GameAssetConfig/RollBackGameConfig.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 852842fcfc162b943b4758233c79beb4
+    m_Address: Assets/GameAssetConfig/StateAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0a5858271664b6449929c3b8818f351f
+    m_Address: Assets/GameAssetConfig/EntitySkeletonCurve/3020.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab7bc50f0e165f44ca3b9dda81abf7b0
+    m_Address: Assets/Config/Map Terrain Cell Setting.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d57dcfc8766588c488d618eb3de4b043
+    m_Address: Assets/Config/Terrain Noise Data Setting.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d7de8863eb2bafa45aad9b0d88aeae9a
+    m_Address: Assets/GameAssetConfig/AddressablesContentSettings.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f5a1fb49c2e90c64da088b11426b2264, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c7b872da982eb7e4992e303ce3551f29, type: 2}
+    - {fileID: 11400000, guid: e6cde82e217d2c84981e10e0b98d2aef, type: 2}

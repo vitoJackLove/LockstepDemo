@@ -1,6 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using Loxodon.Framework.ObjectPool;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;

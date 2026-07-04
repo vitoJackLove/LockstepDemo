@@ -22,11 +22,11 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 309907521316585537
-      type: {class: BlackBoardVariable, ns: , asm: Assembly-CSharp}
+      type: {class: BlackBoardVariable, ns: , asm: Game.Runtime}
       data:
         _variables: []
     - rid: 309907521316585539
-      type: {class: SkillAnimationTrack, ns: , asm: Assembly-CSharp}
+      type: {class: SkillAnimationTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: 8610694223281107453}

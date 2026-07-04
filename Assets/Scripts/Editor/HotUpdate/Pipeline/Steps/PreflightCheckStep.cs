@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using HybridCLR.Editor;
+using Rogue.Editor.HotUpdate.Internal;
 using Rogue.Editor.HotUpdate.Pipeline;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Build;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 
@@ -135,9 +137,23 @@ namespace Rogue.Editor.HotUpdate.Pipeline.Steps
 
         private static void CheckContentState(List<string> errors)
         {
-            if (!HotUpdateManifest.TryResolveContentStatePath(out _))
+            if (!HotUpdateManifest.TryResolveContentStatePath(out string path))
             {
-                errors.Add("未找到 Addressables content state，请先执行首包构建。");
+                string configured = HotUpdateContentStatePathUtility.GetConfiguredContentStatePath();
+                errors.Add(
+                    "未找到 Addressables content state，请先执行首包构建。" +
+                    (string.IsNullOrEmpty(configured)
+                        ? string.Empty
+                        : $" 预期路径: {configured}"));
+                return;
+            }
+
+            AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+            AddressablesRemoteCatalogConfigurator.EnsureRemoteCatalogEnabled(settings);
+
+            if (!AddressablesRemoteCatalogConfigurator.TryValidateContentStateForUpdate(settings, path, out string error))
+            {
+                errors.Add(error);
             }
         }
 

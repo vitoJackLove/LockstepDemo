@@ -1,0 +1,39 @@
+{
+    "name": "Game.Editor",
+    "rootNamespace": "",
+    "references": [
+        "Game.Runtime",
+        "GameFramework",
+        "Ase.Serializing",
+        "Rogue.Analyzer",
+        "UniTask",
+        "Kybernetik.Animancer",
+        "Kybernetik.Animancer.Editor",
+        "DOTween.Modules",
+        "DOTweenPro.Scripts",
+        "NavMeshComponents",
+        "DrawDebugTools",
+        "SuperScrollView",
+        "Unity.Mathematics",
+        "Unity.Mathematics.FixedPoint",
+        "Unity.TextMeshPro",
+        "Unity.Addressables",
+        "Unity.Addressables.Editor",
+        "Unity.ResourceManager",
+        "Unity.EditorCoroutines.Editor",
+        "Unity.VisualScripting.Core",
+        "Cinemachine",
+        "HybridCLR.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

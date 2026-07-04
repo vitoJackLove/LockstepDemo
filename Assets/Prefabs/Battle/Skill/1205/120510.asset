@@ -64,26 +64,26 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 1475331465325314053
-      type: {class: BlackBoardVariable, ns: , asm: Assembly-CSharp}
+      type: {class: BlackBoardVariable, ns: , asm: Game.Runtime}
       data:
         _variables: []
     - rid: 1475331465325314056
-      type: {class: SkillAnimationTrack, ns: , asm: Assembly-CSharp}
+      type: {class: SkillAnimationTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: -6070829039359035691}
     - rid: 1475331465325314057
-      type: {class: StateTrack, ns: , asm: Assembly-CSharp}
+      type: {class: StateTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: 9076747092874604837}
     - rid: 1475331465325314058
-      type: {class: SkillTrack, ns: , asm: Assembly-CSharp}
+      type: {class: SkillTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: 6538538327479369212}
     - rid: 1475331980849840224
-      type: {class: BulletTrack, ns: , asm: Assembly-CSharp}
+      type: {class: BulletTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: -235657849179115210}

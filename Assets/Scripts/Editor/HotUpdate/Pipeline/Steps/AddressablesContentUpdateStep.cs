@@ -37,7 +37,29 @@ namespace Rogue.Editor.HotUpdate.Pipeline.Steps
                 throw new InvalidOperationException("AddressableAssetSettings 不存在。");
             }
 
-            ContentUpdateScript.BuildContentUpdate(settings, contentStatePath);
+            AddressablesRemoteCatalogConfigurator.EnsureRemoteCatalogEnabled(settings);
+
+            if (!AddressablesRemoteCatalogConfigurator.TryValidateContentStateForUpdate(
+                    settings,
+                    contentStatePath,
+                    out string validationError))
+            {
+                throw new InvalidOperationException(validationError);
+            }
+
+            AddressablesPlayerBuildResult result = ContentUpdateScript.BuildContentUpdate(settings, contentStatePath);
+            if (result == null)
+            {
+                throw new InvalidOperationException(
+                    "Addressables Content Update 失败。请确认上次首包已启用 Build Remote Catalog 并重新执行首包构建。");
+            }
+
+            if (!string.IsNullOrEmpty(result.Error))
+            {
+                throw new InvalidOperationException($"Addressables Content Update 失败: {result.Error}");
+            }
+
+            context.LogLine($"[Addressables] Content Update 成功，Locations: {result.LocationCount}");
 
             return Path.Combine(Directory.GetCurrentDirectory(), "ServerData", context.BuildTarget.ToString());
         }

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: UI
+  m_EditorClassIdentifier: 
+  m_GroupName: UI
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 1972e49fc0597214da008e0f1c914a4d
+  m_SerializeEntries:
+  - m_GUID: 4191dd01ac62a834b99d9837f274ed0e
+    m_Address: Assets/Prefabs/UI/Item/HeroInfo.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ui
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cbd047e4bd009cb4cacbc42901b0dbbd
+    m_Address: Assets/Prefabs/UI/Window/BattleInfoWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ui
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 739bead5c7ab6a54a810c248bb23136f
+    m_Address: Assets/Prefabs/UI/Window/GameStartUp.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ui
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f5a1fb49c2e90c64da088b11426b2264, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 9dfd0151695a99540b5eeeb064491202, type: 2}
+    - {fileID: 11400000, guid: 4ad653d84d798ca499bdf1ce97039787, type: 2}

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Scene-Core
+  m_EditorClassIdentifier: 
+  m_GroupName: Scene-Core
+  m_Data:
+    m_SerializedData: []
+  m_GUID: a7c2cec2ebaec954ab1289c586e95f2b
+  m_SerializeEntries:
+  - m_GUID: 8e67542cfbc0c7a4c86d3c4403f82824
+    m_Address: Assets/Scene/Launcher.unity
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - scene-core
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f5a1fb49c2e90c64da088b11426b2264, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: eaea489aa28923147bfcca28caed47eb, type: 2}
+    - {fileID: 11400000, guid: 010a11525aa6a6141ae9ca368d5ddcf6, type: 2}

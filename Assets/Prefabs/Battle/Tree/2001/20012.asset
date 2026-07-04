@@ -29,7 +29,7 @@ MonoBehaviour:
     - rid: -2
       type: {class: , ns: , asm: }
     - rid: 7468033867056676946
-      type: {class: RootNode, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      type: {class: RootNode, ns: TheKiwiCoder, asm: Game.Runtime}
       data:
         started: 0
         guid: c4ee7f0e-4c2e-4729-ab01-05dab0624d72
@@ -41,7 +41,7 @@ MonoBehaviour:
         child:
           rid: -2
     - rid: 7468033867056676949
-      type: {class: SubTree, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      type: {class: SubTree, ns: TheKiwiCoder, asm: Game.Runtime}
       data:
         started: 0
         guid: c6ee6355d8734a248ac291814c4820b5
@@ -53,7 +53,7 @@ MonoBehaviour:
         treeAsset: {fileID: 11400000, guid: 89a823b9214b3724e82d7dab95616881, type: 2}
         treeInstance: {fileID: 0}
     - rid: 7468033867056676950
-      type: {class: Log, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      type: {class: Log, ns: TheKiwiCoder, asm: Game.Runtime}
       data:
         started: 0
         guid: 6d03dd078be1caa4fbe1153b69238fc8
@@ -67,7 +67,7 @@ MonoBehaviour:
             rid: -2
           defaultValue: 
     - rid: 7468033867056676953
-      type: {class: Wait, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      type: {class: Wait, ns: TheKiwiCoder, asm: Game.Runtime}
       data:
         started: 0
         guid: d9a153cc59e433443a7a6451bde37ba3

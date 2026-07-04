@@ -20,7 +20,7 @@ MonoBehaviour:
     hp: 100
     speed: 5
     rotateSpeed: 20
-    attack: 10
+    attack: 100
     defence: 5
     campEnum: 0
     initSkillList:

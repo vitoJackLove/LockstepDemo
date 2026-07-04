@@ -4,6 +4,8 @@ using Rogue.Editor.HotUpdate.Dev;
 using Rogue.Editor.HotUpdate.Pipeline;
 using Rogue.Editor.HotUpdate.Pipeline.Steps;
 using UnityEditor;
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 
 namespace Rogue.Editor.HotUpdate
@@ -17,10 +19,12 @@ namespace Rogue.Editor.HotUpdate
         {
             Publish = 0,
             DevTest = 1,
+            Addressables = 2,
         }
 
         private Tab _tab = Tab.Publish;
         private Vector2 _logScroll;
+        private Vector2 _addressablesScroll;
         private readonly List<string> _logs = new List<string>();
         private bool _isBuilding;
         private BuildTarget _buildTarget;
@@ -49,7 +53,7 @@ namespace Rogue.Editor.HotUpdate
 
         private void OnGUI()
         {
-            _tab = (Tab)GUILayout.Toolbar((int)_tab, new[] { "发布", "开发测试" });
+            _tab = (Tab)GUILayout.Toolbar((int)_tab, new[] { "发布", "开发测试", "Addressables 配置" });
             EditorGUILayout.Space(4);
 
             switch (_tab)
@@ -60,9 +64,15 @@ namespace Rogue.Editor.HotUpdate
                 case Tab.DevTest:
                     DrawDevTestTab();
                     break;
+                case Tab.Addressables:
+                    DrawAddressablesTab();
+                    break;
             }
 
-            DrawLogPanel();
+            if (_tab != Tab.Addressables)
+            {
+                DrawLogPanel();
+            }
         }
 
         private void DrawPublishTab()
@@ -119,12 +129,21 @@ namespace Rogue.Editor.HotUpdate
             }
         }
 
+        private void DrawAddressablesTab()
+        {
+            AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+            AddressableAssetSettingsPanelDrawer.Draw(settings, ref _addressablesScroll, _remoteBaseUrl);
+        }
+
         private void DrawDevTestTab()
         {
             if (_contentSettings == null)
             {
                 _contentSettings = LocalDevEnvironment.LoadOrCreateSettingsAsset();
             }
+
+            LocalDevEnvironment.LocalHttpServerStatus serverStatus =
+                LocalDevEnvironment.GetLocalHttpServerStatus(_contentSettings);
 
             EditorGUILayout.LabelField("本地环境", EditorStyles.boldLabel);
 
@@ -149,18 +168,25 @@ namespace Rogue.Editor.HotUpdate
                     AssetDatabase.SaveAssets();
                     _remoteBaseUrl = LoadDefaultRemoteUrl();
                 }
+            }
 
-                if (GUILayout.Button(LocalDevEnvironment.IsLocalServerRunning
-                        ? "停止本地 HTTP 服务"
-                        : "启动本地 HTTP 服务"))
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                using (new EditorGUI.DisabledScope(serverStatus.IsRunning))
                 {
-                    if (LocalDevEnvironment.IsLocalServerRunning)
-                    {
-                        LocalDevEnvironment.StopLocalHttpServer();
-                    }
-                    else
+                    if (GUILayout.Button("启动本地 HTTP 服务", GUILayout.Height(28)))
                     {
                         LocalDevEnvironment.StartLocalHttpServer(_contentSettings);
+                        Repaint();
+                    }
+                }
+
+                using (new EditorGUI.DisabledScope(!serverStatus.IsRunning))
+                {
+                    if (GUILayout.Button("停止本地 HTTP 服务", GUILayout.Height(28)))
+                    {
+                        LocalDevEnvironment.StopLocalHttpServer(_contentSettings);
+                        Repaint();
                     }
                 }
             }
@@ -170,7 +196,7 @@ namespace Rogue.Editor.HotUpdate
                 LocalDevEnvironment.ClearRemoteUrlOverride();
             }
 
-            DrawDevEnvironmentStatus();
+            DrawDevEnvironmentStatus(serverStatus);
 
             EditorGUILayout.HelpBox(
                 "模拟 OTA 流程：\n" +
@@ -180,7 +206,7 @@ namespace Rogue.Editor.HotUpdate
                 MessageType.None);
         }
 
-        private void DrawDevEnvironmentStatus()
+        private void DrawDevEnvironmentStatus(LocalDevEnvironment.LocalHttpServerStatus serverStatus)
         {
             EditorGUILayout.Space(8f);
             EditorGUILayout.LabelField("环境状态", EditorStyles.boldLabel);
@@ -188,14 +214,13 @@ namespace Rogue.Editor.HotUpdate
             string buildTarget = EditorUserBuildSettings.activeBuildTarget.ToString();
             string serverDataPath = LocalDevEnvironment.GetServerDataRootPath();
             bool serverDataExists = System.IO.Directory.Exists(serverDataPath);
-            bool serverRunning = LocalDevEnvironment.IsLocalServerRunning;
             string prefsOverride = PlayerPrefs.GetString(LocalDevEnvironment.DevRemoteUrlPrefsKey, string.Empty);
 
             EditorGUILayout.HelpBox(
                 $"当前平台：{buildTarget}\n" +
                 $"ServerData 路径：{serverDataPath}\n" +
                 $"ServerData 已构建：{(serverDataExists ? "是" : "否（需先在发布 Tab 构建）")}\n" +
-                $"本地 HTTP 服务：{(serverRunning ? "运行中" : "未启动")}\n" +
+                $"本地 HTTP 服务：{(serverStatus.IsRunning ? $"运行中（端口 {serverStatus.ActivePort}）" : "未启动")}\n" +
                 $"PlayerPrefs 覆盖：{(string.IsNullOrEmpty(prefsOverride) ? "无" : prefsOverride)}",
                 serverDataExists ? MessageType.Info : MessageType.Warning);
         }

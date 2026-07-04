@@ -45,31 +45,31 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 1475331625414557759
-      type: {class: EffectTrack, ns: , asm: Assembly-CSharp}
+      type: {class: EffectTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: 7244507857150199482}
     - rid: 4624509120193495475
-      type: {class: BlackBoardVariable, ns: , asm: Assembly-CSharp}
+      type: {class: BlackBoardVariable, ns: , asm: Game.Runtime}
       data:
         _variables: []
     - rid: 4624509120193495477
-      type: {class: SkillAnimationTrack, ns: , asm: Assembly-CSharp}
+      type: {class: SkillAnimationTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: 327480404050614831}
     - rid: 4624509120193495478
-      type: {class: BulletTrack, ns: , asm: Assembly-CSharp}
+      type: {class: BulletTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: 553613611084009413}
     - rid: 4624509120193495479
-      type: {class: StateTrack, ns: , asm: Assembly-CSharp}
+      type: {class: StateTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: 2044965049761582946}
     - rid: 4624509120193495480
-      type: {class: SkillTrack, ns: , asm: Assembly-CSharp}
+      type: {class: SkillTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: -2700016981690230663}

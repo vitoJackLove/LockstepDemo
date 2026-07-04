@@ -22,6 +22,13 @@ namespace Rogue.Editor.HotUpdate.Pipeline.Steps
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
+            AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+            if (settings == null)
+            {
+                throw new InvalidOperationException("AddressableAssetSettings 不存在。");
+            }
+
+            AddressablesRemoteCatalogConfigurator.EnsureRemoteCatalogEnabled(settings);
             AddressablesBuildLayoutGuard.PrepareForAddressablesBuild(false);
             AddressableAssetSettings.BuildPlayerContent(out AddressablesPlayerBuildResult result);
             if (!string.IsNullOrEmpty(result.Error))

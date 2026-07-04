@@ -99,7 +99,7 @@ public class AddressablesContentSettingsEditor : Editor
         string buildTarget = EditorUserBuildSettings.activeBuildTarget.ToString();
         string serverDataPath = LocalDevEnvironment.GetServerDataRootPath();
         bool serverDataExists = System.IO.Directory.Exists(serverDataPath);
-        bool serverRunning = LocalDevEnvironment.IsLocalServerRunning;
+        bool serverRunning = LocalDevEnvironment.GetLocalHttpServerStatus((AddressablesContentSettings)target).IsRunning;
         string prefsOverride = PlayerPrefs.GetString(LocalDevEnvironment.DevRemoteUrlPrefsKey, string.Empty);
 
         EditorGUILayout.HelpBox(

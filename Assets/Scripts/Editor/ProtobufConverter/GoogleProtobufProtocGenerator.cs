@@ -19,7 +19,7 @@ namespace Rogue.Editor
         {
             new ProtocJob(
                 "network_packet_runtime.proto",
-                "Assets/Scripts/RunTime/Server/Protobuf/Generated"),
+                "Assets/Scripts/GameFramework/Server/Protobuf/Generated"),
             new ProtocJob(
                 "google_protobuf_class_conversion_test.proto",
                 "Assets/Scripts/RunTime/TestProtobuf/Generated"),

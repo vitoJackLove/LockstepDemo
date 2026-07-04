@@ -53,6 +53,11 @@ public class EntitySkillTimelineBrowserWindow : OdinMenuEditorWindow
 
     protected override void OnBeginDrawEditors()
     {
+        if (MenuTree == null)
+        {
+            return;
+        }
+
         OdinMenuTreeSelection selected = MenuTree.Selection;
 
         Sirenix.Utilities.Editor.SirenixEditorGUI.BeginHorizontalToolbar();

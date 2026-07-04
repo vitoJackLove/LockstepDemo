@@ -10,7 +10,7 @@
         "projectUniqueName": "D:\\UnityProject\\lockstep\\Server\\RogueGameServer\\RogueGameServer.csproj",
         "projectName": "RogueGameServer",
         "projectPath": "D:\\UnityProject\\lockstep\\Server\\RogueGameServer\\RogueGameServer.csproj",
-        "packagesPath": "C:\\Users\\Admin\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5d4cfba1da0de44ffa4706e4a5ae078e\\nuget",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
         "outputPath": "D:\\UnityProject\\lockstep\\Server\\RogueGameServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [

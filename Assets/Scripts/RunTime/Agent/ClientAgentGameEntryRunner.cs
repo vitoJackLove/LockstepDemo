@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Rogue;
@@ -224,10 +224,9 @@ public sealed class ClientAgentGameEntryRunner : MonoBehaviour, IObserverHandler
     }
 
     /// <summary>
-    /// 等待服务器广播开始游戏；若 Agent 已确认本机玩家和英雄选择，则允许继续创建本地战斗世界，避免单人自动化入口卡在缺失回包上。
-    /// </summary>
-    /// <param name="heroId">本次 Agent 自动选择的英雄配置 ID。</param>
-    /// <returns>收到开始游戏广播或本地队伍数据已足够创建世界时返回 true。</returns>
+    /// 绛夊緟鏈嶅姟鍣ㄥ箍鎾紑濮嬫父鎴忥紱鑻?Agent 宸茬‘璁ゆ湰鏈虹帺瀹跺拰鑻遍泟閫夋嫨锛屽垯鍏佽缁х画鍒涘缓鏈湴鎴樻枟涓栫晫锛岄伩鍏嶅崟浜鸿嚜鍔ㄥ寲鍏ュ彛鍗″湪缂哄け鍥炲寘涓娿€?    /// </summary>
+    /// <param name="heroId">鏈 Agent 鑷姩閫夋嫨鐨勮嫳闆勯厤缃?ID銆?/param>
+    /// <returns>鏀跺埌寮€濮嬫父鎴忓箍鎾垨鏈湴闃熶紞鏁版嵁宸茶冻澶熷垱寤轰笘鐣屾椂杩斿洖 true銆?/returns>
     private async UniTask<bool> WaitForGameStartOrLocalReady(int heroId)
     {
         float deadline = Time.realtimeSinceStartup + serverMessageTimeoutSeconds;
@@ -240,11 +239,12 @@ public sealed class ClientAgentGameEntryRunner : MonoBehaviour, IObserverHandler
                 return true;
             }
 
+#if UNITY_EDITOR
             if (WorldSystem.Instance?.CurrentRunWorld != null)
             {
                 return true;
             }
-
+#endif
             if (HasSelfPlayer(heroId))
             {
                 if (!fallbackLogged)
@@ -265,9 +265,8 @@ public sealed class ClientAgentGameEntryRunner : MonoBehaviour, IObserverHandler
     }
 
     /// <summary>
-    /// 等待编辑器侧可读取当前运行世界，确保成功日志不会早于金手指窗口可见的世界状态。
-    /// </summary>
-    /// <returns>编辑器可通过 WorldSystem 读取当前运行世界时返回 true。</returns>
+    /// 绛夊緟缂栬緫鍣ㄤ晶鍙鍙栧綋鍓嶈繍琛屼笘鐣岋紝纭繚鎴愬姛鏃ュ織涓嶄細鏃╀簬閲戞墜鎸囩獥鍙ｅ彲瑙佺殑涓栫晫鐘舵€併€?    /// </summary>
+    /// <returns>缂栬緫鍣ㄥ彲閫氳繃 WorldSystem 璇诲彇褰撳墠杩愯涓栫晫鏃惰繑鍥?true銆?/returns>
     private async UniTask<bool> WaitForEditorRunWorldReady()
     {
 #if UNITY_EDITOR

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using System.IO;
+using Rogue.Editor.HotUpdate.Internal;
 using Rogue.Editor.HotUpdate.Pipeline;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
@@ -16,18 +17,18 @@ namespace Rogue.Editor.HotUpdate.Pipeline.Steps
     {
         private static readonly string[] ObsoleteGroupNames = { "Runtime Assets", "Entity" };
 
-        private static readonly (string GroupName, string Label, bool UseRemoteLoadPath, bool StaticContent, bool IncludeInBuild, BundledAssetGroupSchema.BundlePackingMode BundleMode)[] GroupDefinitions =
+        private static readonly (string GroupName, string Label, bool UseRemoteLoadPath, bool IncludeInBuild, BundledAssetGroupSchema.BundlePackingMode BundleMode)[] GroupDefinitions =
         {
-            (AddressablesGroupResolver.Config, "config", false, false, true, BundledAssetGroupSchema.BundlePackingMode.PackTogether),
-            (AddressablesGroupResolver.UI, "ui", false, false, true, BundledAssetGroupSchema.BundlePackingMode.PackTogether),
-            (AddressablesGroupResolver.SceneCore, "scene-core", false, true, true, BundledAssetGroupSchema.BundlePackingMode.PackSeparately),
-            (AddressablesGroupResolver.BattleEntity, "battle-entity", true, false, true, BundledAssetGroupSchema.BundlePackingMode.PackSeparately),
-            (AddressablesGroupResolver.BattleContent, "battle-content", true, false, true, BundledAssetGroupSchema.BundlePackingMode.PackSeparately),
-            (AddressablesGroupResolver.Map, "map", true, false, true, BundledAssetGroupSchema.BundlePackingMode.PackTogether),
-            (AddressablesGroupResolver.SceneBattle, "scene-battle", true, false, true, BundledAssetGroupSchema.BundlePackingMode.PackSeparately),
-            (AddressablesGroupResolver.RemoteDlc, "remote-dlc", true, false, false, BundledAssetGroupSchema.BundlePackingMode.PackSeparately),
-            (AddressablesGroupResolver.HotUpdateCodeLocal, "hotupdate-aot", false, true, true, BundledAssetGroupSchema.BundlePackingMode.PackTogether),
-            (AddressablesGroupResolver.HotUpdateCodeRemote, "hotupdate-runtime", true, false, true, BundledAssetGroupSchema.BundlePackingMode.PackTogether),
+            (AddressablesGroupResolver.Config, "config", true, true, BundledAssetGroupSchema.BundlePackingMode.PackTogether),
+            (AddressablesGroupResolver.UI, "ui", false, true, BundledAssetGroupSchema.BundlePackingMode.PackTogether),
+            (AddressablesGroupResolver.SceneCore, "scene-core", false, true, BundledAssetGroupSchema.BundlePackingMode.PackSeparately),
+            (AddressablesGroupResolver.BattleEntity, "battle-entity", true, true, BundledAssetGroupSchema.BundlePackingMode.PackSeparately),
+            (AddressablesGroupResolver.BattleContent, "battle-content", true, true, BundledAssetGroupSchema.BundlePackingMode.PackSeparately),
+            (AddressablesGroupResolver.Map, "map", true, true, BundledAssetGroupSchema.BundlePackingMode.PackTogether),
+            (AddressablesGroupResolver.SceneBattle, "scene-battle", true, true, BundledAssetGroupSchema.BundlePackingMode.PackSeparately),
+            (AddressablesGroupResolver.RemoteDlc, "remote-dlc", true, false, BundledAssetGroupSchema.BundlePackingMode.PackSeparately),
+            (AddressablesGroupResolver.HotUpdateCodeLocal, "hotupdate-aot", false, true, BundledAssetGroupSchema.BundlePackingMode.PackTogether),
+            (AddressablesGroupResolver.HotUpdateCodeRemote, "hotupdate-runtime", true, true, BundledAssetGroupSchema.BundlePackingMode.PackTogether),
         };
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace Rogue.Editor.HotUpdate.Pipeline.Steps
             }
 
             EnsureProfileRemoteBaseUrlVariable(settings);
+            AddressablesRemoteCatalogConfigurator.EnsureRemoteCatalogEnabled(settings);
             EnsureLabels(settings);
 
             for (int i = 0; i < GroupDefinitions.Length; i++)
@@ -139,23 +141,17 @@ namespace Rogue.Editor.HotUpdate.Pipeline.Steps
                 bundledSchema = group.AddSchema<BundledAssetGroupSchema>();
             }
 
-            bool useRemotePaths = definition.UseRemoteLoadPath && !definition.IncludeInBuild;
+            // UseRemoteLoadPath 标记可 Content Update 的远程组：Build/Load 均绑定 Remote Profile。
+            // IncludeInBuild=true 时 Unity 仍会把基线 Bundle 打进 Player（混合本地首包 + CDN 热更）。
+            bool useRemotePaths = definition.UseRemoteLoadPath;
             bundledSchema.BuildPath.SetVariableByName(
                 settings,
-                useRemotePaths ? "Remote.BuildPath" : "Local.BuildPath");
+                useRemotePaths ? AddressableAssetSettings.kRemoteBuildPath : AddressableAssetSettings.kLocalBuildPath);
             bundledSchema.LoadPath.SetVariableByName(
                 settings,
-                useRemotePaths ? "Remote.LoadPath" : "Local.LoadPath");
+                useRemotePaths ? AddressableAssetSettings.kRemoteLoadPath : AddressableAssetSettings.kLocalLoadPath);
             bundledSchema.BundleMode = definition.BundleMode;
             bundledSchema.IncludeInBuild = definition.IncludeInBuild;
-
-            ContentUpdateGroupSchema contentSchema = group.GetSchema<ContentUpdateGroupSchema>();
-            if (contentSchema == null)
-            {
-                contentSchema = group.AddSchema<ContentUpdateGroupSchema>();
-            }
-
-            contentSchema.StaticContent = definition.StaticContent;
         }
 
         private static GroupDefinition GetGroupDefinition(string groupName)
@@ -354,12 +350,11 @@ namespace Rogue.Editor.HotUpdate.Pipeline.Steps
         private sealed class GroupDefinition
         {
             public GroupDefinition(
-                (string GroupName, string Label, bool UseRemoteLoadPath, bool StaticContent, bool IncludeInBuild, BundledAssetGroupSchema.BundlePackingMode BundleMode) source)
+                (string GroupName, string Label, bool UseRemoteLoadPath, bool IncludeInBuild, BundledAssetGroupSchema.BundlePackingMode BundleMode) source)
             {
                 GroupName = source.GroupName;
                 Label = source.Label;
                 UseRemoteLoadPath = source.UseRemoteLoadPath;
-                StaticContent = source.StaticContent;
                 IncludeInBuild = source.IncludeInBuild;
                 BundleMode = source.BundleMode;
             }
@@ -367,7 +362,6 @@ namespace Rogue.Editor.HotUpdate.Pipeline.Steps
             public string GroupName { get; }
             public string Label { get; }
             public bool UseRemoteLoadPath { get; }
-            public bool StaticContent { get; }
             public bool IncludeInBuild { get; }
             public BundledAssetGroupSchema.BundlePackingMode BundleMode { get; }
         }

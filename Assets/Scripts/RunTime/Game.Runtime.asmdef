@@ -1,0 +1,31 @@
+{
+    "name": "Game.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "Ase.Serializing",
+        "GameFramework",
+        "Rogue.Analyzer",
+        "UniTask",
+        "UniTask.TextMeshPro",
+        "Kybernetik.Animancer",
+        "DOTween.Modules",
+        "DrawDebugTools",
+        "NavMeshComponents",
+        "Unity.Mathematics",
+        "Unity.Mathematics.FixedPoint",
+        "Unity.TextMeshPro",
+        "Unity.Addressables",
+        "Unity.ResourceManager",
+        "Unity.VisualScripting.Core",
+        "Cinemachine"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

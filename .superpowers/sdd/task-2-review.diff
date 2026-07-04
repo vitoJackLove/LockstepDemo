@@ -1,0 +1,288 @@
+﻿diff --git a/Assets/Scripts/Editor/HotUpdate/AssemblyInfo.cs b/Assets/Scripts/Editor/HotUpdate/AssemblyInfo.cs
+new file mode 100644
+index 0000000..87ce951
+--- /dev/null
++++ b/Assets/Scripts/Editor/HotUpdate/AssemblyInfo.cs
+@@ -0,0 +1,3 @@
++using System.Runtime.CompilerServices;
++
++[assembly: InternalsVisibleTo("Game.Editor.Tests")]
+diff --git a/Assets/Scripts/Editor/HotUpdate/AssemblyInfo.cs.meta b/Assets/Scripts/Editor/HotUpdate/AssemblyInfo.cs.meta
+new file mode 100644
+index 0000000..7fce426
+--- /dev/null
++++ b/Assets/Scripts/Editor/HotUpdate/AssemblyInfo.cs.meta
+@@ -0,0 +1,2 @@
++fileFormatVersion: 2
++guid: 2110a8e411a175c4f9b2ec3964834750
+\ No newline at end of file
+diff --git a/Assets/Scripts/Editor/HotUpdate/Pipeline/HotUpdateManifest.cs b/Assets/Scripts/Editor/HotUpdate/Pipeline/HotUpdateManifest.cs
+new file mode 100644
+index 0000000..757d678
+--- /dev/null
++++ b/Assets/Scripts/Editor/HotUpdate/Pipeline/HotUpdateManifest.cs
+@@ -0,0 +1,128 @@
++using System;
++using System.IO;
++using System.Linq;
++using System.Security.Cryptography;
++using System.Text;
++using UnityEngine;
++
++namespace Rogue.Editor.HotUpdate.Pipeline
++{
++    /// <summary>
++    /// 鐑洿鍙戝竷 manifest 鏁版嵁銆?+    /// </summary>
++    [Serializable]
++    public sealed class HotUpdateManifestData
++    {
++        public string AppVersion = "0.0.0";
++        public string BuildTarget = string.Empty;
++        public string LastFullBuildUtc = string.Empty;
++        public string ContentStatePath = string.Empty;
++        public string RemoteBaseUrl = string.Empty;
++        public string GameRuntimeHash = string.Empty;
++        public HotUpdateManifestHashEntry[] AotMetadataHashes = Array.Empty<HotUpdateManifestHashEntry>();
++        public HotUpdateManifestPatchEntry[] Patches = Array.Empty<HotUpdateManifestPatchEntry>();
++    }
++
++    /// <summary>
++    /// AOT 鍏冩暟鎹枃浠跺搱甯屾潯鐩€?+    /// </summary>
++    [Serializable]
++    public sealed class HotUpdateManifestHashEntry
++    {
++        public string FileName;
++        public string Hash;
++    }
++
++    /// <summary>
++    /// 鐑洿琛ヤ竵璁板綍鏉＄洰銆?+    /// </summary>
++    [Serializable]
++    public sealed class HotUpdateManifestPatchEntry
++    {
++        public string Type;
++        public string Version;
++        public string GeneratedAtUtc;
++        public string PlayerOutputPath;
++        public string ServerDataPath;
++        public string GameRuntimeHash;
++        public int BundleCount;
++        public string ChangedGroupsCsv;
++    }
++
++    /// <summary>
++    /// 璇诲啓 Build/HotUpdateManifest.json 骞惰В鏋?content state銆?+    /// </summary>
++    public static class HotUpdateManifest
++    {
++        private const string DefaultRelativePath = "Build/HotUpdateManifest.json";
++        private static string _overridePathForTests;
++
++        public static string ManifestPath =>
++            _overridePathForTests ?? Path.Combine(Directory.GetCurrentDirectory(), DefaultRelativePath);
++
++        internal static void SetManifestPathForTests(string path) => _overridePathForTests = path;
++
++        internal static void ResetManifestPathForTests() => _overridePathForTests = null;
++
++        public static HotUpdateManifestData Load()
++        {
++            if (!File.Exists(ManifestPath))
++            {
++                return new HotUpdateManifestData();
++            }
++
++            string json = File.ReadAllText(ManifestPath, Encoding.UTF8);
++            return JsonUtility.FromJson<HotUpdateManifestData>(json) ?? new HotUpdateManifestData();
++        }
++
++        public static void Save(HotUpdateManifestData data)
++        {
++            string dir = Path.GetDirectoryName(ManifestPath);
++            if (!string.IsNullOrEmpty(dir))
++            {
++                Directory.CreateDirectory(dir);
++            }
++
++            string json = JsonUtility.ToJson(data, true);
++            File.WriteAllText(ManifestPath, json, Encoding.UTF8);
++        }
++
++        public static bool TryResolveContentStatePath(out string contentStatePath)
++        {
++            HotUpdateManifestData manifest = Load();
++            if (!string.IsNullOrEmpty(manifest.ContentStatePath) && File.Exists(manifest.ContentStatePath))
++            {
++                contentStatePath = manifest.ContentStatePath;
++                return true;
++            }
++
++            string searchRoot = Path.Combine(
++                Directory.GetCurrentDirectory(),
++                "Assets/Scripts/Libraries/AddressableAssetsData");
++            if (Directory.Exists(searchRoot))
++            {
++                string newest = Directory
++                    .GetFiles(searchRoot, "addressables_content_state.bin", SearchOption.AllDirectories)
++                    .OrderByDescending(File.GetLastWriteTimeUtc)
++                    .FirstOrDefault();
++
++                if (!string.IsNullOrEmpty(newest))
++                {
++                    contentStatePath = newest;
++                    return true;
++                }
++            }
++
++            contentStatePath = null;
++            return false;
++        }
++
++        public static string ComputeFileSha256(string absolutePath)
++        {
++            using FileStream stream = File.OpenRead(absolutePath);
++            using SHA256 sha = SHA256.Create();
++            byte[] hash = sha.ComputeHash(stream);
++            return "sha256:" + BitConverter.ToString(hash).Replace("-", string.Empty).ToLowerInvariant();
++        }
++    }
++}
+diff --git a/Assets/Scripts/Editor/HotUpdate/Pipeline/HotUpdateManifest.cs.meta b/Assets/Scripts/Editor/HotUpdate/Pipeline/HotUpdateManifest.cs.meta
+new file mode 100644
+index 0000000..1b1dffa
+--- /dev/null
++++ b/Assets/Scripts/Editor/HotUpdate/Pipeline/HotUpdateManifest.cs.meta
+@@ -0,0 +1,2 @@
++fileFormatVersion: 2
++guid: 64a9d238d5cf1894d81f124107e531a6
+\ No newline at end of file
+diff --git a/Assets/Scripts/Test/EditMode.meta b/Assets/Scripts/Test/EditMode.meta
+new file mode 100644
+index 0000000..a46b302
+--- /dev/null
++++ b/Assets/Scripts/Test/EditMode.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: 3452be85f43a9c04f85de94569719c1d
++folderAsset: yes
++DefaultImporter:
++  externalObjects: {}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Assets/Scripts/Test/EditMode/HotUpdateManifestTests.cs b/Assets/Scripts/Test/EditMode/HotUpdateManifestTests.cs
+new file mode 100644
+index 0000000..c805dd8
+--- /dev/null
++++ b/Assets/Scripts/Test/EditMode/HotUpdateManifestTests.cs
+@@ -0,0 +1,56 @@
++using System.IO;
++using NUnit.Framework;
++using Rogue.Editor.HotUpdate.Pipeline;
++using UnityEngine;
++
++public class HotUpdateManifestTests
++{
++    private string _tempDir;
++
++    [SetUp]
++    public void SetUp()
++    {
++        _tempDir = Path.Combine(Application.temporaryCachePath, "HotUpdateManifestTests");
++        Directory.CreateDirectory(_tempDir);
++        HotUpdateManifest.SetManifestPathForTests(Path.Combine(_tempDir, "HotUpdateManifest.json"));
++    }
++
++    [TearDown]
++    public void TearDown()
++    {
++        HotUpdateManifest.ResetManifestPathForTests();
++        if (Directory.Exists(_tempDir))
++        {
++            Directory.Delete(_tempDir, true);
++        }
++    }
++
++    [Test]
++    public void SaveAndLoad_RoundTripsContentStatePath()
++    {
++        var manifest = new HotUpdateManifestData
++        {
++            AppVersion = "1.0.0",
++            ContentStatePath = "C:/fake/content_state.bin",
++        };
++
++        HotUpdateManifest.Save(manifest);
++        HotUpdateManifestData loaded = HotUpdateManifest.Load();
++
++        Assert.AreEqual("1.0.0", loaded.AppVersion);
++        Assert.AreEqual("C:/fake/content_state.bin", loaded.ContentStatePath);
++    }
++
++    [Test]
++    public void TryResolveContentStatePath_UsesManifestFirst()
++    {
++        HotUpdateManifest.Save(new HotUpdateManifestData
++        {
++            ContentStatePath = Path.Combine(_tempDir, "from_manifest.bin"),
++        });
++        File.WriteAllText(Path.Combine(_tempDir, "from_manifest.bin"), "x");
++
++        Assert.IsTrue(HotUpdateManifest.TryResolveContentStatePath(out string path));
++        Assert.AreEqual(Path.Combine(_tempDir, "from_manifest.bin"), path);
++    }
++}
+diff --git a/Assets/Scripts/Test/EditMode/HotUpdateManifestTests.cs.meta b/Assets/Scripts/Test/EditMode/HotUpdateManifestTests.cs.meta
+new file mode 100644
+index 0000000..fd9761f
+--- /dev/null
++++ b/Assets/Scripts/Test/EditMode/HotUpdateManifestTests.cs.meta
+@@ -0,0 +1,2 @@
++fileFormatVersion: 2
++guid: 3536518a2969c9f40a885ccff61d67ba
+\ No newline at end of file
+diff --git a/Assets/Scripts/Test/Game.Editor.Tests.asmdef b/Assets/Scripts/Test/Game.Editor.Tests.asmdef
+new file mode 100644
+index 0000000..a245bd2
+--- /dev/null
++++ b/Assets/Scripts/Test/Game.Editor.Tests.asmdef
+@@ -0,0 +1,27 @@
++{
++    "name": "Game.Editor.Tests",
++    "rootNamespace": "",
++    "references": [
++        "Game.Editor",
++        "UnityEngine.TestRunner",
++        "UnityEditor.TestRunner"
++    ],
++    "includePlatforms": [
++        "Editor"
++    ],
++    "excludePlatforms": [],
++    "allowUnsafeCode": false,
++    "overrideReferences": true,
++    "precompiledReferences": [
++        "nunit.framework.dll"
++    ],
++    "autoReferenced": false,
++    "defineConstraints": [
++        "UNITY_INCLUDE_TESTS"
++    ],
++    "optionalUnityReferences": [
++        "TestAssemblies"
++    ],
++    "versionDefines": [],
++    "noEngineReferences": false
++}
+diff --git a/Assets/Scripts/Test/Game.Editor.Tests.asmdef.meta b/Assets/Scripts/Test/Game.Editor.Tests.asmdef.meta
+new file mode 100644
+index 0000000..2e926a2
+--- /dev/null
++++ b/Assets/Scripts/Test/Game.Editor.Tests.asmdef.meta
+@@ -0,0 +1,7 @@
++fileFormatVersion: 2
++guid: 54c5c34bd08fe774eb89f533e10feb99
++AssemblyDefinitionImporter:
++  externalObjects: {}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 

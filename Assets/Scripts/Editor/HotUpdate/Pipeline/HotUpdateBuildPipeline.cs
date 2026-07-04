@@ -141,23 +141,7 @@ namespace Rogue.Editor.HotUpdate.Pipeline
 
         private static string ResolveLatestContentStatePath()
         {
-            if (HotUpdateManifest.TryResolveContentStatePath(out string contentStatePath))
-            {
-                return contentStatePath;
-            }
-
-            string searchRoot = Path.Combine(
-                Directory.GetCurrentDirectory(),
-                "Assets/Scripts/Libraries/AddressableAssetsData");
-            if (!Directory.Exists(searchRoot))
-            {
-                return string.Empty;
-            }
-
-            return Directory
-                .GetFiles(searchRoot, "addressables_content_state.bin", SearchOption.AllDirectories)
-                .OrderByDescending(File.GetLastWriteTimeUtc)
-                .FirstOrDefault() ?? string.Empty;
+            return HotUpdateContentStatePathUtility.ResolveAfterFullBuild();
         }
     }
 }

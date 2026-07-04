@@ -26,7 +26,7 @@ MonoBehaviour:
     - rid: -2
       type: {class: , ns: , asm: }
     - rid: 7468033978414399553
-      type: {class: RootNode, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      type: {class: RootNode, ns: TheKiwiCoder, asm: Game.Runtime}
       data:
         started: 0
         guid: 19249b25-a356-446b-bc8a-ee4eb963402c

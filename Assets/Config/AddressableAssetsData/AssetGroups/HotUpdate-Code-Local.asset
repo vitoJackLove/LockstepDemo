@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: HotUpdate-Code-Local
+  m_EditorClassIdentifier: 
+  m_GroupName: HotUpdate-Code-Local
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 5fcb9e469e1883d4983d693935c40e65
+  m_SerializeEntries:
+  - m_GUID: f5aac8743fa3339488a611d045a4eb40
+    m_Address: Assets/HotUpdate/Code/AOT/DOTween.Modules.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 139313b4e48aa5544b8b496dfd3841e7
+    m_Address: Assets/HotUpdate/Code/AOT/System.Core.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fd01098081548da4ab32d6f262b94b85
+    m_Address: Assets/HotUpdate/Code/AOT/Unity.Mathematics.FixedPoint.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc0d97f1887081c4b8e8355917508398
+    m_Address: Assets/HotUpdate/Code/AOT/UniTask.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b9abf0881f5ff5f45ba7d782a0c7488b
+    m_Address: Assets/HotUpdate/Code/AOT/Unity.ResourceManager.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8a44a4034126a714e939ad70c80b7df5
+    m_Address: Assets/HotUpdate/Code/AOT/Unity.Addressables.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 901ebd1047cda2a4eb667b89b2e42fac
+    m_Address: Assets/HotUpdate/Code/AOT/UniTask.TextMeshPro.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 37d6bd241375e7342b5daa77c3a16fc7
+    m_Address: Assets/HotUpdate/Code/AOT/NavMeshComponents.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f7834c2b819a3e4d9f876af0e0cbc08
+    m_Address: Assets/HotUpdate/Code/AOT/Ase.Serializing.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 96cc8ddf9c058e045840405378b14cb1
+    m_Address: Assets/HotUpdate/Code/AOT/Unity.Mathematics.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 40336642c6a0ed545b660437b67731c0
+    m_Address: Assets/HotUpdate/Code/AOT/Unity.TextMeshPro.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 747da0bc0ff1e964d8a0763890dbe4f7
+    m_Address: Assets/HotUpdate/Code/AOT/Rogue.Analyzer.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4343eab9a670259439855c3189ff041e
+    m_Address: Assets/HotUpdate/Code/AOT/Cinemachine.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0eb4da7e56787124f845822b81bac466
+    m_Address: Assets/HotUpdate/Code/AOT/System.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 289baa85826a49c42af77f3903773d7b
+    m_Address: Assets/HotUpdate/Code/AOT/DrawDebugTools.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cfa8f20e38033e04f95379cd0e39600e
+    m_Address: Assets/HotUpdate/Code/AOT/Unity.VisualScripting.Core.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 70316cc44a78e0d40bbf0756fb4273cc
+    m_Address: Assets/HotUpdate/Code/AOT/GameFramework.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 253047cbd02154041bfec4241cdc670b
+    m_Address: Assets/HotUpdate/Code/AOT/mscorlib.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f59f9af8969c42a45b0fae4dc3e85eff
+    m_Address: Assets/HotUpdate/Code/AOT/Google.Protobuf.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99b1c08efc48fd342b24132086526334
+    m_Address: Assets/HotUpdate/Code/AOT/UnityEngine.CoreModule.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2565425b8105e174ab84e293a3fcb65d
+    m_Address: Assets/HotUpdate/Code/AOT/Kybernetik.Animancer.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - hotupdate-aot
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f5a1fb49c2e90c64da088b11426b2264, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ca9b7be46f0e8b64094f688c52037fb1, type: 2}
+    - {fileID: 11400000, guid: e4ca3d172dfb63144825670c0432c827, type: 2}

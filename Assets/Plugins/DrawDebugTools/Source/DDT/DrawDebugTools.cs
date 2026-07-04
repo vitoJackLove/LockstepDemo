@@ -161,6 +161,12 @@ public class DrawDebugTools : MonoBehaviour
         if (!m_LineMaterial)
         {
             Shader Shader = Shader.Find("Hidden/Internal-Colored");
+            if (Shader == null)
+            {
+                Debug.LogWarning("DrawDebugTools: 未找到 Hidden/Internal-Colored，跳过线框材质初始化。");
+                return;
+            }
+
             m_LineMaterial = new Material(Shader);
             m_LineMaterial.hideFlags = HideFlags.HideAndDontSave;
 
@@ -177,6 +183,12 @@ public class DrawDebugTools : MonoBehaviour
         if (!m_QuadMaterial)
         {
             Shader Shader = Shader.Find("Unlit/Transparent");
+            if (Shader == null)
+            {
+                Debug.LogWarning("DrawDebugTools: 未找到 Unlit/Transparent，跳过 Quad 材质初始化。");
+                return;
+            }
+
             m_QuadMaterial = new Material(Shader);
             m_QuadMaterial.hideFlags = HideFlags.HideAndDontSave;
 

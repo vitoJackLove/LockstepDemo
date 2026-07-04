@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
@@ -89,32 +88,7 @@ namespace Rogue.Editor.HotUpdate.Pipeline
 
         public static bool TryResolveContentStatePath(out string contentStatePath)
         {
-            HotUpdateManifestData manifest = Load();
-            if (!string.IsNullOrEmpty(manifest.ContentStatePath) && File.Exists(manifest.ContentStatePath))
-            {
-                contentStatePath = manifest.ContentStatePath;
-                return true;
-            }
-
-            string searchRoot = Path.Combine(
-                Directory.GetCurrentDirectory(),
-                "Assets/Scripts/Libraries/AddressableAssetsData");
-            if (Directory.Exists(searchRoot))
-            {
-                string newest = Directory
-                    .GetFiles(searchRoot, "addressables_content_state.bin", SearchOption.AllDirectories)
-                    .OrderByDescending(File.GetLastWriteTimeUtc)
-                    .FirstOrDefault();
-
-                if (!string.IsNullOrEmpty(newest))
-                {
-                    contentStatePath = newest;
-                    return true;
-                }
-            }
-
-            contentStatePath = null;
-            return false;
+            return HotUpdateContentStatePathUtility.TryResolve(out contentStatePath);
         }
 
         public static string ComputeFileSha256(string absolutePath)

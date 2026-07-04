@@ -100,41 +100,41 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 1292071553574371391
-      type: {class: BuffTrack, ns: , asm: Assembly-CSharp}
+      type: {class: BuffTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: -2520036585551420993}
     - rid: 1475331625414557755
-      type: {class: EffectTrack, ns: , asm: Assembly-CSharp}
+      type: {class: EffectTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: 1942476218116459299}
     - rid: 4624509120193495444
-      type: {class: BlackBoardVariable, ns: , asm: Assembly-CSharp}
+      type: {class: BlackBoardVariable, ns: , asm: Game.Runtime}
       data:
         _variables: []
     - rid: 4624509120193495446
-      type: {class: SkillAnimationTrack, ns: , asm: Assembly-CSharp}
+      type: {class: SkillAnimationTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: -4882013881245349636}
     - rid: 4624509120193495448
-      type: {class: StateTrack, ns: , asm: Assembly-CSharp}
+      type: {class: StateTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: 6654497318544189498}
     - rid: 4624509120193495449
-      type: {class: BulletTrack, ns: , asm: Assembly-CSharp}
+      type: {class: BulletTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: -5269149552906875302}
     - rid: 4624509120193495450
-      type: {class: SkillTrack, ns: , asm: Assembly-CSharp}
+      type: {class: SkillTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: 7678380291737446631}
     - rid: 4624509120193495485
-      type: {class: SkillTrack, ns: , asm: Assembly-CSharp}
+      type: {class: SkillTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: -9158593472491463448}

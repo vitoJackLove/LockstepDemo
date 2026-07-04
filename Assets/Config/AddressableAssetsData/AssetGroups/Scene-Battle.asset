@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Scene-Battle
+  m_EditorClassIdentifier: 
+  m_GroupName: Scene-Battle
+  m_Data:
+    m_SerializedData: []
+  m_GUID: ee8556974076e464f8152193cae86c0f
+  m_SerializeEntries:
+  - m_GUID: 84a5c54fe78e2c34db56c1bcf3975c76
+    m_Address: Assets/Scene/RougeBattle.unity
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - scene-battle
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 626c464de6134c64abc629508f7a204a
+    m_Address: Assets/Scene/LowPolyForest.unity/LowPolyForest.unity
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - scene-battle
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f5a1fb49c2e90c64da088b11426b2264, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 1092b6cbe7303314bb780ca277fb8ca1, type: 2}
+    - {fileID: 11400000, guid: b3e411e996364fd4881802209f0d8556, type: 2}

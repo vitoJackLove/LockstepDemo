@@ -59,21 +59,21 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 4624509120193495481
-      type: {class: BlackBoardVariable, ns: , asm: Assembly-CSharp}
+      type: {class: BlackBoardVariable, ns: , asm: Game.Runtime}
       data:
         _variables: []
     - rid: 4624509120193495483
-      type: {class: SkillAnimationTrack, ns: , asm: Assembly-CSharp}
+      type: {class: SkillAnimationTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: -184986773760278643}
     - rid: 4624509120193495484
-      type: {class: StateTrack, ns: , asm: Assembly-CSharp}
+      type: {class: StateTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: -5706889699641999051}
     - rid: 4624509120193495489
-      type: {class: MovementTrack, ns: , asm: Assembly-CSharp}
+      type: {class: MovementTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: 2173548280526061499}

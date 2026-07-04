@@ -31,7 +31,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 1292071919573008779
-      type: {class: RootNode, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      type: {class: RootNode, ns: TheKiwiCoder, asm: Game.Runtime}
       data:
         started: 0
         guid: dc41ce76-9f24-4fae-8e64-263d76f5713a
@@ -43,7 +43,7 @@ MonoBehaviour:
         child:
           rid: 1292071919573008785
     - rid: 1292071919573008785
-      type: {class: Sequencer, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      type: {class: Sequencer, ns: TheKiwiCoder, asm: Game.Runtime}
       data:
         started: 0
         guid: 4fb9404c773d4584093f8a3fa10a7660
@@ -59,7 +59,7 @@ MonoBehaviour:
         - rid: 4215800716067078206
         - rid: 4215800716067078207
     - rid: 1292071919573008786
-      type: {class: Wait, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      type: {class: Wait, ns: TheKiwiCoder, asm: Game.Runtime}
       data:
         started: 0
         guid: fa3d251f8136374438f20d8a836424b1
@@ -70,7 +70,7 @@ MonoBehaviour:
         drawGizmos: 0
         waitTick: 150
     - rid: 4215800716067078206
-      type: {class: MoveToPosition, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      type: {class: MoveToPosition, ns: TheKiwiCoder, asm: Game.Runtime}
       data:
         started: 0
         guid: c8a2dc04edbfba942a492cffa90706c9
@@ -82,7 +82,7 @@ MonoBehaviour:
         targetPosition: {x: 5, y: 0, z: 0}
         moveTick: 3000
     - rid: 4215800716067078207
-      type: {class: Wait, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      type: {class: Wait, ns: TheKiwiCoder, asm: Game.Runtime}
       data:
         started: 0
         guid: 35834051fb8a2b24d8d165657703e69e
@@ -93,7 +93,7 @@ MonoBehaviour:
         drawGizmos: 0
         waitTick: 30
     - rid: 7468033867056676952
-      type: {class: Log, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      type: {class: Log, ns: TheKiwiCoder, asm: Game.Runtime}
       data:
         started: 0
         guid: 5fce7fbadf84870419a129d8c5d00c2e
@@ -107,13 +107,13 @@ MonoBehaviour:
             rid: 7468033867056676956
           defaultValue: 
     - rid: 7468033867056676956
-      type: {class: StringKey, ns: TheKiwiCoder, asm: Assembly-CSharp}
+      type: {class: StringKey, ns: TheKiwiCoder, asm: Game.Runtime}
       data:
         name: content1
         typeName: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         value: "\u8FD9\u662FLog"
     - rid: 7468033978414399976
-      type: {class: MaintainTargetLockAction, ns: , asm: Assembly-CSharp}
+      type: {class: MaintainTargetLockAction, ns: , asm: Game.Runtime}
       data:
         started: 0
         guid: 1b5b658e4339ab3489a192bf905a74da

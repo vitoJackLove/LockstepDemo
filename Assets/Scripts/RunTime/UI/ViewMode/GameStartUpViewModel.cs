@@ -15,7 +15,7 @@ public class GameStartUpViewModel : ViewModelBase, IObserverHandler
 
     private int _playerIndex;
     private bool _hasPlayerIndex;
-    private bool _isSinglePlayerMode;
+    private bool _isSinglePlayerMode = true;
     private bool _isGameStart;
     private bool _isLoading;
 
@@ -45,6 +45,44 @@ public class GameStartUpViewModel : ViewModelBase, IObserverHandler
         {
             InitIndexPlayer(playerIndex);
         }
+
+        ApplySessionMode(_isSinglePlayerMode);
+    }
+
+    private void ApplySessionMode(bool isSinglePlayerMode)
+    {
+        GameSessionMode.Current = isSinglePlayerMode
+            ? GameSessionModeType.SinglePlayer
+            : GameSessionModeType.Online;
+
+        GameSessionContext sessionContext = isSinglePlayerMode
+            ? GameSessionFactory.CreateSinglePlayer()
+            : GameSessionFactory.CreateOnline(GameEntry.TcpClient);
+        GameEntry.ConfigureTransport(sessionContext.Transport);
+
+        if (isSinglePlayerMode)
+        {
+            InitIndexPlayer(SinglePlayerIndex);
+            EnsureSinglePlayerSelection();
+            return;
+        }
+
+        _teamList.Clear();
+        RebuildSelectedHeroStates();
+
+        if (GameEntry.TcpClient != null && !GameEntry.TcpClient.TryConnect())
+        {
+            GameLog.Warn(GameLogChannel.Network, "Failed to connect frame sync server. Start the server or switch back to single player mode.");
+        }
+
+        if (GameEntry.FrameSyncTransport != null && GameEntry.FrameSyncTransport.TryGetLocalPlayerIndex(out int playerIndex))
+        {
+            InitIndexPlayer(playerIndex);
+        }
+        else
+        {
+            _hasPlayerIndex = false;
+        }
     }
 
     public List<HeroInfoViewModel> HeroInfoViewModels => _heroInfoViewModels;
@@ -66,32 +104,7 @@ public class GameStartUpViewModel : ViewModelBase, IObserverHandler
             }
 
             this.Set<bool>(ref _isSinglePlayerMode, value, "IsSinglePlayerMode");
-            GameSessionMode.Current = _isSinglePlayerMode
-                ? GameSessionModeType.SinglePlayer
-                : GameSessionModeType.Online;
-
-            GameEntry.ConfigureSession(_isSinglePlayerMode
-                ? GameSessionFactory.CreateSinglePlayer()
-                : GameSessionFactory.CreateOnline(GameEntry.TcpClient));
-
-            if (_isSinglePlayerMode)
-            {
-                InitIndexPlayer(SinglePlayerIndex);
-                EnsureSinglePlayerSelection();
-                return;
-            }
-
-            _teamList.Clear();
-            RebuildSelectedHeroStates();
-
-            if (GameEntry.FrameSyncTransport != null && GameEntry.FrameSyncTransport.TryGetLocalPlayerIndex(out int playerIndex))
-            {
-                InitIndexPlayer(playerIndex);
-            }
-            else
-            {
-                _hasPlayerIndex = false;
-            }
+            ApplySessionMode(_isSinglePlayerMode);
         }
     }
 

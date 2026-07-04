@@ -44,16 +44,16 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 1475331504696459413
-      type: {class: BlackBoardVariable, ns: , asm: Assembly-CSharp}
+      type: {class: BlackBoardVariable, ns: , asm: Game.Runtime}
       data:
         _variables: []
     - rid: 1475331504696459416
-      type: {class: MovementTrack, ns: , asm: Assembly-CSharp}
+      type: {class: MovementTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: 591471350723414576}
     - rid: 1475331625414557778
-      type: {class: SkillAnimationTrack, ns: , asm: Assembly-CSharp}
+      type: {class: SkillAnimationTrack, ns: , asm: Game.Runtime}
       data:
         taskClips:
         - {fileID: -1756199848731561695}

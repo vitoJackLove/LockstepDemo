@@ -31,13 +31,14 @@ namespace Rogue.Editor.Tests
                     using (NetworkStream clientStream = client.GetStream())
                     using (NetworkStream serverStream = accepted.GetStream())
                     {
-                        byte[] expectedPacket = NetworkProtobufCodec.SerializePacket(messageType, source);
+                        NetworkProtobufCodec codec = new NetworkProtobufCodec();
+                        byte[] expectedPacket = codec.SerializePacket(messageType, source);
                         NetworkPacketStreamUtility.WritePacket(clientStream, expectedPacket);
 
                         Assert.IsTrue(NetworkPacketStreamUtility.TryReadPacket(serverStream, out byte[] receivedPacket));
                         CollectionAssert.AreEqual(expectedPacket, receivedPacket);
 
-                        Assert.IsTrue(NetworkProtobufCodec.TryDeserializePacket(receivedPacket, out BattleObserverEventEnum decodedType, out IObserverParams decodedMessage));
+                        Assert.IsTrue(codec.TryDeserializePacket(receivedPacket, out BattleObserverEventEnum decodedType, out IObserverParams decodedMessage));
                         Assert.AreEqual(messageType, decodedType);
                         AssertMessageEqual(source, decodedMessage);
                     }

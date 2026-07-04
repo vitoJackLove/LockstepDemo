@@ -1,0 +1,33 @@
+﻿{
+  "generatedAtUtc": "2026-07-04T11:00:10.4928865Z",
+  "buildTarget": "StandaloneWindows64",
+  "compiledBeforeCopy": true,
+  "hotUpdateSourceDir": "HybridCLRData/HotUpdateDlls/StandaloneWindows64",
+  "aotSourceDir": "HybridCLRData/AssembliesPostIl2CppStrip/StandaloneWindows64",
+  "hotUpdateDlls": [
+    "Game.Runtime.dll.bytes"
+  ],
+  "aotMetadataDlls": [
+    "Ase.Serializing.dll.bytes",
+    "Cinemachine.dll.bytes",
+    "DOTween.Modules.dll.bytes",
+    "DrawDebugTools.dll.bytes",
+    "GameFramework.dll.bytes",
+    "Google.Protobuf.dll.bytes",
+    "Kybernetik.Animancer.dll.bytes",
+    "NavMeshComponents.dll.bytes",
+    "Rogue.Analyzer.dll.bytes",
+    "System.Core.dll.bytes",
+    "System.dll.bytes",
+    "UniTask.dll.bytes",
+    "UniTask.TextMeshPro.dll.bytes",
+    "Unity.Addressables.dll.bytes",
+    "Unity.Mathematics.dll.bytes",
+    "Unity.Mathematics.FixedPoint.dll.bytes",
+    "Unity.ResourceManager.dll.bytes",
+    "Unity.TextMeshPro.dll.bytes",
+    "Unity.VisualScripting.Core.dll.bytes",
+    "UnityEngine.CoreModule.dll.bytes",
+    "mscorlib.dll.bytes"
+  ]
+}
