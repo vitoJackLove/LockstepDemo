@@ -12,7 +12,8 @@
 
 ```text
 Editor/
-├── Addressables/              # Runtime 资源 Addressables 同步和构建工具
+├── Addressables/              # Addressables 内容配置 Inspector
+├── HotUpdate/                 # 热更发布 Pipeline 与发布中心窗口
 ├── AnimationToolWindow/       # 骨骼曲线和动画测量工具
 ├── Art/                       # 低模树等美术生成工具
 ├── BuffGenerateEditor/        # Buff 制作窗口
@@ -30,7 +31,8 @@ Editor/
 
 | 子模块 | 路径 | 职责 | 完善度 | 文档 |
 |--------|------|------|--------|------|
-| Addressables | `./Addressables/` | 同步运行时资产到 Addressables group，构建运行时内容 | 基础 | 目录型 |
+| HotUpdate | `./HotUpdate/` | 热更发布 Pipeline、发布中心窗口、本地开发测试 | 中等 | 目录型 |
+| Addressables | `./Addressables/` | AddressablesContentSettings Inspector | 基础 | 目录型 |
 | ConfigCenter | `./ConfigCenter/` | ScriptableObject 配置资产集中编辑 | 基础 | 目录型 |
 | ProtobufConverter | `./ProtobufConverter/` | C# 到 protobuf 转换、生成 Google.Protobuf 源码 | 中等 | [README.md](./ProtobufConverter/README.md) |
 | SkillEditor | `./SkillEditor/` | 技能时间轴编辑窗口、轨道/片段 UI、编辑器事件 | 基础 | 目录型 |
@@ -41,11 +43,16 @@ Editor/
 
 ## 核心组件 / 类 / 系统
 
+### `HotUpdatePublishWindow`
+- **位置**: `HotUpdate/HotUpdatePublishWindow.cs`
+- **菜单**: `Tools/发布/热更发布中心`（热更构建唯一菜单入口）
+- **职责**: 首包构建、代码热更、资源热更一键打包；开发测试 Tab 提供本地 HTTP 与环境配置。
+- **底层**: `HotUpdateBuildPipeline` 编排 Preflight、HybridCLR、Addressables 等 Step。
+
 ### `RuntimeAddressablesConfigurator`
 - **位置**: `Addressables/RuntimeAddressablesConfigurator.cs`
-- **菜单**: `Tools/Addressables/Sync Runtime Assets`、`Tools/Addressables/Build Runtime Content`
-- **职责**: 将运行时加载所需资源同步到 Addressables，并构建运行时内容。
-- **关联运行时**: `ResourceComponent` 的 Addressables 模式依赖这些地址可解析。
+- **菜单**: 无（已 Obsolete，请使用热更发布中心）
+- **职责**: 遗留转发至 `AddressablesSyncStep.ExecuteSyncOnly()`，供 BulletFactory 等内容工厂调用。
 
 ### `SkillTimelineEditorWindow`
 - **位置**: `SkillEditor/Editor/Window/SkillTimelineEditorWindow.*.cs`
@@ -96,9 +103,10 @@ Editor Window / MenuItem
 4. 涉及 `.meta` 或资产移动时保持 Unity 资产引用稳定。
 
 ### 更新运行时资源加载
-1. 修改运行时资源路径或新资源后，同步检查 `RuntimeAddressablesConfigurator`。
-2. 确认 `Assets/Scripts/Libraries/AddressableAssetsData` 或当前 Addressables 配置包含新地址。
-3. 避免回退到 `Resources.Load` 模式。
+1. 修改运行时资源路径或新资源后，通过 `Tools/发布/热更发布中心` 执行同步与构建。
+2. 内容工厂仍可直接调用 `RuntimeAddressablesConfigurator.SyncRuntimeAssets()` 做仅同步。
+3. 确认 `Assets/Scripts/Libraries/AddressableAssetsData` 或当前 Addressables 配置包含新地址。
+4. 避免回退到 `Resources.Load` 模式。
 
 ## 注意事项
 
