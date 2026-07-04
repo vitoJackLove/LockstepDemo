@@ -4,7 +4,9 @@
 
 本项目是一款基于 **帧同步（Frame Sync）** 的 动作游戏框架，核心特色是 **客户端预测 + 权威校验 + 回滚重放** 的联机同步方案。逻辑层使用 **定点数（Fixed-Point）** 与 **固定时间步长** 保证多端确定性，支持在延迟与丢包环境下仍能保持流畅的本地操作反馈，并在收到权威结果后自动校正偏差。
 
-**技术栈：** Unity 2023.2 · ECS · 定点数 `fp`/`fp3` · Loxodon UI · UniTask · Google.Protobuf · 行为树 · 技能时间轴
+**技术栈：** Unity 2023.2 · ECS · 定点数 `fp`/`fp3` · Loxodon UI · UniTask · Google.Protobuf · HybridCLR · Addressables · 行为树 · 技能时间轴
+
+**资源与代码热更：** 首包本地打底 + 远程 Catalog/Bundle OTA；热更 DLL 与运行时资源统一走 Addressables Content Update，发布入口为 **`Tools/发布/热更发布中心`**。
 
 ---
 
@@ -364,7 +366,7 @@ private void RollBackLocalUpdateWorld(fp deltaTime)
 
 ### 4.2 Unity 客户端
 
-1. 用 Unity Hub 打开项目根目录 `D:\UnityProject\roguelike`
+1. 用 Unity Hub 打开项目根目录（例如 `D:\UnityProject\lockstep`）
 2. 打开含 `GameEntry` 的启动场景（通常为主场景）
 3. 点击 **Play** 进入游戏
 
@@ -372,6 +374,8 @@ private void RollBackLocalUpdateWorld(fp deltaTime)
 
 ```text
 GameEntry.Start()
+  → PreBootstrapAddressablesAsync()（Addressables 初始化 + 可选 Catalog 更新）
+  → LoadHotUpdateAssembliesAsync()（HybridCLR 热更程序集）
   → InitOptionalComponent()
       GameSetting → Resource → UI → Scene → DataTable
       → Observer → Camera → Canvas → TcpClient（联机模式）
@@ -481,7 +485,47 @@ dotnet build Assembly-CSharp.csproj -nologo -v:minimal
 
 
 
-### 4.5 Agent 自动化入口（Editor）
+### 4.5 热更发布与本地 OTA 测试
+
+热更构建统一在 **`Tools/发布/热更发布中心`**，支持三种模式：
+
+
+| 模式 | 说明 | 主要产物 |
+| ---- | ---- | -------- |
+| **构建首包** | HybridCLR 编译 + Addressables 全量构建 + 可选 Player | `ServerData/{BuildTarget}/`（Catalog + 远程 AB）、Player 包 |
+| **代码热更** | 更新 `Game.Runtime.dll.bytes` 等热更程序集 | `ServerData/` 中变更 Bundle + 新 Catalog |
+| **资源热更** | 更新 Config / Battle / Map 等可热更分组 | `ServerData/` 中变更 Bundle + 新 Catalog |
+
+
+**典型工作流：**
+
+1. **首包**：热更发布中心 →「构建首包」→ 生成 `Build/HotUpdateManifest.json` 与 `addressables_content_state.bin`
+2. **改资源/配表**：修改 `Assets/GameAssetConfig/`、`Assets/Prefabs/` 等 →「资源热更打包」
+3. **改热更代码**：修改 `Assets/Scripts/RunTime/` 下热更程序集 →「代码热更打包」（AOT 变更需重新首包）
+4. **本地验证**：开发测试 Tab →「配置本地环境」→「启动本地 HTTP 服务」（默认 `http://127.0.0.1:8765`）→ Play 或 Development 包验证 Catalog 更新
+
+**目录说明：**
+
+
+| 路径 | 用途 |
+| ---- | ---- |
+| `ServerData/{BuildTarget}/` | 远程 Catalog（`catalog_*.json/.hash`）与热更 AB，供 CDN / 本地 HTTP 托管 |
+| `Build/HotUpdateManifest.json` | 构建历史、content state 路径、AOT 哈希记录 |
+| `Assets/HotUpdate/Code/` | 热更 DLL（`*.dll.bytes`），由 HybridCLR 构建步骤同步 |
+| `Assets/Config/AddressableAssetsData/` | Addressables 分组与 Profile 配置 |
+
+**本地 HTTP 服务（手动备选）：**
+
+```powershell
+cd D:\UnityProject\lockstep
+py -3 -m http.server 8765 --bind 127.0.0.1 --directory ServerData
+```
+
+验证：`http://127.0.0.1:8765/StandaloneWindows64/catalog_*.hash` 应返回 200。
+
+> **说明：** 可热更分组（Config、Battle、Map 等）的 Build/Load Path 绑定 `Remote.BuildPath` / `Remote.LoadPath`，Content Update 产物输出到 `ServerData`；首包仍通过 `IncludeInBuild` 打入 Player 以保证离线可玩。
+
+### 4.6 Agent 自动化入口（Editor）
 
 菜单 **Tools/Agent/Run Client Game Entry** 可通过 Editor Agent 自动完成启动流程（见 `Assets/Scripts/Editor/Agent/ClientAgentGameEntryMenu.cs`）。
 
@@ -523,13 +567,22 @@ dotnet build Assembly-CSharp.csproj -nologo -v:minimal
 
 
 
-### 5.3 资源与协议
+### 5.3 热更发布与资源
+
+
+| 工具 | 菜单路径 | 职责 |
+| ---- | -------- | ---- |
+| **热更发布中心** | `Tools/发布/热更发布中心` | 首包 / 代码热更 / 资源热更构建、日志、Addressables 配置面板 |
+| **停止本地 HTTP 服务** | `Tools/发布/停止本地 HTTP 服务` | 停止热更本地静态文件服务 |
+| **AddressablesContentSettings** | `Assets/GameAssetConfig/AddressablesContentSettings.asset` | CDN URL、Catalog 检查开关、本地 HTTP 端口等运行时配置 |
+
+> 旧菜单 `Tools/Addressables/*`、`Tools/HybridCLR/正式入口/*` 已收敛至热更发布中心，请勿再使用。
+
+### 5.4 协议与 Protobuf
 
 
 | 工具                        | 菜单路径                                                                 | 职责                           |
 | ------------------------- | -------------------------------------------------------------------- | ---------------------------- |
-| **Addressables 同步**       | `Tools/Addressables/Sync Runtime Assets`                             | 将运行时资源同步到 Addressables Group |
-| **Addressables 构建**       | `Tools/Addressables/Build Runtime Content`                           | 构建 Addressables 运行时内容        |
 | **C# → Protobuf**         | `Tools/C# to Protobuf Converter`                                     | C# 类型转 `.proto` 定义           |
 | **Protobuf 进阶转换**         | `Tools/Protobuf Converter/Advanced Converter`                        | 进阶 protobuf 转换               |
 | **Protobuf 反射转换**         | `Tools/Protobuf Converter/Reflection Converter`                      | 反射式 protobuf 转换              |
@@ -541,7 +594,7 @@ dotnet build Assembly-CSharp.csproj -nologo -v:minimal
 
 
 
-### 5.4 美术与动画辅助
+### 5.5 美术与动画辅助
 
 
 | 工具           | 菜单路径                               | 职责           |
@@ -552,7 +605,7 @@ dotnet build Assembly-CSharp.csproj -nologo -v:minimal
 
 
 
-### 5.5 日志与 Agent
+### 5.6 日志与 Agent
 
 
 | 工具               | 菜单路径                            | 职责                            |
@@ -563,7 +616,7 @@ dotnet build Assembly-CSharp.csproj -nologo -v:minimal
 
 
 
-### 5.6 资产创建快捷方式
+### 5.7 资产创建快捷方式
 
 - `Assets/Create/技能编辑器/SkillTimeLineAsset` — 创建技能时间轴资产
 
@@ -584,6 +637,9 @@ dotnet build Assembly-CSharp.csproj -nologo -v:minimal
 | **FrameSyncClientComponent**            | `Assets/Scripts/RunTime/GameEntry/Component/` | TCP 连接、protobuf 收发、主线程事件分发                  |
 | **EntitySystem**                        | `Assets/Scripts/RunTime/ECS/System/`          | 实体快照、硬/软回滚、预测校验                             |
 | **RogueGameServer**                     | `Server/RogueGameServer/`                     | 独立 .NET 帧同步中继服务器                            |
+| **AddressablesBootstrap**               | `Assets/Scripts/GameFramework/Component/`     | PreBootstrap：Addressables 初始化与 Catalog 更新 |
+| **HotUpdate Pipeline**                  | `Assets/Scripts/Editor/HotUpdate/`           | 首包 / 代码 / 资源热更构建与本地 HTTP 测试环境              |
+| **HybridCLR 热更**                        | `Assets/HotUpdate/Code/`                     | 热更 DLL 与 AOT 元数据（Addressables 分发）          |
 | **NetworkProtobufCodec**                | `Assets/Scripts/RunTime/Server/Protobuf/`     | 运行时消息 ↔ protobuf 转换                         |
 | **Path**                                | `Assets/Scripts/RunTime/Path/`                | 确定性 A* 寻路                                   |
 | **SkillEditor / SkillData**             | `Assets/Scripts/RunTime/`                     | 技能时间轴执行与回滚                                  |
@@ -597,17 +653,23 @@ dotnet build Assembly-CSharp.csproj -nologo -v:minimal
 ## 七、目录结构速查
 
 ```text
-roguelike/
+lockstep/
 ├── Assets/
 │   ├── Scripts/
 │   │   ├── RunTime/          # 运行时主代码（ECS / World / Server / UI …）
-│   │   └── Editor/           # 编辑器工具（技能 / 行为树 / 回滚调试 …）
+│   │   ├── GameFramework/    # AOT 壳：GameEntry、Addressables Bootstrap 等
+│   │   └── Editor/           # 编辑器工具（热更发布 / 技能 / 行为树 / 回滚调试 …）
+│   ├── Config/
+│   │   └── AddressableAssetsData/  # Addressables 分组与 Profile
+│   ├── HotUpdate/Code/       # HybridCLR 热更 DLL（*.dll.bytes）
 │   ├── GameAssetConfig/      # ScriptableObject 配置资产
 │   ├── Prefabs/              # 战斗、UI、技能 Prefab
 │   ├── Art/                  # 美术资源
 │   └── Proto/                # protobuf 协议定义
+├── ServerData/               # 热更构建产物（Catalog + 远程 AB，本地 HTTP/CDN 托管）
+├── Build/                    # Player 包与 HotUpdateManifest.json（gitignore）
 ├── Server/
-│   └── RogueGameServer/      # 独立 .NET 7 帧同步服务器
+│   └── RogueGameServer/      # 独立 .NET 8 帧同步服务器
 └── Packages/                 # Unity 包依赖
 ```
 
@@ -624,9 +686,10 @@ roguelike/
 - **可测试性**：可注入丢包率（`lossPacket`）、预测帧数（`forecastTick`），通过 `Tools/调试/预测回滚` 与 `Tools/调试/双世界线查看器` 验证回滚正确性
 - **演示视频**：见 [§2.5 演示视频](#25-演示视频)（软回滚 / 硬回滚实战录屏）
 - **单机/联机统一管线**：同一套 `BaseWorld.FixedUpdate` 逻辑，通过 `IGameSessionProfile` 切换是否启用快照与回滚
+- **资源与代码热更**：HybridCLR + Addressables Content Update，首包离线可玩、远程 Catalog/Bundle 增量更新（见 [§4.5 热更发布与本地 OTA 测试](#45-热更发布与本地-ota-测试)）
 
 适合作为 Roguelike、格斗、MOBA 等需要强一致性与手感反馈的联机游戏底层框架。
 
 ---
 
-*最后更新：2026-06-27*
+*最后更新：2026-07-04*
