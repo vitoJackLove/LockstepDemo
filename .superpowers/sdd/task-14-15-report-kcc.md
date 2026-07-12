@@ -3,7 +3,7 @@
 ## Contract
 
 - **STATUS:** DONE
-- **Commits:** `<pending>` (Task 15 only; Task 14 skipped — see below)
+- **Commits:** `791da7c514583b1696bd6db7ca442ed326458f56` (Task 15 only; Task 14 skipped — see below)
 - **Base:** `12228f017a01e849d8dcf3a51a78e2ca505539b1`
 - **Tests:**
   - `dotnet build Assembly-CSharp.csproj -nologo -v:minimal` — 0 errors

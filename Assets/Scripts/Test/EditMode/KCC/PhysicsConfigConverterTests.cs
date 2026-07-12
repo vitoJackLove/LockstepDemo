@@ -34,5 +34,31 @@ namespace Rogue.Tests.EditMode.KCC
             Assert.AreEqual((fp)2f, height);
             Assert.AreEqual((fp)1f, yOffset);
         }
+
+        [Test]
+        public void ResolveGravityAcceleration_CharacterController_UsesDefaultWhenZero()
+        {
+            var settings = new CharacterControllerSettings
+            {
+                useGravity = true,
+                gravity = 0f,
+            };
+
+            fp gravity = PhysicsConfigConverter.ResolveGravityAcceleration(settings);
+            Assert.AreEqual(FPMathKCC.DefaultGravity, gravity);
+        }
+
+        [Test]
+        public void ResolveGravityAcceleration_CharacterController_ReturnsZeroWhenDisabled()
+        {
+            var settings = new CharacterControllerSettings
+            {
+                useGravity = false,
+                gravity = -9.81f,
+            };
+
+            fp gravity = PhysicsConfigConverter.ResolveGravityAcceleration(settings);
+            Assert.AreEqual((fp)0, gravity);
+        }
     }
 }

@@ -38,6 +38,20 @@ public class HeroQuickCreateWindow : EditorWindow
         center = new Vector3(0f, 1f, 0f),
         layer = FPCollisionLayer.Hero,
     };
+    private PhysicsBodyConfig _physicsBody = new PhysicsBodyConfig
+    {
+        bodyType = PhysicsBodyType.Kinematic,
+        colliders = new List<PhysicsColliderSetting>
+        {
+            new PhysicsColliderSetting
+            {
+                key = "body",
+                shape = PhysicsShapeType.Box,
+                halfExtents = new Vector3(0.5f, 1f, 0.5f),
+                layer = FPCollisionLayer.Hero,
+            }
+        }
+    };
 
     private BlendTreeType _blendTreeType = BlendTreeType.Mixer2D;
     private MixerTransition2D.MixerType _mixer2DType = MixerTransition2D.MixerType.Directional;
@@ -295,6 +309,14 @@ public class HeroQuickCreateWindow : EditorWindow
                 _characterController,
                 Matrix4x4.identity);
         }
+        else if (_movementMode == PhysicsMovementMode.Rigidbody)
+        {
+            PhysicsBodyConfigGizmoDrawer.DrawPhysicsBodyPreviewOverlay(
+                rect,
+                _previewUtility.camera,
+                _physicsBody,
+                Matrix4x4.identity);
+        }
     }
 
     private void DrawColliderOverlay(Rect rect)
@@ -547,7 +569,23 @@ public class HeroQuickCreateWindow : EditorWindow
                 _characterController.radius = EditorGUILayout.FloatField("胶囊半径", _characterController.radius);
                 _characterController.height = EditorGUILayout.FloatField("胶囊高度", _characterController.height);
                 _characterController.center = EditorGUILayout.Vector3Field("中心偏移", _characterController.center);
-                _characterController.layer = (FPCollisionLayer)EditorGUILayout.EnumFlagsField("碰撞层", _characterController.layer);
+                _characterController.layer = (FPCollisionLayer)EditorGUILayout.EnumPopup("碰撞层", _characterController.layer);
+                _characterController.useGravity = EditorGUILayout.Toggle("启用重力", _characterController.useGravity);
+                if (_characterController.useGravity)
+                {
+                    _characterController.gravity = EditorGUILayout.FloatField("重力加速度 Y", _characterController.gravity);
+                }
+
+                if (_characterController.collisionInfluence == null)
+                {
+                    _characterController.collisionInfluence = PhysicsMotionInfluence.CreateCharacterControllerDefault();
+                }
+
+                PhysicsMotionInfluenceInspectorDrawer.Draw(_characterController.collisionInfluence);
+            }
+            else if (_movementMode == PhysicsMovementMode.Rigidbody)
+            {
+                PhysicsBodyConfigInspectorDrawer.Draw(_physicsBody);
             }
         }
     }
@@ -900,6 +938,7 @@ public class HeroQuickCreateWindow : EditorWindow
             campEnum = _campEnum,
             movementMode = _movementMode,
             characterController = _characterController,
+            physicsBody = _physicsBody,
             initSkillList = CreateHeroSkillConfigs(paths),
             colliderDataList = new List<HitColliderEditorSetting> { CreateColliderSetting() },
             stateList = CreateStateConfigs(),

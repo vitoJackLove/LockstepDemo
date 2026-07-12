@@ -218,6 +218,7 @@ public class WorldSystem : Singleton<WorldSystem>, ISingletonAwake, ISingletonUp
                 foreach (var channel in this.worldChannels)
                 {
                     channel.Value.Update(fpmath1.LogicDeltaTime);
+                    channel.Value.RefreshKccPhysicsDebugDraw();
                 }
             }
         }

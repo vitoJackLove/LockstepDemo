@@ -48,6 +48,13 @@ namespace Rogue
             OpenStartFormAsync().Forget();
         }
 
+        public void ApplyLogicFrameRate(int logicFrameRate)
+        {
+            fpmath1.ApplyLogicFrameRate(logicFrameRate);
+            GameLog.Info(GameLogChannel.Bootstrap,
+                $"逻辑帧率已应用: {fpmath1.LogicFrameRate} FPS, deltaTime={fpmath1.LogicDeltaTime}");
+        }
+
         public void Update()
         {
             Game.Update();

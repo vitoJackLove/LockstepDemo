@@ -47,6 +47,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - config
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a8f1c2d4e6b7890abcdef1234567890
+    m_Address: Assets/GameAssetConfig/GameSetting.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 61aa371f302ccd54e83a3e437bf2f8a7
     m_Address: Assets/GameAssetConfig/HeroAssets.asset
     m_ReadOnly: 0
@@ -67,6 +73,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 852842fcfc162b943b4758233c79beb4
     m_Address: Assets/GameAssetConfig/StateAssets.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - config
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c4d8e2f1a6b7394051827364a5b3c9d0
+    m_Address: Assets/GameAssetConfig/SceneAssets.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - config

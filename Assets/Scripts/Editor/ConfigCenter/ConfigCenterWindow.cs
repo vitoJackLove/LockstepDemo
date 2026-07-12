@@ -12,29 +12,19 @@ public class ConfigCenterWindow : EditorWindow
         "Assets/Config",
     };
 
-    private static readonly string[] ExtraConfigAssets =
-    {
-        "Assets/Animancer Settings.asset",
-        "Assets/BehaviourTreeProjectSettings.asset",
-        "Assets/DefaultVolumeProfile.asset",
-        "Assets/Plugins/DrawDebugTools/Resources/Settings/DDTSettings.asset",
-        "Assets/Plugins/Sirenix/Odin Inspector/Config/Resources/Sirenix/GlobalSerializationConfig.asset",
-        "Assets/Scripts/Libraries/AddressableAssetsData/AddressableAssetSettings.asset",
-        "Assets/Scripts/Libraries/LoxodonFramework/Editor/AppData/Localizations/LocalizationSettings.asset",
-    };
-
     private static readonly GUIContent[] ScopeLabels =
     {
         new GUIContent("全部"),
         new GUIContent("GameAssetConfig"),
         new GUIContent("Config"),
-        new GUIContent("项目设置"),
     };
 
     private static readonly string[] CriticalGameAssetConfigs =
     {
         "EntityCampConfig",
+        "GameSetting",
         "RollBackGameConfig",
+        "SceneAssets",
     };
 
     private readonly List<ConfigEntry> _entries = new List<ConfigEntry>();
@@ -293,7 +283,6 @@ public class ConfigCenterWindow : EditorWindow
 
         AddScriptableObjects(ScanFolders[0], 1);
         AddScriptableObjects(ScanFolders[1], 2);
-        AddExtraConfigAssets();
 
         ValidateRuntimeTables();
         ValidateCriticalConfigs();
@@ -331,7 +320,7 @@ public class ConfigCenterWindow : EditorWindow
         {
             string path = AssetDatabase.GUIDToAssetPath(guids[i]);
             ScriptableObject asset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
-            if (asset == null)
+            if (asset == null || asset is not IAssetsConfig)
             {
                 continue;
             }
@@ -351,46 +340,13 @@ public class ConfigCenterWindow : EditorWindow
         }
     }
 
-    private void AddExtraConfigAssets()
-    {
-        for (int i = 0; i < ExtraConfigAssets.Length; i++)
-        {
-            string path = ExtraConfigAssets[i];
-            ScriptableObject asset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
-            if (asset == null)
-            {
-                continue;
-            }
-
-            ConfigEntry entry = new ConfigEntry
-            {
-                Asset = asset,
-                AssetPath = path,
-                DisplayName = asset.name,
-                TypeName = asset.GetType().Name,
-                ScopeIndex = 3,
-                ScopeName = ScopeLabels[3].text,
-            };
-
-            RefreshEntryMetadata(entry);
-            _entries.Add(entry);
-        }
-    }
-
     private void RefreshEntryMetadata(ConfigEntry entry)
     {
         entry.Warning = string.Empty;
         entry.RecordCount = -1;
-        entry.DataTypeName = string.Empty;
-        entry.IsAssetsTable = false;
-
-        IAssetsConfig assetsConfig = entry.Asset as IAssetsConfig;
-        if (assetsConfig == null)
-        {
-            return;
-        }
-
         entry.IsAssetsTable = true;
+
+        IAssetsConfig assetsConfig = (IAssetsConfig)entry.Asset;
         entry.DataTypeName = assetsConfig.GetDataTableType().Name;
 
         List<EntityAssetsConfig> configs = assetsConfig.GetAllDataTable();

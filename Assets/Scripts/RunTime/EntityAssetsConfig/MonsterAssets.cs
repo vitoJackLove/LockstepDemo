@@ -78,6 +78,7 @@ public class MonsterAssetsConfig : EntityAssetsConfig
 
     [LabelText("Rigidbody 物理体")]
     [ShowIf("movementMode", PhysicsMovementMode.Rigidbody)]
+    [InlineProperty(LabelWidth = 120)]
     public PhysicsBodyConfig physicsBody = new PhysicsBodyConfig
     {
         bodyType = PhysicsBodyType.Kinematic,

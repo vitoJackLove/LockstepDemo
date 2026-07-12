@@ -57,8 +57,8 @@ public class MoveComponent : BaseComponent
             return;
         }
 
-        fp3 currentPosition = Entity.transform.Position;
-        fpquaternion currentRotation = Entity.transform.Rotation;
+        fp3 currentPosition = _motor.TransientPosition;
+        fpquaternion currentRotation = _motor.TransientRotation;
 
         if (Entity.MoveEnable)
         {
@@ -73,7 +73,6 @@ public class MoveComponent : BaseComponent
             fpquaternion targetRotation = fpmath1.LookRotation(moveDir, fpmath1.up());
             fpquaternion moveRotation = fpmath1.slerp(currentRotation, targetRotation,
                 (fp)20 * Entity.BaseWorld.LogicDeltaTime);
-
             _motor.SetMoveRotationTarget(moveRotation);
         }
     }

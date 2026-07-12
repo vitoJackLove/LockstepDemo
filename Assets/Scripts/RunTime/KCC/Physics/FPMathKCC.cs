@@ -14,6 +14,27 @@ public static class FPMathKCC
     /// <summary>世界空间右方向。</summary>
     public static readonly fp3 WorldRight = new fp3((fp)1, (fp)0, (fp)0);
 
+    /// <summary>默认重力加速度（世界 Y，米/秒²）。</summary>
+    public static readonly fp DefaultGravity = (fp)(-9.81f);
+
+    /// <summary>刚体贴地探测皮肤厚度。</summary>
+    public static readonly fp GroundProbeSkin = (fp)0.02f;
+
+    /// <summary>
+    /// 安全归一化：零向量或近零向量时返回 zero（对齐 Unity Vector3.normalized）。
+    /// fixed-point 库的 normalizesafe 会 eager 求值 rsqrt，零向量时仍会除零。
+    /// </summary>
+    public static fp3 NormalizeSafe(fp3 vector)
+    {
+        fp lenSq = fpmath1.sqrMagnitude(vector);
+        if (lenSq <= (fp)0.00000001f)
+        {
+            return fp3.zero;
+        }
+
+        return vector * fpmath.rsqrt(lenSq);
+    }
+
     /// <summary>
     /// 将向量投影到指定平面上。
     /// </summary>
@@ -284,6 +305,185 @@ public static class FPMathKCC
     public static fp3 TransformPoint(fp3 localPoint, fp3 position, fpquaternion rotation)
     {
         return position + rotation * localPoint;
+    }
+
+    /// <summary>
+    /// 判断点是否位于以原点为中心的 AABB 内部（含边界）。
+    /// </summary>
+    public static bool IsInsideLocalAabb(fp3 localPoint, fp3 halfExtents)
+    {
+        return fpmath.abs(localPoint.x) <= halfExtents.x
+            && fpmath.abs(localPoint.y) <= halfExtents.y
+            && fpmath.abs(localPoint.z) <= halfExtents.z;
+    }
+
+    /// <summary>
+    /// 求点到以原点为中心的 AABB 的最近点。
+    /// </summary>
+    public static fp3 ClosestPointOnLocalAabb(fp3 localPoint, fp3 halfExtents)
+    {
+        return new fp3(
+            fpmath.clamp(localPoint.x, -halfExtents.x, halfExtents.x),
+            fpmath.clamp(localPoint.y, -halfExtents.y, halfExtents.y),
+            fpmath.clamp(localPoint.z, -halfExtents.z, halfExtents.z));
+    }
+
+    /// <summary>
+    /// 求线段与以原点为中心的 AABB 的最近点对（OBB 局部空间）。
+    /// 通过端点 + 12 条棱边 segment-segment 检测，保证精确性。
+    /// </summary>
+    public static fp ClosestPointsSegmentLocalAabb(
+        fp3 segA,
+        fp3 segB,
+        fp3 halfExtents,
+        out fp3 pointOnSegment,
+        out fp3 pointOnBox)
+    {
+        fp bestDistSq = fp.max_value;
+        fp3 bestPointOnSegment = segA;
+        fp3 bestPointOnBox = fp3.zero;
+
+        void Consider(fp3 ps, fp3 pb)
+        {
+            fp distSq = fpmath1.sqrMagnitude(ps - pb);
+            if (distSq < bestDistSq)
+            {
+                bestDistSq = distSq;
+                bestPointOnSegment = ps;
+                bestPointOnBox = pb;
+            }
+        }
+
+        Consider(segA, ClosestPointOnLocalAabb(segA, halfExtents));
+        Consider(segB, ClosestPointOnLocalAabb(segB, halfExtents));
+
+        fp hx = halfExtents.x;
+        fp hy = halfExtents.y;
+        fp hz = halfExtents.z;
+
+        // X 轴平行棱边（4 条）
+        ConsiderSegmentAabbEdge(segA, segB, new fp3(-hx, -hy, -hz), new fp3(hx, -hy, -hz), Consider);
+        ConsiderSegmentAabbEdge(segA, segB, new fp3(-hx, -hy, hz), new fp3(hx, -hy, hz), Consider);
+        ConsiderSegmentAabbEdge(segA, segB, new fp3(-hx, hy, -hz), new fp3(hx, hy, -hz), Consider);
+        ConsiderSegmentAabbEdge(segA, segB, new fp3(-hx, hy, hz), new fp3(hx, hy, hz), Consider);
+
+        // Y 轴平行棱边（4 条）
+        ConsiderSegmentAabbEdge(segA, segB, new fp3(-hx, -hy, -hz), new fp3(-hx, hy, -hz), Consider);
+        ConsiderSegmentAabbEdge(segA, segB, new fp3(-hx, -hy, hz), new fp3(-hx, hy, hz), Consider);
+        ConsiderSegmentAabbEdge(segA, segB, new fp3(hx, -hy, -hz), new fp3(hx, hy, -hz), Consider);
+        ConsiderSegmentAabbEdge(segA, segB, new fp3(hx, -hy, hz), new fp3(hx, hy, hz), Consider);
+
+        // Z 轴平行棱边（4 条）
+        ConsiderSegmentAabbEdge(segA, segB, new fp3(-hx, -hy, -hz), new fp3(-hx, -hy, hz), Consider);
+        ConsiderSegmentAabbEdge(segA, segB, new fp3(-hx, hy, -hz), new fp3(-hx, hy, hz), Consider);
+        ConsiderSegmentAabbEdge(segA, segB, new fp3(hx, -hy, -hz), new fp3(hx, -hy, hz), Consider);
+        ConsiderSegmentAabbEdge(segA, segB, new fp3(hx, hy, -hz), new fp3(hx, hy, hz), Consider);
+
+        pointOnSegment = bestPointOnSegment;
+        pointOnBox = bestPointOnBox;
+        return fpmath.sqrt(bestDistSq);
+    }
+
+    /// <summary>
+    /// 求 AABB 内点到最近面的推出方向与距离（局部空间，盒心在原点）。
+    /// </summary>
+    public static void GetNearestLocalAabbFaceDepenetration(
+        fp3 localPoint,
+        fp3 halfExtents,
+        out fp3 localDirection,
+        out fp exitDistance)
+    {
+        fp distanceToPositiveX = halfExtents.x - localPoint.x;
+        fp distanceToNegativeX = halfExtents.x + localPoint.x;
+        fp distanceToPositiveY = halfExtents.y - localPoint.y;
+        fp distanceToNegativeY = halfExtents.y + localPoint.y;
+        fp distanceToPositiveZ = halfExtents.z - localPoint.z;
+        fp distanceToNegativeZ = halfExtents.z + localPoint.z;
+
+        exitDistance = distanceToPositiveX;
+        localDirection = new fp3((fp)1, (fp)0, (fp)0);
+
+        if (distanceToNegativeX < exitDistance)
+        {
+            exitDistance = distanceToNegativeX;
+            localDirection = new fp3((fp)(-1), (fp)0, (fp)0);
+        }
+
+        if (distanceToPositiveY < exitDistance)
+        {
+            exitDistance = distanceToPositiveY;
+            localDirection = new fp3((fp)0, (fp)1, (fp)0);
+        }
+
+        if (distanceToNegativeY < exitDistance)
+        {
+            exitDistance = distanceToNegativeY;
+            localDirection = new fp3((fp)0, (fp)(-1), (fp)0);
+        }
+
+        if (distanceToPositiveZ < exitDistance)
+        {
+            exitDistance = distanceToPositiveZ;
+            localDirection = new fp3((fp)0, (fp)0, (fp)1);
+        }
+
+        if (distanceToNegativeZ < exitDistance)
+        {
+            exitDistance = distanceToNegativeZ;
+            localDirection = new fp3((fp)0, (fp)0, (fp)(-1));
+        }
+    }
+
+    /// <summary>
+    /// 由两最近点及各自半径计算 MTD（最小平移分离）。
+    /// </summary>
+    public static bool TryComputeRadiusMtd(
+        fp3 pointA,
+        fp3 pointB,
+        fp radiusA,
+        fp radiusB,
+        fp3 fallbackDirection,
+        out fp3 direction,
+        out fp penetration)
+    {
+        direction = fp3.zero;
+        penetration = (fp)0;
+
+        fp combined = radiusA + radiusB;
+        fp dist = fpmath.length(pointA - pointB);
+        if (dist >= combined)
+        {
+            return false;
+        }
+
+        if (dist > (fp)0.0000001f)
+        {
+            direction = fpmath.normalize(pointA - pointB);
+        }
+        else if (fpmath1.sqrMagnitude(fallbackDirection) > (fp)0.0000001f)
+        {
+            direction = fpmath.normalize(fallbackDirection);
+        }
+        else
+        {
+            direction = WorldUp;
+        }
+
+        penetration = combined - dist;
+        return true;
+    }
+
+    private static void ConsiderSegmentAabbEdge(
+        fp3 segA,
+        fp3 segB,
+        fp3 edgeA,
+        fp3 edgeB,
+        System.Action<fp3, fp3> consider)
+    {
+        fp3 c1;
+        fp3 c2;
+        SegmentSegmentDistance(segA, segB, edgeA, edgeB, out c1, out c2);
+        consider(c1, c2);
     }
 }
 

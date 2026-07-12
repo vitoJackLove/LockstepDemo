@@ -23,18 +23,6 @@ MonoBehaviour:
     attack: 100
     defence: 5
     campEnum: 0
-    movementMode: 0
-    characterController:
-      radius: 0.5
-      height: 2
-      center: {x: 0, y: 1, z: 0}
-      stepOffset: 0.3
-      slopeLimit: 45
-      skinWidth: 0.08
-      layer: 4
-    physicsBody:
-      bodyType: 1
-      colliders: []
     initSkillList:
     - skillId: 110401
       commandState: 1
@@ -84,6 +72,47 @@ MonoBehaviour:
       keyCode: 3
       attackIndexCacheTick: 0
       attackIndex: 0
+    movementMode: 0
+    characterController:
+      radius: 0.5
+      height: 2
+      center: {x: 0, y: 1, z: 0}
+      stepOffset: 0.3
+      slopeLimit: 45
+      skinWidth: 0.08
+      layer: 4
+      useGravity: 1
+      gravity: -9.81
+      collisionInfluence:
+        positionX: 1
+        positionY: 1
+        positionZ: 1
+        rotationX: 0
+        rotationY: 1
+        rotationZ: 0
+    physicsBody:
+      bodyType: 1
+      useGravity: 1
+      gravity: -9.81
+      collisionInfluence:
+        positionX: 1
+        positionY: 1
+        positionZ: 1
+        rotationX: 0
+        rotationY: 0
+        rotationZ: 0
+      colliders:
+      - key: body
+        shape: 2
+        localOffset: {x: 0, y: 1, z: 0}
+        localEuler: {x: 0, y: 0, z: 0}
+        layer: 4
+        isTrigger: 0
+        halfExtents: {x: 0.5, y: 1, z: 0.5}
+        radius: 0.5
+        capsuleRadius: 0.5
+        capsuleHeight: 2
+        directionAxis: 1
     colliderDataList:
     - key: 1001Hero
       primitiveEnum: 1
@@ -122,18 +151,6 @@ MonoBehaviour:
     attack: 20
     defence: 5
     campEnum: 0
-    movementMode: 0
-    characterController:
-      radius: 0.5
-      height: 2
-      center: {x: 0, y: 1, z: 0}
-      stepOffset: 0.3
-      slopeLimit: 45
-      skinWidth: 0.08
-      layer: 4
-    physicsBody:
-      bodyType: 1
-      colliders: []
     initSkillList:
     - skillId: 120501
       commandState: 1
@@ -159,6 +176,36 @@ MonoBehaviour:
       keyCode: 3
       attackIndexCacheTick: 0
       attackIndex: 0
+    movementMode: 0
+    characterController:
+      radius: 0.5
+      height: 2
+      center: {x: 0, y: 1, z: 0}
+      stepOffset: 0.3
+      slopeLimit: 45
+      skinWidth: 0.08
+      layer: 4
+      useGravity: 1
+      gravity: -9.81
+      collisionInfluence:
+        positionX: 1
+        positionY: 1
+        positionZ: 1
+        rotationX: 0
+        rotationY: 1
+        rotationZ: 0
+    physicsBody:
+      bodyType: 1
+      useGravity: 1
+      gravity: -9.81
+      collisionInfluence:
+        positionX: 1
+        positionY: 1
+        positionZ: 1
+        rotationX: 0
+        rotationY: 0
+        rotationZ: 0
+      colliders: []
     colliderDataList:
     - key: 1103Hero
       primitiveEnum: 1
@@ -197,18 +244,6 @@ MonoBehaviour:
     attack: 20
     defence: 5
     campEnum: 0
-    movementMode: 0
-    characterController:
-      radius: 0.5
-      height: 2
-      center: {x: 0, y: 1, z: 0}
-      stepOffset: 0.3
-      slopeLimit: 45
-      skinWidth: 0.08
-      layer: 4
-    physicsBody:
-      bodyType: 1
-      colliders: []
     initSkillList:
     - skillId: 100101
       commandState: 1
@@ -226,6 +261,36 @@ MonoBehaviour:
       keyCode: 1
       attackIndexCacheTick: 10
       attackIndex: 2
+    movementMode: 0
+    characterController:
+      radius: 0.5
+      height: 2
+      center: {x: 0, y: 1, z: 0}
+      stepOffset: 0.3
+      slopeLimit: 45
+      skinWidth: 0.08
+      layer: 4
+      useGravity: 1
+      gravity: -9.81
+      collisionInfluence:
+        positionX: 1
+        positionY: 1
+        positionZ: 1
+        rotationX: 0
+        rotationY: 1
+        rotationZ: 0
+    physicsBody:
+      bodyType: 1
+      useGravity: 1
+      gravity: -9.81
+      collisionInfluence:
+        positionX: 1
+        positionY: 1
+        positionZ: 1
+        rotationX: 0
+        rotationY: 0
+        rotationZ: 0
+      colliders: []
     colliderDataList: []
     stateList: []
     blendTree:

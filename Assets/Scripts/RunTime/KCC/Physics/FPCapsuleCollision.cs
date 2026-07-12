@@ -5,6 +5,35 @@ using Unity.Mathematics.FixedPoint;
 /// </summary>
 public static class FPCapsuleCollision
 {
+    private static fp3 SafeNormalize(fp3 vector, fp3 fallback)
+    {
+        if (fpmath1.sqrMagnitude(vector) <= (fp)0.0000001f)
+        {
+            return fallback;
+        }
+
+        return fpmath.normalize(vector);
+    }
+
+    private static bool TryComputeCapsuleCoreMtd(
+        fp3 pointOnCapsuleCore,
+        fp3 pointOnSolid,
+        fp radius,
+        fp solidRadius,
+        fp3 fallbackDirection,
+        out fp3 direction,
+        out fp distance)
+    {
+        return FPMathKCC.TryComputeRadiusMtd(
+            pointOnCapsuleCore,
+            pointOnSolid,
+            radius,
+            solidRadius,
+            fallbackDirection,
+            out direction,
+            out distance);
+    }
+
     /// <summary>
     /// 检测胶囊是否与指定碰撞体重叠。
     /// </summary>
@@ -40,20 +69,26 @@ public static class FPCapsuleCollision
     public static bool CapsuleCast(FPCapsuleGeometry capsule, fp3 direction, fp distance, IFPCollider collider, out FPRaycastHit hit)
     {
         hit = default;
-        if (distance <= (fp)0)
+        if (distance <= (fp)0 || fpmath1.sqrMagnitude(direction) <= (fp)0.0000001f)
         {
             return false;
         }
 
         fp3 dir = fpmath.normalize(direction);
+
+        // 起始位置已重叠时，不作为 cast 命中（由 Overlap/Depenetration 处理）
+        if (TryComputePenetration(capsule, collider, out _, out _))
+        {
+            return false;
+        }
+
         fp bestDistance = distance + (fp)1;
         fp3 bestNormal = fp3.zero;
         fp3 bestPoint = fp3.zero;
         bool found = false;
 
-        // 沿 cast 方向分步检测穿透
         int steps = 8;
-        for (int i = 0; i <= steps; i++)
+        for (int i = 1; i <= steps; i++)
         {
             fp t = (fp)i / (fp)steps * distance;
             FPCapsuleGeometry swept = capsule;
@@ -71,11 +106,12 @@ public static class FPCapsuleCollision
                     bestNormal = normal;
                     bestPoint = swept.Center;
                     found = true;
+                    break;
                 }
             }
         }
 
-        if (!found)
+        if (!found || fpmath1.sqrMagnitude(bestNormal) <= (fp)0.0000001f)
         {
             return false;
         }
@@ -84,7 +120,7 @@ public static class FPCapsuleCollision
         {
             Collider = collider,
             Distance = bestDistance,
-            Normal = fpmath.normalize(bestNormal),
+            Normal = SafeNormalize(bestNormal, FPMathKCC.WorldUp),
             Point = bestPoint,
         };
         return true;
@@ -277,23 +313,22 @@ public static class FPCapsuleCollision
     {
         direction = fp3.zero;
         distance = (fp)0;
+
         fp3 closest;
-        fp dist = FPMathKCC.ClosestPointOnSegmentToPoint(
+        FPMathKCC.ClosestPointOnSegmentToPoint(
             capsule.BottomHemiCenter,
             capsule.TopHemiCenter,
             sphere.Center,
             out closest);
-        fp combined = capsule.Radius + sphere.Radius;
-        if (dist >= combined)
-        {
-            return false;
-        }
 
-        direction = dist > (fp)0.0000001f
-            ? fpmath.normalize(closest - sphere.Center)
-            : FPMathKCC.WorldUp;
-        distance = combined - dist;
-        return true;
+        return TryComputeCapsuleCoreMtd(
+            closest,
+            sphere.Center,
+            capsule.Radius,
+            sphere.Radius,
+            capsule.Center - sphere.Center,
+            out direction,
+            out distance);
     }
 
     /// <summary>
@@ -377,17 +412,22 @@ public static class FPCapsuleCollision
         FPCapsuleGeometry b = BuildShapeCapsule(shape, position, rotation);
         fp3 c1;
         fp3 c2;
-        // 求两胶囊轴线段之间的最近距离
-        fp dist = FPMathKCC.SegmentSegmentDistance(a.BottomHemiCenter, a.TopHemiCenter, b.BottomHemiCenter, b.TopHemiCenter, out c1, out c2);
-        fp combinedRadius = a.Radius + b.Radius;
-        if (dist >= combinedRadius)
-        {
-            return false;
-        }
+        FPMathKCC.SegmentSegmentDistance(
+            a.BottomHemiCenter,
+            a.TopHemiCenter,
+            b.BottomHemiCenter,
+            b.TopHemiCenter,
+            out c1,
+            out c2);
 
-        direction = dist > (fp)0.0000001f ? fpmath.normalize(c1 - c2) : FPMathKCC.WorldUp;
-        distance = combinedRadius - dist;
-        return true;
+        return TryComputeCapsuleCoreMtd(
+            c1,
+            c2,
+            a.Radius,
+            b.Radius,
+            a.Center - b.Center,
+            out direction,
+            out distance);
     }
 
     /// <summary>
@@ -429,36 +469,30 @@ public static class FPCapsuleCollision
 
         fp3 localA = FPMathKCC.InverseTransformPoint(capsule.BottomHemiCenter, box.Center, box.Rotation);
         fp3 localB = FPMathKCC.InverseTransformPoint(capsule.TopHemiCenter, box.Center, box.Rotation);
-        fp3 localCenter = (localA + localB) * (fp)0.5f;
+        fp3 halfExtents = box.HalfExtents;
 
-        // 在盒体局部空间求最近点
-        fp3 closest = new fp3(
-            fpmath.clamp(localCenter.x, -box.HalfExtents.x, box.HalfExtents.x),
-            fpmath.clamp(localCenter.y, -box.HalfExtents.y, box.HalfExtents.y),
-            fpmath.clamp(localCenter.z, -box.HalfExtents.z, box.HalfExtents.z));
+        fp3 localSeg;
+        fp3 localBox;
+        fp coreDist = FPMathKCC.ClosestPointsSegmentLocalAabb(localA, localB, halfExtents, out localSeg, out localBox);
 
-        fp3 delta = localCenter - closest;
-        fp distSq = fpmath1.sqrMagnitude(delta);
-        if (distSq > capsule.Radius * capsule.Radius)
+        if (coreDist >= capsule.Radius)
         {
-            // 中心距过远时，改用胶囊轴线段与最近点的距离判定
-            fp3 c1;
-            fp3 c2;
-            fp segmentDist = FPMathKCC.SegmentSegmentDistance(localA, localB, closest, closest, out c1, out c2);
-            if (segmentDist > capsule.Radius)
-            {
-                return false;
-            }
+            return false;
+        }
 
-            direction = box.Rotation * fpmath.normalize(c1 - c2);
-            distance = capsule.Radius - segmentDist;
+        if (coreDist <= (fp)0.0000001f || FPMathKCC.IsInsideLocalAabb(localSeg, halfExtents))
+        {
+            fp exitDistance;
+            fp3 localDirection;
+            FPMathKCC.GetNearestLocalAabbFaceDepenetration(localSeg, halfExtents, out localDirection, out exitDistance);
+            direction = SafeNormalize(box.Rotation * localDirection, FPMathKCC.WorldUp);
+            distance = exitDistance + capsule.Radius;
             return true;
         }
 
-        fp dist = fpmath.sqrt(fpmath.max(distSq, (fp)0.0000001f));
-        fp3 localDir = dist > (fp)0.0000001f ? delta / dist : FPMathKCC.WorldUp;
-        direction = box.Rotation * localDir;
-        distance = capsule.Radius - dist;
+        fp3 localDir = SafeNormalize(localSeg - localBox, FPMathKCC.WorldUp);
+        direction = SafeNormalize(box.Rotation * localDir, FPMathKCC.WorldUp);
+        distance = capsule.Radius - coreDist;
         return true;
     }
 }

@@ -33,6 +33,13 @@ public class MonsterQuickCreateWindow : EditorWindow
     private Vector3 _boxSize = Vector3.one;
 
     private PhysicsMovementMode _movementMode = PhysicsMovementMode.Rigidbody;
+    private CharacterControllerSettings _characterController = new CharacterControllerSettings
+    {
+        radius = 0.5f,
+        height = 2f,
+        center = new Vector3(0f, 1f, 0f),
+        layer = FPCollisionLayer.Monster,
+    };
     private PhysicsBodyConfig _physicsBody = new PhysicsBodyConfig
     {
         bodyType = PhysicsBodyType.Kinematic,
@@ -541,12 +548,28 @@ public class MonsterQuickCreateWindow : EditorWindow
         using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
         {
             _movementMode = (PhysicsMovementMode)EditorGUILayout.EnumPopup("移动范式", _movementMode);
-            if (_movementMode == PhysicsMovementMode.Rigidbody && _physicsBody.colliders.Count > 0)
+            if (_movementMode == PhysicsMovementMode.CharacterController)
             {
-                _physicsBody.bodyType = (PhysicsBodyType)EditorGUILayout.EnumPopup("刚体类型", _physicsBody.bodyType);
-                PhysicsColliderSetting collider = _physicsBody.colliders[0];
-                collider.halfExtents = EditorGUILayout.Vector3Field("盒体半尺寸", collider.halfExtents);
-                collider.layer = (FPCollisionLayer)EditorGUILayout.EnumFlagsField("碰撞层", collider.layer);
+                _characterController.radius = EditorGUILayout.FloatField("胶囊半径", _characterController.radius);
+                _characterController.height = EditorGUILayout.FloatField("胶囊高度", _characterController.height);
+                _characterController.center = EditorGUILayout.Vector3Field("中心偏移", _characterController.center);
+                _characterController.layer = (FPCollisionLayer)EditorGUILayout.EnumPopup("碰撞层", _characterController.layer);
+                _characterController.useGravity = EditorGUILayout.Toggle("启用重力", _characterController.useGravity);
+                if (_characterController.useGravity)
+                {
+                    _characterController.gravity = EditorGUILayout.FloatField("重力加速度 Y", _characterController.gravity);
+                }
+
+                if (_characterController.collisionInfluence == null)
+                {
+                    _characterController.collisionInfluence = PhysicsMotionInfluence.CreateCharacterControllerDefault();
+                }
+
+                PhysicsMotionInfluenceInspectorDrawer.Draw(_characterController.collisionInfluence);
+            }
+            else if (_movementMode == PhysicsMovementMode.Rigidbody)
+            {
+                PhysicsBodyConfigInspectorDrawer.Draw(_physicsBody);
             }
         }
     }
@@ -932,6 +955,7 @@ public class MonsterQuickCreateWindow : EditorWindow
             defence = _defence,
             campEnum = _campEnum,
             movementMode = _movementMode,
+            characterController = _characterController,
             physicsBody = _physicsBody,
             colliderDataList = new List<HitColliderEditorSetting> { CreateColliderSetting() },
             monsterSkillList = new List<MonsterSkillConfig>(),

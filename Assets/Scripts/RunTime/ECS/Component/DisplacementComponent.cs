@@ -127,3 +127,97 @@ public class MovementData : IPool
         MoveType = DisplacementEnum.Line;
     }
 }
+
+/// <summary>
+/// 场景调试移动平台：沿指定方向往复运动，驱动实体 Transform 供 FPPhysicsMover 读取。
+/// </summary>
+public sealed class SceneDebugPlatformMotionComponent : BaseComponent
+{
+    private fp3 _moveDirection = new fp3((fp)1, (fp)0, (fp)0);
+    private fp _moveSpeed = (fp)2;
+    private fp _travelDistance = (fp)5;
+    private fp _traveled;
+    private int _directionSign = 1;
+    private bool _configured;
+
+    public override void OnStart(object data = null)
+    {
+        base.OnStart(data);
+        SceneDebugPlatformMotionData motionData =
+            Entity.GetData<SceneDebugPlatformMotionData>(ComponentDataKey.SceneDebugPlatformMotion);
+        if (motionData != null)
+        {
+            ApplyMotionData(motionData);
+        }
+    }
+
+    public void ApplyMotionData(SceneDebugPlatformMotionData motionData)
+    {
+        if (motionData == null || Entity?.transform == null)
+        {
+            return;
+        }
+
+        _moveDirection = NormalizeDirection(ToFp3(motionData.moveDirection));
+        _moveSpeed = (fp)Mathf.Max(0f, motionData.moveSpeed);
+        _travelDistance = (fp)Mathf.Max(0.01f, motionData.travelDistance);
+        _traveled = (fp)0;
+        _directionSign = 1;
+        _configured = _moveSpeed > (fp)0;
+    }
+
+    public bool TryReadMotionData(out SceneDebugPlatformMotionData motionData)
+    {
+        motionData = new SceneDebugPlatformMotionData
+        {
+            moveDirection = fpmath1.Fp3ToVector3(_moveDirection),
+            moveSpeed = (float)_moveSpeed,
+            travelDistance = (float)_travelDistance,
+        };
+        return _configured;
+    }
+
+    public override void OnFixedUpdate(fp deltaTime, WorldUpdateType worldUpdateType)
+    {
+        base.OnFixedUpdate(deltaTime, worldUpdateType);
+        if (!_configured || Entity?.transform == null || _moveSpeed <= (fp)0)
+        {
+            return;
+        }
+
+        fp step = _moveSpeed * deltaTime * (fp)_directionSign;
+        Entity.transform.Position += _moveDirection * step;
+
+        _traveled += fpmath.abs(step);
+        if (_traveled >= _travelDistance)
+        {
+            _traveled = (fp)0;
+            _directionSign = -_directionSign;
+        }
+    }
+
+    private static fp3 NormalizeDirection(fp3 direction)
+    {
+        if (fpmath.lengthsq(direction) <= (fp)0)
+        {
+            return new fp3((fp)1, (fp)0, (fp)0);
+        }
+
+        return fpmath.normalize(direction);
+    }
+
+    private static fp3 ToFp3(Vector3 value)
+    {
+        return new fp3((fp)value.x, (fp)value.y, (fp)value.z);
+    }
+}
+
+/// <summary>
+/// 场景调试移动平台往复运动参数。
+/// </summary>
+public sealed class SceneDebugPlatformMotionData
+{
+    public Vector3 moveDirection = Vector3.right;
+    public float moveSpeed = 2f;
+    public float travelDistance = 5f;
+}

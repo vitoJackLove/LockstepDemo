@@ -42,4 +42,9 @@ public static class ComponentDataKey
     /// 物理体注册配置（movementMode + CC/Body 设置）。
     /// </summary>
     public const string PhysicsBodyData = "PhysicsBodyData";
+
+    /// <summary>
+    /// 场景调试移动平台往复运动参数。
+    /// </summary>
+    public const string SceneDebugPlatformMotion = "SceneDebugPlatformMotion";
 }

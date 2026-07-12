@@ -1,60 +1,54 @@
-# Task 3 Report: 拆分 AddressablesSyncStep 与 BuildLayoutGuard
+# Task 3 Report — FPCapsuleCollider 实现
 
-**Date:** 2026-07-04  
-**Status:** COMPLETE
+## Contract
 
-## Summary
+- **STATUS:** DONE
+- **Commits:** `86060a73b84298613a745e437d34b6c2807ba54d`
+- **Tests:**
+  - `dotnet build Assembly-CSharp.csproj -nologo -v:minimal` — 0 errors
+  - `CapsuleCollider_GetCapsuleShape_MatchesDimensions` — 逻辑已实现，待 Unity Test Runner 验证
+- **Concerns:** 见下方
 
-将 `RuntimeAddressablesConfigurator` 中的 Addressables 同步逻辑与 Build Layout Guard 拆分到热更 Pipeline 模块，`RuntimeAddressablesConfigurator` 仅保留 `SyncRuntimeAssets()` 转发壳。
+---
 
-## Changes
+## Deliverables
 
-| File | Action |
-|------|--------|
-| `Assets/Scripts/Editor/HotUpdate/Internal/AddressablesBuildLayoutGuard.cs` | Created — `[InitializeOnLoad]` guard，`Rogue.Editor.HotUpdate.Internal` 命名空间，已移除 MenuItem |
-| `Assets/Scripts/Editor/HotUpdate/Pipeline/Steps/AddressablesSyncStep.cs` | Created — `Execute(context)` + `ExecuteSyncOnly()`，含全部 GroupDefinitions / 扫描 / 同步逻辑 |
-| `Assets/Scripts/Editor/Addressables/RuntimeAddressablesConfigurator.cs` | Slimmed — 仅 `[Obsolete] SyncRuntimeAssets()` → `AddressablesSyncStep.ExecuteSyncOnly()` |
+| File | Description |
+|------|-------------|
+| `Assets/Scripts/RunTime/KCC/Physics/FPCapsuleCollider.cs` | `IFPCollider` 胶囊实现：`SyncFromTransform`、`SetWorldPose`、`GetCapsuleShape` |
+| `Assets/Scripts/RunTime/KCC/Physics/FPCapsuleCollider.cs.meta` | Unity 资产 GUID |
+| `Assets/Scripts/Test/EditMode/KCC/FPCapsuleColliderTests.cs` | EditMode 单元测试（1 用例） |
+| `Assets/Scripts/Test/EditMode/KCC/FPCapsuleColliderTests.cs.meta` | 测试资产 GUID |
 
-## Interfaces Delivered
+## Implementation Summary
 
-- `AddressablesSyncStep.Execute(HotUpdateBuildContext context)`
-- `AddressablesSyncStep.ExecuteSyncOnly()` — public，供 BulletFactory 等遗留调用
-- `AddressablesBuildLayoutGuard.PrepareForAddressablesBuild(bool logResult)`
-- `RuntimeAddressablesConfigurator.SyncRuntimeAssets()` — 转发保留
+- 遵循 `FPBoxCollider` / `FPSphereCollider` 模式：`FPCollisionWorld.AllocateColliderId()`、Y 轴缩放影响高度、X/Z 轴 `max(abs(scale))` 影响半径。
+- 构造函数支持 `yOffset` 叠加到局部中心；`directionAxis` 在构造时设定，`SyncFromTransform` 不覆盖。
+- `ShapeType` 返回 `FPShapeType.Capsule`；`GetCapsuleShape()` 返回局部 `Center`、世界 `Rotation`、尺寸与方向轴。
+- 全部使用 `fp` / `fp3` / `fpquaternion`，无 Unity Physics API；公开 API 附中文 XML 注释。
 
-## MenuItem Cleanup
-
-已从 `RuntimeAddressablesConfigurator` 移除：
-- `Tools/Addressables/同步运行时资源`
-- `Tools/Addressables/构建本地内容`
-- `Tools/Addressables/构建运行时内容`
-- `Tools/Addressables/构建远程更新`
-
-已从 `AddressablesBuildLayoutGuard` 移除：
-- `Tools/Addressables/禁用构建布局报告`
-
-## Verification
+## Build Verification
 
 ```
-dotnet build Game.Editor.csproj -nologo -v:minimal
+dotnet build Assembly-CSharp.csproj -nologo -v:minimal
 ```
 
-**Result:** Build succeeded — 0 errors, 45 warnings (pre-existing + expected CS0618 on `SyncRuntimeAssets()` callers)
-
-**Callers still compile:**
-- `BulletQuickCreateWindow.cs`
-- `MonsterQuickCreateWindow.cs`
-- `HeroQuickCreateWindow.cs`
-- `HybridCLRDllCopyTool.cs` (Task 4 will migrate)
+Result: **Build succeeded** — 0 errors，37 warnings（均为项目既有第三方/样本警告）。
 
 ## Commit
 
 ```
-refactor(editor): extract AddressablesSyncStep from configurator
+feat(kcc): add FPCapsuleCollider
 ```
 
 ## Concerns
 
-1. **`Game.Editor.csproj`** — 新文件需 Unity 重新生成 csproj 条目；本地验证时临时添加了 Compile Include，不应提交（auto-generated）。
-2. **CS0618 warnings** — 内容工厂与 HybridCLRDllCopyTool 调用 `[Obsolete] SyncRuntimeAssets()` 产生预期警告；Task 4 迁移 HybridCLR 后可减少一处。
-3. **BuildLayoutGuard 命名空间变更** — 后续 Task 5 的 `AddressablesFullBuildStep` / `AddressablesContentUpdateStep` 需引用 `Rogue.Editor.HotUpdate.Internal.AddressablesBuildLayoutGuard`（旧全局类已删除）。
+1. **csproj 刷新：** 生成 `Game.Runtime.csproj` / `KCC.EditModeTests.csproj` 尚未包含新文件条目；需 Unity 聚焦/刷新资产后自动纳入。`Assembly-CSharp.csproj` 构建已通过，新类语法与 `FPSphereCollider` 同模式。
+2. **Center 空间约定：** `GetCapsuleShape().Center` 返回局部 `_localCenter`（含 yOffset），与 `FPBoxCollider`/`FPSphereCollider` 使用世界 `_position` 不同；与 plan 及 `FPCapsuleCollision.BuildShapeCapsule` 局部空间约定一致，后续 compound body 注册时需注意。
+3. **测试覆盖：** 当前仅验证尺寸与方向轴；`SyncFromTransform` 缩放行为可在后续任务补测。
+
+## Self-Review
+
+1. **范围合规：** 仅新增 FPCapsuleCollider + 测试 + meta，未修改 Task 4 相交逻辑。
+2. **API 一致性：** 与 plan 及现有 collider 命名/行为一致；中文 XML 覆盖公开 API。
+3. **测试：** `SetUp` 重置 `FPCollisionWorld`，与 `FPSphereCollisionTests` 一致。

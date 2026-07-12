@@ -12,5 +12,6 @@ public static class DataTableHelper
         "EffectAssets",
         "BuffAssets",
         "DamageTextAssets",
+        "SceneAssets",
     };
 }

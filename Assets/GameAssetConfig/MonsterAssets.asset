@@ -33,20 +33,39 @@ MonoBehaviour:
       slopeLimit: 45
       skinWidth: 0.08
       layer: 1
+      useGravity: 1
+      gravity: -9.81
+      collisionInfluence:
+        positionX: 1
+        positionY: 1
+        positionZ: 1
+        rotationX: 0
+        rotationY: 1
+        rotationZ: 0
     physicsBody:
       bodyType: 1
+      useGravity: 1
+      gravity: -9.81
+      collisionInfluence:
+        positionX: 1
+        positionY: 1
+        positionZ: 1
+        rotationX: 0
+        rotationY: 1
+        rotationZ: 0
       colliders:
       - key: body
         shape: 0
-        localOffset: {x: 0, y: 0, z: 0}
+        localOffset: {x: 0, y: 2, z: 0}
         localEuler: {x: 0, y: 0, z: 0}
         layer: 8
         isTrigger: 0
-        halfExtents: {x: 0.5, y: 1, z: 0.5}
+        halfExtents: {x: 3, y: 3, z: 3}
         radius: 0.5
         capsuleRadius: 0.4
         capsuleHeight: 1.8
         directionAxis: 1
+      usePhysicsMover: 0
     colliderDataList:
     - key: 2001Monster
       primitiveEnum: 1
@@ -97,8 +116,26 @@ MonoBehaviour:
       slopeLimit: 45
       skinWidth: 0.08
       layer: 1
+      useGravity: 1
+      gravity: -9.81
+      collisionInfluence:
+        positionX: 1
+        positionY: 1
+        positionZ: 1
+        rotationX: 0
+        rotationY: 1
+        rotationZ: 0
     physicsBody:
       bodyType: 1
+      useGravity: 1
+      gravity: -9.81
+      collisionInfluence:
+        positionX: 1
+        positionY: 1
+        positionZ: 1
+        rotationX: 0
+        rotationY: 0
+        rotationZ: 0
       colliders:
       - key: body
         shape: 0
@@ -111,6 +148,7 @@ MonoBehaviour:
         capsuleRadius: 0.4
         capsuleHeight: 1.8
         directionAxis: 1
+      usePhysicsMover: 0
     colliderDataList:
     - key: center
       primitiveEnum: 2
@@ -133,7 +171,7 @@ MonoBehaviour:
     treeAssetsPath: Tree/3101/3101
     blendTree:
       blendTreeType: 1
-      transitionAssetBase: {fileID: 11400000, guid: 55da43654b68cb0409195e844e0b897b, type: 2}
+      transitionAssetBase: {fileID: 0}
       valueOne: {fileID: 11400000, guid: 4798d7fa0a5780c4986e49631f1e1f00, type: 2}
       valueTwo: {fileID: 11400000, guid: 50d0c777af05a754cb9e65443bdea627, type: 2}
       smoothTime: 0.15
@@ -157,8 +195,26 @@ MonoBehaviour:
       slopeLimit: 45
       skinWidth: 0.08
       layer: 1
+      useGravity: 1
+      gravity: -9.81
+      collisionInfluence:
+        positionX: 1
+        positionY: 1
+        positionZ: 1
+        rotationX: 0
+        rotationY: 1
+        rotationZ: 0
     physicsBody:
       bodyType: 1
+      useGravity: 1
+      gravity: -9.81
+      collisionInfluence:
+        positionX: 1
+        positionY: 1
+        positionZ: 1
+        rotationX: 0
+        rotationY: 0
+        rotationZ: 0
       colliders:
       - key: body
         shape: 0
@@ -171,6 +227,7 @@ MonoBehaviour:
         capsuleRadius: 0.4
         capsuleHeight: 1.8
         directionAxis: 1
+      usePhysicsMover: 0
     colliderDataList:
     - key: center
       primitiveEnum: 2

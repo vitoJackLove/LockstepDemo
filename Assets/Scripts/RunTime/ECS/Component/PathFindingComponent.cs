@@ -2,6 +2,9 @@ using Ase.Serializing;
 using Unity.Mathematics.FixedPoint;
 using UnityEngine;
 
+/// <summary>
+/// A* 寻路移动组件。仅在 XZ 平面驱动位移，Y 轴由 <see cref="PhysicsBodyComponent"/> 重力与贴地处理。
+/// </summary>
 public class PathFindingComponent : BaseComponent
 {
     private IFrameSyncPathfinder _pathfinder;
@@ -55,29 +58,30 @@ public class PathFindingComponent : BaseComponent
 
         fp3 currentPos = Entity.transform.Position;
         fp3 waypoint = _currentPath.GetWaypoint(_currentWaypointIndex);
-        fp3 toWaypoint = waypoint - currentPos;
-        fp dist = fpmath.distance(currentPos, waypoint);
+        fp3 toWaypoint = new fp3(waypoint.x - currentPos.x, (fp)0, waypoint.z - currentPos.z);
+        fp dist = fpmath.length(toWaypoint);
 
         if (dist <= (fp)0.001f)
         {
             _currentWaypointIndex++;
             if (_currentWaypointIndex >= _currentPath.NodeCount)
             {
-                Entity.transform.Position = _currentPath.End;
+                fp3 end = _currentPath.End;
+                Entity.transform.Position = new fp3(end.x, currentPos.y, end.z);
                 Entity.EntityDebug("Path: reached end");
                 return;
             }
 
             waypoint = _currentPath.GetWaypoint(_currentWaypointIndex);
-            toWaypoint = waypoint - currentPos;
-            dist = fpmath.distance(currentPos, waypoint);
+            toWaypoint = new fp3(waypoint.x - currentPos.x, (fp)0, waypoint.z - currentPos.z);
+            dist = fpmath.length(toWaypoint);
         }
 
         if (dist > (fp)0)
         {
             fp step = _moveSpeed * deltaTime;
             fp3 move = step >= dist ? toWaypoint : fpmath.normalize(toWaypoint) * step;
-            Entity.transform.Position = currentPos + move;
+            Entity.transform.Position = new fp3(currentPos.x + move.x, currentPos.y, currentPos.z + move.z);
         }
 
         Entity.EntityDebug($"Path: position={Entity.transform.Position} waypointIndex={_currentWaypointIndex} hasPath={_currentPath.IsValid}");

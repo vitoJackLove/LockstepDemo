@@ -55,7 +55,6 @@ public class MonsterEntity : BaseEntity
     {
         return new Type[]
         {
-            typeof(PhysicsBodyComponent),
             typeof(TransformComponent),
             typeof(AnimatorComponent),
             typeof(AiStateComponent),
@@ -66,6 +65,7 @@ public class MonsterEntity : BaseEntity
             typeof(AiComponent),
             typeof(MonsterSkillComponent),
             typeof(EnemyDetectionComponent),
+            typeof(PhysicsBodyComponent),
         };
     }
 

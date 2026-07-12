@@ -79,6 +79,7 @@ public class HeroAssetsConfig : EntityAssetsConfig
 
      [LabelText("Rigidbody 物理体")]
      [ShowIf("movementMode", PhysicsMovementMode.Rigidbody)]
+     [InlineProperty(LabelWidth = 120)]
      public PhysicsBodyConfig physicsBody = new PhysicsBodyConfig();
 
      [LabelText("受击盒数据")] 
