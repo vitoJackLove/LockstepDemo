@@ -5,10 +5,17 @@ using System;
 /// </summary>
 public class CubeEntity : BaseEntity
 {
+    public override void OnInit(object data = null)
+    {
+        base.OnInit(data);
+        SetData(ComponentDataKey.PhysicsBodyData, PhysicsEntityConfig.CreateDefaultStaticBox(this));
+    }
+
     protected override Type[] GetComponentTypes()
     {
         return new Type[]
         {
+            typeof(PhysicsBodyComponent),
             typeof(TransformComponent),
         };
     }

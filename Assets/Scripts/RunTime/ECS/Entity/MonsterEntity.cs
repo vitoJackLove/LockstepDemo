@@ -21,9 +21,15 @@ public class MonsterEntity : BaseEntity
         {
             _battleMonsterData = BattleMonsterData.Creat(config);
             SetData(ComponentDataKey.ColliderData, config.colliderDataList);
-            SetData(ComponentDataKey.BehaviourTreeConfig,config.treeAssetsPath);
-            SetData(ComponentDataKey.StateData, ((MonsterAssetsConfig)Config).stateList);
-            SetData(ComponentDataKey.BlendTreeData, ((MonsterAssetsConfig)Config).blendTree);
+            SetData(ComponentDataKey.BehaviourTreeConfig, config.treeAssetsPath);
+            SetData(ComponentDataKey.StateData, config.stateList);
+            SetData(ComponentDataKey.BlendTreeData, config.blendTree);
+            SetData(ComponentDataKey.PhysicsBodyData, new PhysicsEntityConfig
+            {
+                MovementMode = config.movementMode,
+                CharacterController = config.characterController,
+                PhysicsBody = config.physicsBody,
+            });
         }
     }
 
@@ -49,6 +55,7 @@ public class MonsterEntity : BaseEntity
     {
         return new Type[]
         {
+            typeof(PhysicsBodyComponent),
             typeof(TransformComponent),
             typeof(AnimatorComponent),
             typeof(AiStateComponent),
