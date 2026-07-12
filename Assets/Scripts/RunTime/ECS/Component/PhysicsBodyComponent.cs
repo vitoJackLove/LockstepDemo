@@ -44,12 +44,22 @@ public class PhysicsBodyComponent : BaseComponent
 
     private PhysicsEntityConfig _config;
     private FPKinematicCharacterMotor _motor;
+    private readonly List<IFPCollider> _colliders = new List<IFPCollider>(4);
+    private FPDynamicRigidbody _dynamicBody;
+    private FPPhysicsMover _physicsMover;
+    private FPEntityPhysicsMoverController _moverController;
 
     /// <summary>CharacterController 范式下的 Motor；Rigidbody 范式为 null。</summary>
     public FPKinematicCharacterMotor Motor => _motor;
 
     /// <summary>当前移动范式。</summary>
     public PhysicsMovementMode MovementMode => _config?.MovementMode ?? PhysicsMovementMode.CharacterController;
+
+    /// <summary>Rigidbody 范式下注册的复合碰撞体列表。</summary>
+    public IReadOnlyList<IFPCollider> Colliders => _colliders;
+
+    /// <summary>Dynamic/Kinematic 刚体；Static 范式为 null。</summary>
+    public FPDynamicRigidbody DynamicBody => _dynamicBody;
 
     public override void OnStart(object data = null)
     {
@@ -60,7 +70,35 @@ public class PhysicsBodyComponent : BaseComponent
         {
             RegisterCharacterMotor();
         }
-        // Rigidbody 分支在 Task 9 实现
+        else if (_config.MovementMode == PhysicsMovementMode.Rigidbody)
+        {
+            RegisterRigidbodyBody();
+        }
+
+        if (_config.MovementMode == PhysicsMovementMode.CharacterController &&
+            _config.PhysicsBody?.colliders != null &&
+            _config.PhysicsBody.colliders.Count > 0)
+        {
+            GameLog.Warning(GameLogChannel.Battle,
+                $"Entity {Entity.EntityId}: CharacterController mode ignores physicsBody.colliders per spec.");
+        }
+    }
+
+    public override void OnFixedUpdate(fp deltaTime, WorldUpdateType worldUpdateType)
+    {
+        base.OnFixedUpdate(deltaTime, worldUpdateType);
+        if (_config.MovementMode != PhysicsMovementMode.Rigidbody)
+        {
+            return;
+        }
+
+        fp3 scale = Entity.transform.LocalScale;
+        for (int i = 0; i < _colliders.Count; i++)
+        {
+            SyncColliderFromEntity(_colliders[i], _config.PhysicsBody.colliders[i], scale);
+        }
+
+        SyncDynamicBodyPose();
     }
 
     public override void OnDispose()
@@ -124,6 +162,115 @@ public class PhysicsBodyComponent : BaseComponent
         _motor.Register();
     }
 
+    private void RegisterRigidbodyBody()
+    {
+        PhysicsBodyConfig bodyConfig = _config.PhysicsBody;
+        if (bodyConfig == null || bodyConfig.colliders == null || bodyConfig.colliders.Count == 0)
+        {
+            GameLog.Error(GameLogChannel.Battle,
+                $"PhysicsBodyComponent Rigidbody mode requires colliders. entityId={Entity.EntityId}");
+            return;
+        }
+
+        switch (bodyConfig.bodyType)
+        {
+            case PhysicsBodyType.Dynamic:
+                _dynamicBody = new FPDynamicRigidbody
+                {
+                    Id = FPCollisionWorld.Instance.AllocateBodyId(),
+                    IsKinematic = false,
+                };
+                _dynamicBody.SetPose(Entity.transform.Position, Entity.transform.Rotation);
+                break;
+
+            case PhysicsBodyType.Kinematic:
+                _dynamicBody = new FPDynamicRigidbody
+                {
+                    Id = FPCollisionWorld.Instance.AllocateBodyId(),
+                    IsKinematic = true,
+                };
+                _dynamicBody.SetPose(Entity.transform.Position, Entity.transform.Rotation);
+                break;
+
+            case PhysicsBodyType.Static:
+            default:
+                _dynamicBody = null;
+                break;
+        }
+
+        fp3 scale = Entity.transform.LocalScale;
+        for (int i = 0; i < bodyConfig.colliders.Count; i++)
+        {
+            PhysicsColliderSetting setting = bodyConfig.colliders[i];
+            IFPCollider collider = PhysicsConfigConverter.CreateCollider(setting);
+            if (collider == null)
+            {
+                continue;
+            }
+
+            SyncColliderFromEntity(collider, setting, scale);
+            if (_dynamicBody != null)
+            {
+                collider.AttachedBody = _dynamicBody;
+            }
+
+            _colliders.Add(collider);
+            FPCollisionWorld.Instance.RegisterCollider(collider);
+        }
+
+        SyncDynamicBodyPose();
+    }
+
+    private void SyncColliderFromEntity(IFPCollider collider, PhysicsColliderSetting setting, fp3 scale)
+    {
+        fp3 localOffset = PhysicsConfigConverter.ToFp3(setting.localOffset);
+        fpquaternion localRot = fpquaternion.Euler(
+            (fp)setting.localEuler.x * fpmath.Deg2Rad,
+            (fp)setting.localEuler.y * fpmath.Deg2Rad,
+            (fp)setting.localEuler.z * fpmath.Deg2Rad);
+        fpquaternion worldRot = Entity.transform.Rotation * localRot;
+
+        switch (collider.ShapeType)
+        {
+            case FPShapeType.Box:
+                ((FPBoxCollider)collider).SyncFromTransform(
+                    Entity.transform.Position,
+                    worldRot,
+                    localOffset,
+                    PhysicsConfigConverter.ToFp3(setting.halfExtents),
+                    scale);
+                break;
+            case FPShapeType.Sphere:
+                ((FPSphereCollider)collider).SyncFromTransform(
+                    Entity.transform.Position,
+                    worldRot,
+                    localOffset,
+                    (fp)setting.radius,
+                    scale);
+                break;
+            case FPShapeType.Capsule:
+                ((FPCapsuleCollider)collider).SyncFromTransform(
+                    Entity.transform.Position,
+                    worldRot,
+                    localOffset,
+                    (fp)setting.capsuleRadius,
+                    (fp)setting.capsuleHeight,
+                    (fp)0,
+                    scale);
+                break;
+        }
+    }
+
+    private void SyncDynamicBodyPose()
+    {
+        if (_dynamicBody == null)
+        {
+            return;
+        }
+
+        _dynamicBody.SetPose(Entity.transform.Position, Entity.transform.Rotation);
+    }
+
     private void UnregisterAll()
     {
         if (_motor != null)
@@ -132,5 +279,15 @@ public class PhysicsBodyComponent : BaseComponent
             _motor.UnbindEntity();
             _motor = null;
         }
+
+        for (int i = 0; i < _colliders.Count; i++)
+        {
+            FPCollisionWorld.Instance.UnregisterCollider(_colliders[i]);
+        }
+
+        _colliders.Clear();
+        _dynamicBody = null;
+        _physicsMover = null;
+        _moverController = null;
     }
 }
