@@ -161,6 +161,7 @@ public class HeroQuickCreateWindow : EditorWindow
             if (contentRect.width > 1f && contentRect.height > 1f)
             {
                 DrawColliderOverlay(contentRect);
+                DrawPhysicsPreviewOverlay(contentRect);
                 DrawPreviewTips(contentRect);
             }
 
@@ -277,6 +278,23 @@ public class HeroQuickCreateWindow : EditorWindow
         camera.Render();
         Texture previewTexture = _previewUtility.EndPreview();
         GUI.DrawTexture(rect, previewTexture, ScaleMode.StretchToFill, false);
+    }
+
+    private void DrawPhysicsPreviewOverlay(Rect rect)
+    {
+        if (_previewUtility?.camera == null)
+        {
+            return;
+        }
+
+        if (_movementMode == PhysicsMovementMode.CharacterController)
+        {
+            PhysicsBodyConfigGizmoDrawer.DrawCharacterControllerPreviewOverlay(
+                rect,
+                _previewUtility.camera,
+                _characterController,
+                Matrix4x4.identity);
+        }
     }
 
     private void DrawColliderOverlay(Rect rect)
@@ -410,7 +428,7 @@ public class HeroQuickCreateWindow : EditorWindow
     private void DrawPreviewTips(Rect rect)
     {
         Rect labelRect = new Rect(rect.x + 8f, rect.y + 8f, rect.width - 16f, 18f);
-        GUI.Label(labelRect, "左键拖拽旋转，滚轮或滑条缩放；红色线框为当前受击盒", EditorStyles.whiteMiniLabel);
+        GUI.Label(labelRect, "左键拖拽旋转，滚轮或滑条缩放；红色=受击盒，青色=物理体", EditorStyles.whiteMiniLabel);
     }
 
     private static bool TryCalculateBounds(GameObject root, out Bounds bounds)
