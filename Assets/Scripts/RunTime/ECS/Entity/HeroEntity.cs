@@ -19,13 +19,6 @@ public partial class HeroEntity : BaseEntity
         {
             heroConfig.characterController.layer = FPCollisionLayer.Hero;
         }
-
-        SetData(ComponentDataKey.PhysicsBodyData, new PhysicsEntityConfig
-        {
-            MovementMode = heroConfig.movementMode,
-            CharacterController = heroConfig.characterController,
-            PhysicsBody = heroConfig.physicsBody,
-        });
     }
 
     protected override BattleEntityData EntityPropertyData => _battleHeroData;
