@@ -24,6 +24,29 @@ MonoBehaviour:
     attack: 20
     defence: 1
     campEnum: 1
+    movementMode: 1
+    characterController:
+      radius: 0.5
+      height: 2
+      center: {x: 0, y: 0, z: 0}
+      stepOffset: 0.3
+      slopeLimit: 45
+      skinWidth: 0.08
+      layer: 1
+    physicsBody:
+      bodyType: 1
+      colliders:
+      - key: body
+        shape: 0
+        localOffset: {x: 0, y: 0, z: 0}
+        localEuler: {x: 0, y: 0, z: 0}
+        layer: 8
+        isTrigger: 0
+        halfExtents: {x: 0.5, y: 1, z: 0.5}
+        radius: 0.5
+        capsuleRadius: 0.4
+        capsuleHeight: 1.8
+        directionAxis: 1
     colliderDataList:
     - key: 2001Monster
       primitiveEnum: 1
@@ -65,6 +88,29 @@ MonoBehaviour:
     attack: 5
     defence: 5
     campEnum: 1
+    movementMode: 1
+    characterController:
+      radius: 0.5
+      height: 2
+      center: {x: 0, y: 0, z: 0}
+      stepOffset: 0.3
+      slopeLimit: 45
+      skinWidth: 0.08
+      layer: 1
+    physicsBody:
+      bodyType: 1
+      colliders:
+      - key: body
+        shape: 0
+        localOffset: {x: 0, y: 0, z: 0}
+        localEuler: {x: 0, y: 0, z: 0}
+        layer: 8
+        isTrigger: 0
+        halfExtents: {x: 0.5, y: 1, z: 0.5}
+        radius: 0.5
+        capsuleRadius: 0.4
+        capsuleHeight: 1.8
+        directionAxis: 1
     colliderDataList:
     - key: center
       primitiveEnum: 2
@@ -102,6 +148,29 @@ MonoBehaviour:
     attack: 5
     defence: 5
     campEnum: 1
+    movementMode: 1
+    characterController:
+      radius: 0.5
+      height: 2
+      center: {x: 0, y: 0, z: 0}
+      stepOffset: 0.3
+      slopeLimit: 45
+      skinWidth: 0.08
+      layer: 1
+    physicsBody:
+      bodyType: 1
+      colliders:
+      - key: body
+        shape: 0
+        localOffset: {x: 0, y: 0, z: 0}
+        localEuler: {x: 0, y: 0, z: 0}
+        layer: 8
+        isTrigger: 0
+        halfExtents: {x: 0.5, y: 1, z: 0.5}
+        radius: 0.5
+        capsuleRadius: 0.4
+        capsuleHeight: 1.8
+        directionAxis: 1
     colliderDataList:
     - key: center
       primitiveEnum: 2

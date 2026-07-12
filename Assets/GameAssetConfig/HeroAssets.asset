@@ -23,6 +23,18 @@ MonoBehaviour:
     attack: 100
     defence: 5
     campEnum: 0
+    movementMode: 0
+    characterController:
+      radius: 0.5
+      height: 2
+      center: {x: 0, y: 1, z: 0}
+      stepOffset: 0.3
+      slopeLimit: 45
+      skinWidth: 0.08
+      layer: 4
+    physicsBody:
+      bodyType: 1
+      colliders: []
     initSkillList:
     - skillId: 110401
       commandState: 1
@@ -110,6 +122,18 @@ MonoBehaviour:
     attack: 20
     defence: 5
     campEnum: 0
+    movementMode: 0
+    characterController:
+      radius: 0.5
+      height: 2
+      center: {x: 0, y: 1, z: 0}
+      stepOffset: 0.3
+      slopeLimit: 45
+      skinWidth: 0.08
+      layer: 4
+    physicsBody:
+      bodyType: 1
+      colliders: []
     initSkillList:
     - skillId: 120501
       commandState: 1
@@ -173,6 +197,18 @@ MonoBehaviour:
     attack: 20
     defence: 5
     campEnum: 0
+    movementMode: 0
+    characterController:
+      radius: 0.5
+      height: 2
+      center: {x: 0, y: 1, z: 0}
+      stepOffset: 0.3
+      slopeLimit: 45
+      skinWidth: 0.08
+      layer: 4
+    physicsBody:
+      bodyType: 1
+      colliders: []
     initSkillList:
     - skillId: 100101
       commandState: 1
