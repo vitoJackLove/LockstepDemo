@@ -8,9 +8,9 @@ using Random = UnityEngine.Random;
 public abstract partial class BaseWorld
 {
     /// <summary>
-    /// 世界逻辑帧
+    /// 世界逻辑帧 deltaTime，与 <see cref="fpmath1.LogicDeltaTime"/> 保持一致。
     /// </summary>
-    public readonly fp LogicDeltaTime = new fp(1) * (fp)0.033f;
+    public fp LogicDeltaTime => fpmath1.LogicDeltaTime;
     
     /// <summary>
     /// 世界ID
@@ -53,6 +53,8 @@ public abstract partial class BaseWorld
     /// 行为树根节点
     /// </summary>
     private Transform _behaviourTreeRoot;
+
+    private KccPhysicsDebugView _kccPhysicsDebugView;
 
     protected abstract Type[] GetSystemTypes();
     
@@ -167,8 +169,30 @@ public abstract partial class BaseWorld
         {
             system.OnStart();
         }
-        
+
+        EnsureKccPhysicsDebugView();
         GameTimeType = GameTimeType.Start;
+    }
+
+    private void EnsureKccPhysicsDebugView()
+    {
+        if (_worldRoot == null || _kccPhysicsDebugView != null)
+        {
+            return;
+        }
+
+        var debugObject = new GameObject("KccPhysicsDebugView");
+        debugObject.transform.SetParent(_worldRoot, false);
+        _kccPhysicsDebugView = debugObject.AddComponent<KccPhysicsDebugView>();
+        _kccPhysicsDebugView.Bind(this);
+    }
+
+    /// <summary>
+    /// 在 Update 阶段 Transform 同步后提交 KCC 调试线框，与角色视图保持同帧相位。
+    /// </summary>
+    public void RefreshKccPhysicsDebugDraw()
+    {
+        _kccPhysicsDebugView?.Draw();
     }
     
     /// <summary>
@@ -308,6 +332,12 @@ public abstract partial class BaseWorld
         foreach (var system in _systemDic.Values)
         {
             system.OnDispose();
+        }
+
+        if (_kccPhysicsDebugView != null)
+        {
+            UnityEngine.Object.Destroy(_kccPhysicsDebugView.gameObject);
+            _kccPhysicsDebugView = null;
         }
 
         _authorityTick = 0;

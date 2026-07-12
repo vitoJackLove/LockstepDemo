@@ -11,10 +11,28 @@ public static partial class fpmath1
         new fpquaternion((fp)0, (fp)0, (fp)0, (fp)1);
     public static fp Epsilon = (fp)1.401298E-45f;
     /// <summary>
-    /// 世界逻辑帧
+    /// 世界逻辑帧率，默认 30 FPS。
     /// </summary>
-    public const float LogicDeltaTimeFloat = 0.033f;
+    public const int DefaultLogicFrameRate = GameSetting.DefaultLogicFrameRate;
+
+    /// <summary>
+    /// 世界逻辑帧 deltaTime（秒）。
+    /// </summary>
+    public const float LogicDeltaTimeFloat = 1f / DefaultLogicFrameRate;
+
+    public static int LogicFrameRate = DefaultLogicFrameRate;
     public static fp LogicDeltaTime = (fp)LogicDeltaTimeFloat;
+
+    /// <summary>
+    /// 应用逻辑帧率，同步更新定点 deltaTime 与 Unity FixedUpdate 步长。
+    /// </summary>
+    public static void ApplyLogicFrameRate(int frameRate)
+    {
+        LogicFrameRate = Mathf.Clamp(frameRate, GameSetting.MinLogicFrameRate, GameSetting.MaxLogicFrameRate);
+        float deltaTime = 1f / LogicFrameRate;
+        LogicDeltaTime = (fp)deltaTime;
+        Time.fixedDeltaTime = deltaTime;
+    }
     public static fp Rad2Deg = (fp)57.29578f;
     public static fp Deg2Rad = (fp)0.017453292f;
     public static fp PositiveInfinity = 0;
@@ -139,8 +157,19 @@ public static partial class fpmath1
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static fpquaternion LookRotation(fp3 forward, fp3 up)
     {
+        if (fpmath1.sqrMagnitude(forward) <= (fp)0.0000001f)
+        {
+            return fpquaternion.identity;
+        }
+
         forward = fpmath.normalize(forward);
-        fp3 right = fpmath.normalize(fpmath.cross(up, forward));
+        fp3 right = fpmath.cross(up, forward);
+        if (fpmath1.sqrMagnitude(right) <= (fp)0.0000001f)
+        {
+            right = fpmath.cross(up, new fp3((fp)0, (fp)0, (fp)1));
+        }
+
+        right = fpmath.normalize(right);
         up = fpmath.cross(forward, right);
 
         fp m00 = right.x;

@@ -5,6 +5,7 @@ namespace Rogue
     /// <summary>
     /// 游戏入口。
     /// </summary>
+    [DefaultExecutionOrder(-100)]
     public partial class GameEntry : MonoBehaviour
     {
         /// <summary>

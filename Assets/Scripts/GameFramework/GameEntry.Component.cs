@@ -94,7 +94,6 @@ namespace Rogue
             Camera = GameEntryRunTime.GetComponent<CameraComponent>();
             Canvas = GameEntryRunTime.GetComponent<CanvasComponent>();
             
-            GameSetting.Init();
             Resource.Init();
 
             AddressablesBootstrapComponent addressablesBootstrap =
@@ -103,6 +102,8 @@ namespace Rogue
             {
                 await addressablesBootstrap.InitializeAsync();
             }
+
+            await GameSetting.InitAsync();
 
             UI.Init();
             Scene.Init();

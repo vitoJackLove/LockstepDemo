@@ -23,18 +23,18 @@ namespace TheKiwiCoder
         {
             _tampTick = moveTick <= 0 ? 0 : moveTick;
 
-            fp distance = fpmath.distance(context.Entity.transform.Position, fpmath1.Vector3ToFp3(targetPosition));
+            fp3 targetFp3 = fpmath1.Vector3ToFp3(targetPosition);
+            fp3 currentPos = context.Entity.transform.Position;
+            fp3 flatDir = new fp3(targetFp3.x - currentPos.x, (fp)0, targetFp3.z - currentPos.z);
+            fp flatDistance = fpmath.length(flatDir);
 
-            _speed = _tampTick > 0 && distance > (fp)PositionEpsilon
-                ? distance / (fp)_tampTick
+            _speed = _tampTick > 0 && flatDistance > (fp)PositionEpsilon
+                ? flatDistance / (fp)_tampTick
                 : (fp)0;
 
-            fp3 dir = fpmath1.Vector3ToFp3(targetPosition) - context.Entity.transform.Position;
-            bool hasMeaningfulDirection = distance > (fp)PositionEpsilon;
-
-            if (hasMeaningfulDirection)
+            if (flatDistance > (fp)PositionEpsilon)
             {
-                fpquaternion quaternion = fpmath1.LookRotation(dir, fpmath1.up());
+                fpquaternion quaternion = fpmath1.LookRotation(flatDir, fpmath1.up());
                 context.Entity.transform.EulerAngles = quaternion.ToEulerAngles();
             }
 

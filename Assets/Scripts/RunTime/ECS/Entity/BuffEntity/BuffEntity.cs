@@ -9,9 +9,9 @@ using UnityEngine;
 public class BuffEntity : BaseEntity , IBattleObserverHandle
 {
     /// <summary>
-    /// PerSecond Buff 使用的逻辑帧间隔，项目固定 30 逻辑帧等价于 1 秒。
+    /// PerSecond Buff 使用的逻辑帧间隔，等于 1 秒内的逻辑帧数。
     /// </summary>
-    private const int PerSecondFrameInterval = 30;
+    private int PerSecondFrameInterval => fpmath1.LogicFrameRate;
 
     /// <summary>
     /// Buff的层数

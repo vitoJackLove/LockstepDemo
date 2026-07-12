@@ -21,6 +21,9 @@ public class DDTSettings : ScriptableObject
     [Header("Agent Path")]
     [Tooltip("Enable or Disable agent path visualization, affects all agents")]
     public bool m_EnableAgentPathVisualization = true;
+
+    [Tooltip("Enable or Disable KCC physics body / CharacterController capsule visualization")]
+    public bool m_EnableKccPhysicsVisualization = true;
     [Tooltip("Set the radius of the sphere that represent path points")]
     public float m_SphereRadius = 0.1f;
     [Tooltip("Set the color of the line that represent segments between path points")]

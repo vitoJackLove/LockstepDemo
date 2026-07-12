@@ -1,152 +1,66 @@
-# Task 1: Pipeline 基础类型
+### Task 1: FPSphereShape 与 IFPCollider 扩展
 
 **Files:**
-- Create: `Assets/Scripts/Editor/HotUpdate/Pipeline/HotUpdateBuildMode.cs`
-- Create: `Assets/Scripts/Editor/HotUpdate/Pipeline/HotUpdateBuildContext.cs`
-- Create: `Assets/Scripts/Editor/HotUpdate/Pipeline/HotUpdateBuildResult.cs`
+- Modify: `Assets/Scripts/RunTime/KCC/Physics/FPPhysicsTypes.cs`
+- Modify: `Assets/Scripts/RunTime/KCC/Physics/IFPCollider.cs`
+- Modify: `Assets/Scripts/RunTime/KCC/Physics/FPBoxCollider.cs`（补 `GetSphereShape` 默认实现）
 
 **Interfaces:**
-- Produces: `HotUpdateBuildMode` enum `{ FullPackage, CodePatch, ResourcePatch }`
-- Produces: `HotUpdateBuildContext` 构造与属性
-- Produces: `HotUpdateBuildResult` 成功/失败结果
+- Produces: `FPShapeType.Sphere = 3`
+- Produces: `struct FPSphereShape { fp3 Center; fp Radius; }`
+- Produces: `IFPCollider.GetSphereShape()`
 
-Namespace: `Rogue.Editor.HotUpdate.Pipeline`
-新增公共类型需中文 XML 注释。
+- [ ] **Step 1: 扩展 FPPhysicsTypes**
 
-## Step 1: 创建 HotUpdateBuildMode.cs
+在 `FPShapeType` 枚举 `Plane = 2` 之后追加：
 
 ```csharp
-namespace Rogue.Editor.HotUpdate.Pipeline
+/// <summary>球体。</summary>
+Sphere = 3,
+```
+
+在文件末尾追加：
+
+```csharp
+/// <summary>
+/// 球体碰撞形状（世界空间）。
+/// </summary>
+public struct FPSphereShape
 {
-    /// <summary>
-    /// 热更发布构建模式。
-    /// </summary>
-    public enum HotUpdateBuildMode
-    {
-        FullPackage = 0,
-        CodePatch = 1,
-        ResourcePatch = 2,
-    }
+    /// <summary>球心世界坐标。</summary>
+    public fp3 Center;
+
+    /// <summary>球体半径。</summary>
+    public fp Radius;
 }
 ```
 
-## Step 2: 创建 HotUpdateBuildContext.cs
+- [ ] **Step 2: 扩展 IFPCollider**
 
 ```csharp
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using UnityEditor;
-
-namespace Rogue.Editor.HotUpdate.Pipeline
-{
-    /// <summary>
-    /// 热更构建上下文，Window 与后续 CLI 共用。
-    /// </summary>
-    public sealed class HotUpdateBuildContext
-    {
-        public HotUpdateBuildContext(
-            HotUpdateBuildMode mode,
-            BuildTarget buildTarget,
-            string version,
-            string remoteBaseUrl,
-            bool developmentBuild,
-            IProgress<string> log = null,
-            CancellationToken cancellationToken = default)
-        {
-            Mode = mode;
-            BuildTarget = buildTarget;
-            Version = version ?? throw new ArgumentNullException(nameof(version));
-            RemoteBaseUrl = remoteBaseUrl ?? string.Empty;
-            DevelopmentBuild = developmentBuild;
-            Log = log ?? NoOpProgress.Instance;
-            CancellationToken = cancellationToken;
-        }
-
-        public HotUpdateBuildMode Mode { get; }
-        public BuildTarget BuildTarget { get; }
-        public string Version { get; }
-        public string RemoteBaseUrl { get; }
-        public bool DevelopmentBuild { get; }
-        public IReadOnlyList<string> ResourceGroupFilter { get; set; }
-        public bool SkipPlayerBuild { get; set; }
-        public bool ForceSkipAotChangeCheck { get; set; }
-        public IProgress<string> Log { get; }
-        public CancellationToken CancellationToken { get; }
-
-        public void LogLine(string message) => Log.Report(message);
-
-        private sealed class NoOpProgress : IProgress<string>
-        {
-            public static readonly NoOpProgress Instance = new NoOpProgress();
-            public void Report(string value) { }
-        }
-    }
-}
+/// <summary>
+/// 获取球体形状数据。
+/// </summary>
+/// <returns>球体形状。</returns>
+FPSphereShape GetSphereShape();
 ```
 
-## Step 3: 创建 HotUpdateBuildResult.cs
+- [ ] **Step 3: FPBoxCollider 补默认实现**
 
 ```csharp
-using System.Collections.Generic;
-
-namespace Rogue.Editor.HotUpdate.Pipeline
-{
-    /// <summary>
-    /// 热更构建结果。
-    /// </summary>
-    public sealed class HotUpdateBuildResult
-    {
-        public static HotUpdateBuildResult Succeeded(
-            IReadOnlyList<string> logs,
-            string serverDataPath = null,
-            string playerOutputPath = null,
-            string manifestPath = null)
-        {
-            return new HotUpdateBuildResult(true, null, logs, serverDataPath, playerOutputPath, manifestPath);
-        }
-
-        public static HotUpdateBuildResult Failed(string errorMessage, IReadOnlyList<string> logs)
-        {
-            return new HotUpdateBuildResult(false, errorMessage, logs, null, null, null);
-        }
-
-        private HotUpdateBuildResult(
-            bool success,
-            string errorMessage,
-            IReadOnlyList<string> logs,
-            string serverDataPath,
-            string playerOutputPath,
-            string manifestPath)
-        {
-            Success = success;
-            ErrorMessage = errorMessage;
-            Logs = logs ?? System.Array.Empty<string>();
-            ServerDataPath = serverDataPath;
-            PlayerOutputPath = playerOutputPath;
-            ManifestPath = manifestPath;
-        }
-
-        public bool Success { get; }
-        public string ErrorMessage { get; }
-        public IReadOnlyList<string> Logs { get; }
-        public string ServerDataPath { get; }
-        public string PlayerOutputPath { get; }
-        public string ManifestPath { get; }
-    }
-}
+public FPSphereShape GetSphereShape() => default;
 ```
 
-## Step 4: 编译验证
+- [ ] **Step 4: 构建验证**
 
-Run: `dotnet build Assets/Scripts/Editor/Game.Editor.csproj -nologo -v:minimal` (or find correct Editor csproj path in repo)
-Expected: Build succeeded
+Run: `dotnet build Assembly-CSharp.csproj -nologo -v:minimal`  
+Expected: BUILD SUCCESS（`FPCapsuleCollision` 等现有 switch 需补 `Sphere` case 或 default，本 Task 仅保证编译；Task 4 补全相交）
 
-## Step 5: Commit
+- [ ] **Step 5: Commit**
 
 ```bash
-git add Assets/Scripts/Editor/HotUpdate/Pipeline/HotUpdateBuildMode.cs \
-        Assets/Scripts/Editor/HotUpdate/Pipeline/HotUpdateBuildContext.cs \
-        Assets/Scripts/Editor/HotUpdate/Pipeline/HotUpdateBuildResult.cs
-git commit -m "feat(editor): add hot update build pipeline core types"
+git add Assets/Scripts/RunTime/KCC/Physics/FPPhysicsTypes.cs \
+        Assets/Scripts/RunTime/KCC/Physics/IFPCollider.cs \
+        Assets/Scripts/RunTime/KCC/Physics/FPBoxCollider.cs
+git commit -m "feat(kcc): add FPSphereShape and IFPCollider sphere API"
 ```

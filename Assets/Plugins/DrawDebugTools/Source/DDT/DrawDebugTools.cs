@@ -15,6 +15,7 @@ using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
+[DefaultExecutionOrder(100)]
 public class DrawDebugTools : MonoBehaviour
 {
     #region ========== Variables ==========

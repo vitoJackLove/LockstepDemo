@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RogueGameServer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a26124f22b6e31ce9fe3f09cb477286f1a184b0d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5b5dc5f1b05f342e2622efa00adf9a05335a9004")]
 [assembly: System.Reflection.AssemblyProductAttribute("RogueGameServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RogueGameServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

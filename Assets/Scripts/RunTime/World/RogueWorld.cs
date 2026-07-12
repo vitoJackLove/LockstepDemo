@@ -6,10 +6,20 @@ using UnityEngine;
 
 public class RogueWorld : BaseWorld
 {
+    private fp _spawnFloorTopY;
+
     public RogueWorld(CreateWorldData createWorldData) : base(createWorldData) { }
 
     protected override async Task<bool> GamePreparation(CreateWorldData createWorldData)
     {
+        SceneEnvironmentSystem sceneEnvironmentSystem = GetSystem<SceneEnvironmentSystem>();
+        if (!await sceneEnvironmentSystem.SpawnEnvironmentAsync(SceneName))
+        {
+            return false;
+        }
+
+        _spawnFloorTopY = sceneEnvironmentSystem.FloorTopY;
+
         HeroEntity heroEntity = await CreateHero(createWorldData);
         if (heroEntity == null)
         {
@@ -61,7 +71,7 @@ public class RogueWorld : BaseWorld
                     return null;
                 }
 
-                EntityCreateData createDataLocal = EntityCreateData.Create(config,new fp3(0, 0, 0), 
+                EntityCreateData createDataLocal = EntityCreateData.Create(config,new fp3(0, _spawnFloorTopY, 0), 
                     fp3.zero, new fp3(1,1,1), true,goView);
                 createDataLocal.EntityData = config;
                 HeroEntity heroEntityLocal = GetSystem<EntitySystem>().CreateStaticEntity<HeroEntity>(createDataLocal, EntityUpdateType.LocalEntity);
@@ -86,7 +96,7 @@ public class RogueWorld : BaseWorld
                 }
 
                 EntityCreateData createDataLogic = EntityCreateData.Create(config,
-                    new fp3(0, 0, 0), fp3.zero, new fp3(1,1,1), false,goLogic);
+                    new fp3(0, _spawnFloorTopY, 0), fp3.zero, new fp3(1,1,1), false,goLogic);
                 createDataLogic.EntityData = config;
                 HeroEntity heroEntityLogic = GetSystem<EntitySystem>().CreateServerEntity<HeroEntity>(playerData.ServerEntityId,createDataLogic, EntityUpdateType.AuthorityEntity);
                 
@@ -120,7 +130,7 @@ public class RogueWorld : BaseWorld
                     return null;
                 }
 
-                EntityCreateData createDataLogic = EntityCreateData.Create(config, new fp3(0, 0, 0),
+                EntityCreateData createDataLogic = EntityCreateData.Create(config, new fp3(0, _spawnFloorTopY, 0),
                     fp3.zero, new fp3(1,1,1), true, goView);
                 createDataLogic.EntityData = config;
                 
@@ -153,7 +163,7 @@ public class RogueWorld : BaseWorld
             return null;
         }
 
-        EntityCreateData createDataView = EntityCreateData.Create(monsterAssetsConfig,new fp3(0, 0, 5),
+        EntityCreateData createDataView = EntityCreateData.Create(monsterAssetsConfig,new fp3(0, _spawnFloorTopY, 5),
             fp3.zero, new fp3(1,1,1), true,goView);
         createDataView.EntityData = monsterAssetsConfig;
         MonsterEntity monsterEntityView = GetSystem<EntitySystem>().
@@ -171,7 +181,7 @@ public class RogueWorld : BaseWorld
             return null;
         }
 
-        EntityCreateData createDataLogic = EntityCreateData.Create(monsterAssetsConfig,new fp3(0, 0, 5), 
+        EntityCreateData createDataLogic = EntityCreateData.Create(monsterAssetsConfig,new fp3(0, _spawnFloorTopY, 5), 
             fp3.zero, new fp3(1,1,1), false,goLogic);
         createDataLogic.EntityData = monsterAssetsConfig;
         MonsterEntity monsterEntityLogic = GetSystem<EntitySystem>()
@@ -196,9 +206,11 @@ public class RogueWorld : BaseWorld
             typeof(VolumeSystem),
             typeof(FrameSyncPathfindingSystem),
             typeof(EntitySystem),
+            typeof(SceneEnvironmentSystem),
             typeof(ServerCommandSystem),
             typeof(UIDamageTextSystem),
             typeof(BattleObserverSystem),
+            typeof(FPKinematicCharacterSystem),
         };
     }
 }

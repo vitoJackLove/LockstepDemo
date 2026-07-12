@@ -8,20 +8,26 @@ public partial class HeroEntity : BaseEntity
     {
         base.OnInit(data);
 
-        _battleHeroData = BattleHeroData.Creat((HeroAssetsConfig)Config);
+        HeroAssetsConfig heroConfig = (HeroAssetsConfig)Config;
+        _battleHeroData = BattleHeroData.Creat(heroConfig);
         SetData(ComponentDataKey.LifeTime, 100);
-        SetData(ComponentDataKey.ColliderData, ((HeroAssetsConfig)Config).colliderDataList);
-        SetData(ComponentDataKey.StateData, ((HeroAssetsConfig)Config).stateList);
-        SetData(ComponentDataKey.BlendTreeData, ((HeroAssetsConfig)Config).blendTree);
+        SetData(ComponentDataKey.ColliderData, heroConfig.colliderDataList);
+        SetData(ComponentDataKey.StateData, heroConfig.stateList);
+        SetData(ComponentDataKey.BlendTreeData, heroConfig.blendTree);
+
+        if (heroConfig.characterController.layer == FPCollisionLayer.Default)
+        {
+            heroConfig.characterController.layer = FPCollisionLayer.Hero;
+        }
     }
 
     protected override BattleEntityData EntityPropertyData => _battleHeroData;
     
     protected override Type[] GetComponentTypes()
     {
-        return new []
+        return new Type[]
         {
-            typeof(CommandMoveComponent),
+            typeof(PhysicsBodyComponent),
             typeof(MoveComponent),
             typeof(TransformComponent),
             typeof(HeroAnimatorComponent),

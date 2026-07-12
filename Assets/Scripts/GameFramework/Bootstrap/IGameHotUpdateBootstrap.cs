@@ -17,6 +17,11 @@ namespace Rogue
 
         void OpenStartForm();
 
+        /// <summary>
+        /// 应用逻辑帧率到运行时定点数学与 Unity FixedUpdate。
+        /// </summary>
+        void ApplyLogicFrameRate(int logicFrameRate);
+
         void Update();
 
         void FixedUpdate();

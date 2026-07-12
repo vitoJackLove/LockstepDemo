@@ -27,7 +27,12 @@ public class ResourceComponent : RunTimeComponent
           switch (GameResourceMode)
           {
                case ResourceMode.Addressables:
-                    return await LoadAddressableAssetAsync<T>(path);
+                    T addressableAsset = await LoadAddressableAssetAsync<T>(path);
+#if UNITY_EDITOR
+                    return addressableAsset ?? TryLoadEditorFallbackAsset<T>(path);
+#else
+                    return addressableAsset;
+#endif
 #if UNITY_EDITOR
                case ResourceMode.Editor:
                     return AssetDatabase.LoadAssetAtPath<T>(path);
@@ -55,7 +60,12 @@ public class ResourceComponent : RunTimeComponent
           switch (GameResourceMode)
           {
                case ResourceMode.Addressables:
-                    return LoadAddressableAsset<T>(path);
+                    T addressableAsset = LoadAddressableAsset<T>(path);
+#if UNITY_EDITOR
+                    return addressableAsset ?? TryLoadEditorFallbackAsset<T>(path);
+#else
+                    return addressableAsset;
+#endif
 #if UNITY_EDITOR
                case ResourceMode.Editor:
                     return AssetDatabase.LoadAssetAtPath<T>(path);
@@ -281,6 +291,40 @@ public class ResourceComponent : RunTimeComponent
           return typeof(ScriptableObject).IsAssignableFrom(typeof(T));
 #endif
      }
+
+#if UNITY_EDITOR
+     /// <summary>
+     /// 编辑器下 Addressables Catalog 未重建时，允许 GameAssetConfig / Config 资产直接走 AssetDatabase。
+     /// </summary>
+     private static T TryLoadEditorFallbackAsset<T>(string path) where T : UnityEngine.Object
+     {
+          if (!CanUseEditorFallbackPath(path))
+          {
+               return null;
+          }
+
+          T asset = AssetDatabase.LoadAssetAtPath<T>(path);
+          if (asset != null)
+          {
+               GameLog.Warn(GameLogChannel.Resource,
+                   $"Addressables miss, loaded via AssetDatabase fallback. type={typeof(T).Name}, path={path}");
+          }
+
+          return asset;
+     }
+
+     private static bool CanUseEditorFallbackPath(string path)
+     {
+          if (string.IsNullOrEmpty(path))
+          {
+               return false;
+          }
+
+          string normalizedPath = path.Replace('\\', '/');
+          return normalizedPath.StartsWith("Assets/GameAssetConfig/", StringComparison.Ordinal)
+              || normalizedPath.StartsWith("Assets/Config/", StringComparison.Ordinal);
+     }
+#endif
      
      public enum ResourceMode
      {
