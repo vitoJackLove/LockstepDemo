@@ -1,5 +1,3 @@
-using System;
-
 /// <summary>
 /// 组件数据
 /// </summary>
@@ -39,12 +37,6 @@ public static class ComponentDataKey
     /// 动画混合树数据
     /// </summary>
     public const string BlendTreeData = "BlendTreeData";
-
-    /// <summary>
-    /// KCC 注册配置（CharacterMotor / StaticBox / KinematicPlatform）
-    /// </summary>
-    [Obsolete("Use PhysicsBodyData")]
-    public const string KccBodyData = "KccBodyData";
 
     /// <summary>
     /// 物理体注册配置（movementMode + CC/Body 设置）。
