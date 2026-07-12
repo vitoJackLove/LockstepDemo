@@ -70,6 +70,17 @@ public class HeroAssetsConfig : EntityAssetsConfig
      [LabelText("人物初始携带的技能")]
      public List<HeroSkillConfig> initSkillList = new List<HeroSkillConfig>();
 
+     [LabelText("物理移动范式")]
+     public PhysicsMovementMode movementMode = PhysicsMovementMode.CharacterController;
+
+     [LabelText("Character Controller")]
+     [ShowIf("movementMode", PhysicsMovementMode.CharacterController)]
+     public CharacterControllerSettings characterController = new CharacterControllerSettings();
+
+     [LabelText("Rigidbody 物理体")]
+     [ShowIf("movementMode", PhysicsMovementMode.Rigidbody)]
+     public PhysicsBodyConfig physicsBody = new PhysicsBodyConfig();
+
      [LabelText("受击盒数据")] 
      public List<HitColliderEditorSetting> colliderDataList = new List<HitColliderEditorSetting>();
 

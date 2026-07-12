@@ -69,6 +69,30 @@ public class MonsterAssetsConfig : EntityAssetsConfig
     [LabelText("阵营")]
     public CampEnum campEnum;
 
+    [LabelText("物理移动范式")]
+    public PhysicsMovementMode movementMode = PhysicsMovementMode.Rigidbody;
+
+    [LabelText("Character Controller")]
+    [ShowIf("movementMode", PhysicsMovementMode.CharacterController)]
+    public CharacterControllerSettings characterController = new CharacterControllerSettings();
+
+    [LabelText("Rigidbody 物理体")]
+    [ShowIf("movementMode", PhysicsMovementMode.Rigidbody)]
+    public PhysicsBodyConfig physicsBody = new PhysicsBodyConfig
+    {
+        bodyType = PhysicsBodyType.Kinematic,
+        colliders = new List<PhysicsColliderSetting>
+        {
+            new PhysicsColliderSetting
+            {
+                key = "body",
+                shape = PhysicsShapeType.Box,
+                halfExtents = new Vector3(0.5f, 1f, 0.5f),
+                layer = FPCollisionLayer.Monster,
+            }
+        }
+    };
+
     [LabelText("受击盒数据")] 
     public List<HitColliderEditorSetting> colliderDataList = new List<HitColliderEditorSetting>();
 

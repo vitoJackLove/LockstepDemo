@@ -30,6 +30,15 @@ public class HeroQuickCreateWindow : EditorWindow
     private float _colliderHeight = 2f;
     private Vector3 _boxSize = Vector3.one;
 
+    private PhysicsMovementMode _movementMode = PhysicsMovementMode.CharacterController;
+    private CharacterControllerSettings _characterController = new CharacterControllerSettings
+    {
+        radius = 0.5f,
+        height = 2f,
+        center = new Vector3(0f, 1f, 0f),
+        layer = FPCollisionLayer.Hero,
+    };
+
     private BlendTreeType _blendTreeType = BlendTreeType.Mixer2D;
     private MixerTransition2D.MixerType _mixer2DType = MixerTransition2D.MixerType.Directional;
     private StringAsset _blendTreeValueOne;
@@ -63,6 +72,7 @@ public class HeroQuickCreateWindow : EditorWindow
         DrawBasicSection();
         DrawStatsSection();
         DrawColliderSection();
+        DrawPhysicsSection();
         DrawBlendTreeSection();
         DrawPreviewSection();
         DrawActions();
@@ -507,6 +517,23 @@ public class HeroQuickCreateWindow : EditorWindow
         }
     }
 
+    private void DrawPhysicsSection()
+    {
+        EditorGUILayout.Space(6f);
+        EditorGUILayout.LabelField("物理体（KCC）", EditorStyles.boldLabel);
+        using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+        {
+            _movementMode = (PhysicsMovementMode)EditorGUILayout.EnumPopup("移动范式", _movementMode);
+            if (_movementMode == PhysicsMovementMode.CharacterController)
+            {
+                _characterController.radius = EditorGUILayout.FloatField("胶囊半径", _characterController.radius);
+                _characterController.height = EditorGUILayout.FloatField("胶囊高度", _characterController.height);
+                _characterController.center = EditorGUILayout.Vector3Field("中心偏移", _characterController.center);
+                _characterController.layer = (FPCollisionLayer)EditorGUILayout.EnumFlagsField("碰撞层", _characterController.layer);
+            }
+        }
+    }
+
     private void DrawBlendTreeSection()
     {
         EditorGUILayout.Space(6f);
@@ -853,6 +880,8 @@ public class HeroQuickCreateWindow : EditorWindow
             attack = _attack,
             defence = _defence,
             campEnum = _campEnum,
+            movementMode = _movementMode,
+            characterController = _characterController,
             initSkillList = CreateHeroSkillConfigs(paths),
             colliderDataList = new List<HitColliderEditorSetting> { CreateColliderSetting() },
             stateList = CreateStateConfigs(),

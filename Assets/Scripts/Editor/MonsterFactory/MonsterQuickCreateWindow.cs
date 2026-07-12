@@ -32,6 +32,22 @@ public class MonsterQuickCreateWindow : EditorWindow
     private float _colliderHeight = 2f;
     private Vector3 _boxSize = Vector3.one;
 
+    private PhysicsMovementMode _movementMode = PhysicsMovementMode.Rigidbody;
+    private PhysicsBodyConfig _physicsBody = new PhysicsBodyConfig
+    {
+        bodyType = PhysicsBodyType.Kinematic,
+        colliders = new List<PhysicsColliderSetting>
+        {
+            new PhysicsColliderSetting
+            {
+                key = "body",
+                shape = PhysicsShapeType.Box,
+                halfExtents = new Vector3(0.5f, 1f, 0.5f),
+                layer = FPCollisionLayer.Monster,
+            }
+        },
+    };
+
     private BlendTreeType _blendTreeType = BlendTreeType.Mixer2D;
     private MixerTransition2D.MixerType _mixer2DType = MixerTransition2D.MixerType.Directional;
     private StringAsset _blendTreeValueOne;
@@ -65,6 +81,7 @@ public class MonsterQuickCreateWindow : EditorWindow
         DrawBasicSection();
         DrawStatsSection();
         DrawColliderSection();
+        DrawPhysicsSection();
         DrawBlendTreeSection();
         DrawPreviewSection();
         DrawActions();
@@ -502,6 +519,23 @@ public class MonsterQuickCreateWindow : EditorWindow
         }
     }
 
+    private void DrawPhysicsSection()
+    {
+        EditorGUILayout.Space(6f);
+        EditorGUILayout.LabelField("物理体（KCC）", EditorStyles.boldLabel);
+        using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+        {
+            _movementMode = (PhysicsMovementMode)EditorGUILayout.EnumPopup("移动范式", _movementMode);
+            if (_movementMode == PhysicsMovementMode.Rigidbody && _physicsBody.colliders.Count > 0)
+            {
+                _physicsBody.bodyType = (PhysicsBodyType)EditorGUILayout.EnumPopup("刚体类型", _physicsBody.bodyType);
+                PhysicsColliderSetting collider = _physicsBody.colliders[0];
+                collider.halfExtents = EditorGUILayout.Vector3Field("盒体半尺寸", collider.halfExtents);
+                collider.layer = (FPCollisionLayer)EditorGUILayout.EnumFlagsField("碰撞层", collider.layer);
+            }
+        }
+    }
+
     private void DrawBlendTreeSection()
     {
         EditorGUILayout.Space(6f);
@@ -882,6 +916,8 @@ public class MonsterQuickCreateWindow : EditorWindow
             attack = _attack,
             defence = _defence,
             campEnum = _campEnum,
+            movementMode = _movementMode,
+            physicsBody = _physicsBody,
             colliderDataList = new List<HitColliderEditorSetting> { CreateColliderSetting() },
             monsterSkillList = new List<MonsterSkillConfig>(),
             stateList = new List<StateConfig>(),
